@@ -24,7 +24,6 @@ class MainWindow(QMainWindow):
 
         # Create player
         self.player = PySoundSphere.AudioPlayer("pygame")
-        #self.player.load("../song.mp3")
         self.player.volume = 0.075
 
         # Create db
