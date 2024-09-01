@@ -25,6 +25,5 @@ class MenuButton(QFrame):
 
     def mousePressEvent(self, event):  # noqa: N802
         if event.button() == Qt.LeftButton:
-            print("QFrame clicked!", event.globalPos(), self)
             self.parent.set_page(self.destination)
         return super().mousePressEvent(event)
