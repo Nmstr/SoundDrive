@@ -3,13 +3,13 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
 class MenuButton(QFrame):
-    def __init__(self, parent = None, type = None) -> None:
+    def __init__(self, parent = None, button_type = None) -> None:
         super().__init__(parent)
         self.parent = parent
-        if type == "home":
+        if button_type == "home":
             self.label_text = "Home"
             self.destination = 0
-        elif type == "library":
+        elif button_type == "library":
             self.label_text = "Library"
             self.destination = 1
         else:

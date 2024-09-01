@@ -21,9 +21,9 @@ class MainWindow(QMainWindow):
         self.add_menu_button("home")
         self.add_menu_button("library")
 
-    def add_menu_button(self, type) -> None:
+    def add_menu_button(self, button_type) -> None:
         layout = self.ui.menu.layout()
-        self.frame = MenuButton(self, type)
+        self.frame = MenuButton(self, button_type)
         layout.addWidget(self.frame)
         self.setLayout(layout)
 
