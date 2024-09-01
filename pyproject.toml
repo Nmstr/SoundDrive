@@ -17,6 +17,7 @@ classifiers = [
 ]
 dependencies = [
     "PySide6",
+    "PySoundSphere[pygame-backend]"
 ]
 [project.urls]
 Source = "https://github.com/Nmstr/SoundDevice"
