@@ -12,6 +12,9 @@ class MenuButton(QFrame):
         elif button_type == "library":
             self.label_text = "Library"
             self.destination = 1
+        elif button_type == "search":
+            self.label_text = "Search"
+            self.destination = 2
         else:
             raise ValueError
 

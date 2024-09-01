@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
         # Create menu buttons
         self.add_menu_button("home")
         self.add_menu_button("library")
+        self.add_menu_button("search")
 
         # Connect buttons
         self.ui.play_btn.clicked.connect(self.play)
@@ -40,6 +41,34 @@ class MainWindow(QMainWindow):
         self.ui.last_btn.clicked.connect(self.last)
         self.ui.next_btn.clicked.connect(self.next)
         self.ui.add_songs_btn.clicked.connect(self.add_songs)
+
+        self.ui.search_bar.textChanged.connect(self.search)
+
+    def search(self, text):
+        print(text)
+        container = self.ui.search_scroll_content
+        # Check if the container has a layout, if not, set a new QHBoxLayout
+        layout = container.layout()
+        if layout is None:
+            from PySide6.QtWidgets import QVBoxLayout
+            layout = QVBoxLayout()
+            container.setLayout(layout)
+
+        # Clear existing content in the layout
+        for i in reversed(range(layout.count())):
+            layout_item = layout.itemAt(i)
+            if layout_item.widget() is not None:
+                layout_item.widget().deleteLater()
+
+        # Dynamically add custom widgets for each song
+        from SearchResult.search_result import SearchResult
+        all_songs = self.db_access.songs.query()
+        for song in all_songs:
+            print(song)
+            result = SearchResult(self, song)
+            layout.addWidget(result)
+
+
 
     def play(self) -> None:
         self.player.play()
