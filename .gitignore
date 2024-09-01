@@ -2,4 +2,8 @@ __pycache__
 .venv
 .idea
 *.db
+<<<<<<< HEAD
 song.mp3
+=======
+music
+>>>>>>> f9da3ae (basic music playback test)
