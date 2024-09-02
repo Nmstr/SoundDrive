@@ -6,7 +6,10 @@ class MusicController:
         self.player.volume = 0.075
         self.db_access = db_access
 
-    def play(self) -> None:
+    def play(self, song_path: str = None) -> None:
+        if song_path:
+            self.player.load(song_path)
+            self.player.stop()
         self.player.play()
 
     def stop(self) -> None:
@@ -19,6 +22,4 @@ class MusicController:
         all_songs = self.db_access.songs.query()
         import random
         song = random.choice(all_songs)
-        self.player.stop()
-        self.player.load(song[2])
-        self.player.play()
+        self.play(song[2])
