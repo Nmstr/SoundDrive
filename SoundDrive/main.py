@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
     def search(self, text):
         print(text)
         container = self.ui.search_scroll_content
-        # Check if the container has a layout, if not, set a new QHBoxLayout
+        # Check if the container has a layout, if not, set a new QVBoxLayout
         layout = container.layout()
         if layout is None:
             from PySide6.QtWidgets import QVBoxLayout
@@ -64,11 +64,8 @@ class MainWindow(QMainWindow):
         from SearchResult.search_result import SearchResult
         all_songs = self.db_access.songs.query()
         for song in all_songs:
-            print(song)
             result = SearchResult(self, song)
             layout.addWidget(result)
-
-
 
     def play(self) -> None:
         self.player.play()
