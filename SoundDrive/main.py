@@ -1,9 +1,9 @@
 from MenuButton.menu_button import MenuButton
 from SoundDriveDB import SoundDriveDB
+from music_controller import MusicController
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
-import PySoundSphere
 import sys
 import os
 
@@ -22,13 +22,12 @@ class MainWindow(QMainWindow):
         self.setGeometry(self.ui.geometry())
         self.showMaximized()
 
-        # Create player
-        self.player = PySoundSphere.AudioPlayer("pygame")
-        self.player.volume = 0.075
-
-        # Create db
+        # Access db
         self.db_access = SoundDriveDB()
         self.db_access.db.create_db()
+
+        # Create player
+        self.music_controller = MusicController(self.db_access)
 
         # Create menu buttons
         self.add_menu_button("home")
@@ -36,10 +35,10 @@ class MainWindow(QMainWindow):
         self.add_menu_button("search")
 
         # Connect buttons
-        self.ui.play_btn.clicked.connect(self.play)
-        self.ui.stop_btn.clicked.connect(self.stop)
-        self.ui.last_btn.clicked.connect(self.last)
-        self.ui.next_btn.clicked.connect(self.next)
+        self.ui.play_btn.clicked.connect(lambda: self.music_controller.play())
+        self.ui.stop_btn.clicked.connect(lambda: self.music_controller.stop())
+        self.ui.last_btn.clicked.connect(lambda: self.music_controller.last())
+        self.ui.next_btn.clicked.connect(lambda: self.music_controller.next())
         self.ui.add_songs_btn.clicked.connect(self.add_songs)
 
         self.ui.search_bar.textChanged.connect(self.search)
@@ -66,23 +65,6 @@ class MainWindow(QMainWindow):
         for song in all_songs:
             result = SearchResult(self, song)
             layout.addWidget(result)
-
-    def play(self) -> None:
-        self.player.play()
-
-    def stop(self) -> None:
-        self.player.pause()
-
-    def last(self) -> None:
-        self.next()
-
-    def next(self) -> None:
-        all_songs = self.db_access.songs.query()
-        import random
-        song = random.choice(all_songs)
-        self.player.stop()
-        self.player.load(song[2])
-        self.player.play()
 
     def add_songs(self) -> None:
         all_songs = os.listdir(MUSIC_DIR)
