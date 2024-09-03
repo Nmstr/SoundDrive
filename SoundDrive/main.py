@@ -1,8 +1,9 @@
+from PlaylistSide.playlist_entry import PlaylistEntry
 from SearchResult.search_result import SearchResult
 from MenuButton.menu_button import MenuButton
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
-from PySide6.QtWidgets import QApplication, QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 import sys
@@ -44,14 +45,32 @@ class MainWindow(QMainWindow):
 
         self.ui.search_bar.textChanged.connect(self.search)
 
+        self.populate_playlists()
+
     def search(self, text: str) -> None:
         print(text)
-        container = self.ui.search_scroll_content
-        # Check if the container has a layout, if not, set a new QVBoxLayout
+        layout = self.clear_field(self.ui.search_scroll_content, QVBoxLayout())
+
+        # Dynamically add custom widgets for each song
+        all_songs = self.db_access.songs.query()
+        for song in all_songs:
+            result = SearchResult(self, song)
+            layout.addWidget(result)
+
+    def populate_playlists(self):
+        layout = self.clear_field(self.ui.playlist_scroll_content, QVBoxLayout())
+
+        # Dynamically add custom widgets for each song
+        all_playlists = self.db_access.playlists.query()
+        for playlist in all_playlists:
+            result = PlaylistEntry(self, playlist)
+            layout.addWidget(result)
+
+    def clear_field(self, container, target_layout):
+        # Check if the container has a layout, if not, set a new layout of type target_layout
         layout = container.layout()
         if layout is None:
-            from PySide6.QtWidgets import QVBoxLayout
-            layout = QVBoxLayout()
+            layout = target_layout
             container.setLayout(layout)
 
         # Clear existing content in the layout
@@ -60,11 +79,7 @@ class MainWindow(QMainWindow):
             if layout_item.widget() is not None:
                 layout_item.widget().deleteLater()
 
-        # Dynamically add custom widgets for each song
-        all_songs = self.db_access.songs.query()
-        for song in all_songs:
-            result = SearchResult(self, song)
-            layout.addWidget(result)
+        return layout
 
     def add_songs(self) -> None:
         all_songs = os.listdir(MUSIC_DIR)
