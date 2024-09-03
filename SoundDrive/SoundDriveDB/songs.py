@@ -42,7 +42,7 @@ def mark_as_deleted() -> None:
     finally:
         conn.close()
 
-def query() -> None:
+def query() -> list:
     """
     Query songs in db
     """
