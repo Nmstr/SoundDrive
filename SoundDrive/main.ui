@@ -171,7 +171,7 @@
       <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="home_page">
       <widget class="QLabel" name="label">
@@ -266,6 +266,21 @@
         </widget>
        </item>
       </layout>
+     </widget>
+     <widget class="QWidget" name="playlist_page">
+      <widget class="QLabel" name="playlist_name_label">
+       <property name="geometry">
+        <rect>
+         <x>160</x>
+         <y>130</y>
+         <width>161</width>
+         <height>18</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Playlist name</string>
+       </property>
+      </widget>
      </widget>
     </widget>
    </item>
