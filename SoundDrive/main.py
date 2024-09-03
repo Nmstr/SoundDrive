@@ -1,6 +1,7 @@
+from SearchResult.search_result import SearchResult
 from MenuButton.menu_button import MenuButton
-from SoundDriveDB import SoundDriveDB
 from music_controller import MusicController
+from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
@@ -43,7 +44,7 @@ class MainWindow(QMainWindow):
 
         self.ui.search_bar.textChanged.connect(self.search)
 
-    def search(self, text):
+    def search(self, text: str) -> None:
         print(text)
         container = self.ui.search_scroll_content
         # Check if the container has a layout, if not, set a new QVBoxLayout
@@ -60,7 +61,6 @@ class MainWindow(QMainWindow):
                 layout_item.widget().deleteLater()
 
         # Dynamically add custom widgets for each song
-        from SearchResult.search_result import SearchResult
         all_songs = self.db_access.songs.query()
         for song in all_songs:
             result = SearchResult(self, song)
@@ -71,7 +71,7 @@ class MainWindow(QMainWindow):
         for song in all_songs:
             self.db_access.songs.create(song, os.path.join(MUSIC_DIR, song))
 
-    def add_menu_button(self, button_type) -> None:
+    def add_menu_button(self, button_type: str) -> None:
         layout = self.ui.menu.layout()
         self.frame = MenuButton(self, button_type)
         layout.addWidget(self.frame)

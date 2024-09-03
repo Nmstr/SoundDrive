@@ -3,7 +3,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
 class MenuButton(QFrame):
-    def __init__(self, parent = None, button_type = None) -> None:
+    def __init__(self, parent = None, button_type: str = None) -> None:
         super().__init__(parent)
         self.parent = parent
         if button_type == "home":

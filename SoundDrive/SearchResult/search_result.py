@@ -3,7 +3,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
 class SearchResult(QFrame):
-    def __init__(self, parent = None, song_data = None) -> None:
+    def __init__(self, parent = None, song_data: str = None) -> None:
         super().__init__(parent)
         self.parent = parent
         self.song_data = song_data
