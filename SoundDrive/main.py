@@ -27,7 +27,7 @@ class MainWindow(QMainWindow):
         self.db_access.db.create_db()
 
         # Create player
-        self.music_controller = MusicController(self.db_access)
+        self.music_controller = MusicController()
 
         # Create menu buttons
         self.add_menu_button("home")
@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
         self.add_menu_button("search")
 
         # Connect buttons
-        self.ui.play_btn.clicked.connect(lambda: self.music_controller.play())
+        self.ui.play_btn.clicked.connect(lambda: self.music_controller.continue_playback())
         self.ui.stop_btn.clicked.connect(lambda: self.music_controller.stop())
         self.ui.last_btn.clicked.connect(lambda: self.music_controller.last())
         self.ui.next_btn.clicked.connect(lambda: self.music_controller.next())

@@ -19,5 +19,8 @@ class SearchResult(QFrame):
 
     def mousePressEvent(self, event):  # noqa: N802
         if event.button() == Qt.LeftButton:
+            #self.parent.music_controller.play(self.song_data[2])
             self.parent.music_controller.play(self.song_data[2])
+        elif event.button() == Qt.RightButton:
+            self.parent.music_controller.queue_song(self.song_data[2])
         return super().mousePressEvent(event)

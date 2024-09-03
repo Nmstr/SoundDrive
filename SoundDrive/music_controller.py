@@ -1,25 +1,39 @@
 import PySoundSphere
 
 class MusicController:
-    def __init__(self, db_access):
+    def __init__(self):
         self.player = PySoundSphere.AudioPlayer("pygame")
         self.player.volume = 0.075
-        self.db_access = db_access
+        self._timeline = []
+        self._timeline_position = 0
 
-    def play(self, song_path: str = None) -> None:
-        if song_path:
-            self.player.load(song_path)
-            self.player.stop()
+    def _reload_playback(self):
+        self.player.load(self._timeline[self._timeline_position - 1])
+        self.player.stop()
         self.player.play()
 
-    def stop(self) -> None:
+    def play(self, song_path: str):
+        self._timeline = self._timeline[:self._timeline_position]
+        self._timeline_position += 1
+        self._timeline.append(song_path)
+        self._reload_playback()
+
+    def continue_playback(self):
+        self.player.play()
+
+    def stop(self):
         self.player.pause()
 
-    def last(self) -> None:
-        self.next()
+    def next(self):
+        if self._timeline_position < len(self._timeline):
+            self._timeline_position += 1
+            self._reload_playback()
 
-    def next(self) -> None:
-        all_songs = self.db_access.songs.query()
-        import random
-        song = random.choice(all_songs)
-        self.play(song[2])
+    def last(self):
+        if self._timeline_position == 1:
+            return
+        self._timeline_position -= 1
+        self._reload_playback()
+
+    def queue_song(self, song_path):
+        self._timeline.append(song_path)
