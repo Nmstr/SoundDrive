@@ -63,30 +63,33 @@ def add_song(playlist_id: int, song_id: int) -> None:
     finally:
         conn.close()
 
-def query(playlist_name: str = None) -> list:
+def query() -> list:
     """
     Query playlists from the db
-
-    Returns all playlists, if no name is given. Otherwise, returns the named playlist.
     """
     conn, cursor = _connect()
 
-    if playlist_name:
-        try:
-            cursor.execute('''
-            SELECT * FROM playlists
-            WHERE name = ?
-            ''', (playlist_name,))
-            playlists = cursor.fetchall()
-            return playlists
-        finally:
-            conn.close()
-    else:
-        try:
-            cursor.execute('''
-            SELECT * FROM playlists
-            ''')
-            playlists = cursor.fetchall()
-            return playlists
-        finally:
-            conn.close()
+    try:
+        cursor.execute('''
+        SELECT * FROM playlists
+        ''')
+        playlists = cursor.fetchall()
+        return playlists
+    finally:
+        conn.close()
+
+def query_id(playlist_id: int) -> list:
+    """
+    Query playlist in db after id
+    """
+    conn, cursor = _connect()
+
+    try:
+        cursor.execute('''
+        SELECT * FROM playlists
+        WHERE id = ?
+        ''', (playlist_id,))
+        playlist = cursor.fetchall()
+        return playlist[0]
+    finally:
+        conn.close()

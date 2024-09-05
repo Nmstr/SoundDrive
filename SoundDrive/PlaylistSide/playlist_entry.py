@@ -31,7 +31,7 @@ class PlaylistEntry(QFrame):
         if self.playlist_data[3] is None:
             return
         songs = self.playlist_data[3].split(",")
-        for song in songs:  # Dynamically add custom widgets for each song in the playlist
+        for i, song in enumerate(songs):  # Dynamically add custom widgets for each song in the playlist
             song_data = self.parent.db_access.songs.query_id(song)
-            result = SongEntry(self, song_data)
+            result = SongEntry(self, song_data, i)
             layout.addWidget(result)

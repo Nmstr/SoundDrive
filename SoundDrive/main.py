@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         self.db_access.db.create_db()
 
         # Create player
-        self.music_controller = MusicController()
+        self.music_controller = MusicController(self.db_access)
 
         # Create menu buttons
         self.add_menu_button("home")
