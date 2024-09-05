@@ -53,6 +53,31 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
+       <widget class="QFrame" name="frame">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Shape::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Shadow::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QPushButton" name="create_playlist_btn">
+           <property name="text">
+            <string>Create Playlist</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
        <widget class="QScrollArea" name="playlist_scroll">
         <property name="widgetResizable">
          <bool>true</bool>
@@ -286,15 +311,9 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>770</width>
-            <height>1000</height>
+            <width>784</width>
+            <height>565</height>
            </rect>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>1000</height>
-           </size>
           </property>
          </widget>
         </widget>

@@ -41,7 +41,8 @@ class MainWindow(QMainWindow):
         self.ui.stop_btn.clicked.connect(lambda: self.music_controller.stop())
         self.ui.last_btn.clicked.connect(lambda: self.music_controller.last())
         self.ui.next_btn.clicked.connect(lambda: self.music_controller.next())
-        self.ui.add_songs_btn.clicked.connect(self.add_songs)
+        self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
+        self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
 
         self.ui.search_bar.textChanged.connect(self.search)
 
@@ -85,6 +86,10 @@ class MainWindow(QMainWindow):
         all_songs = os.listdir(MUSIC_DIR)
         for song in all_songs:
             self.db_access.songs.create(song, os.path.join(MUSIC_DIR, song))
+
+    def create_playlist(self):
+        self.db_access.playlists.create()
+        self.populate_playlists()
 
     def add_menu_button(self, button_type: str) -> None:
         layout = self.ui.menu.layout()
