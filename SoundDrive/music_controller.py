@@ -1,5 +1,5 @@
-import PySoundSphere
 from mutagen import File
+import PySoundSphere
 
 class MusicController:
     def __init__(self, db_access) -> None:

@@ -2,6 +2,7 @@ from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
 from Widgets.SearchResult.search_result import SearchResult
 from Widgets.MenuButton.menu_button import MenuButton
+from Widgets.time_slider import TimeSlider
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
@@ -57,7 +58,6 @@ class MainWindow(QMainWindow):
 
         self.populate_playlists()
 
-        from Widgets.time_slider import TimeSlider
         layout = self.ui.time_slider_container.layout()
         self.timeSlider = TimeSlider(self)
         layout.addWidget(self.timeSlider)
