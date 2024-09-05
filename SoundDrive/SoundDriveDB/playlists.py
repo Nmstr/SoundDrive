@@ -34,6 +34,22 @@ def create() -> None:
     finally:
         conn.close()
 
+def delete(playlist_id: int) -> None:
+    """
+    Delete a playlist from the db
+    """
+    print(f"Deleting playlist {playlist_id}")
+    conn, cursor = _connect()
+    try:
+        cursor.execute('''
+        DELETE FROM playlists
+        WHERE id = ?
+        ''', (playlist_id,))
+
+        conn.commit()
+    finally:
+        conn.close()
+
 def add_song(playlist_id: int, song_id: int) -> None:
     """
     Add a song to a playlist

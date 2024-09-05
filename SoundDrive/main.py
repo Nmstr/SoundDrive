@@ -1,3 +1,4 @@
+from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
 from PlaylistSide.playlist_entry import PlaylistEntry
 from SearchResult.search_result import SearchResult
 from MenuButton.menu_button import MenuButton
@@ -15,6 +16,7 @@ class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
         self.setWindowTitle("SoundDrive")
+        self.current_playlist = None
 
         # Load the UI file
         loader = QUiLoader()
@@ -43,6 +45,7 @@ class MainWindow(QMainWindow):
         self.ui.next_btn.clicked.connect(lambda: self.music_controller.next())
         self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
+        self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
 
         self.ui.search_bar.textChanged.connect(self.search)
 
@@ -89,6 +92,13 @@ class MainWindow(QMainWindow):
 
     def create_playlist(self):
         self.db_access.playlists.create()
+        self.populate_playlists()
+
+    def delete_playlist(self):
+        dlg = DeletePlaylistDialog(self.db_access, self.current_playlist)
+        if dlg.exec():
+            self.db_access.playlists.delete(self.current_playlist)
+
         self.populate_playlists()
 
     def add_menu_button(self, button_type: str) -> None:

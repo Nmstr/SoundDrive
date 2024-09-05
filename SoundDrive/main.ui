@@ -293,15 +293,22 @@
       </layout>
      </widget>
      <widget class="QWidget" name="playlist_page">
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <item>
+      <layout class="QGridLayout" name="gridLayout_4">
+       <item row="0" column="0">
         <widget class="QLabel" name="playlist_name_label">
          <property name="text">
           <string>Playlist name</string>
          </property>
         </widget>
        </item>
-       <item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="delete_playlist_btn">
+         <property name="text">
+          <string>Delete Playlist</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
         <widget class="QScrollArea" name="playlist_songs_scroll">
          <property name="widgetResizable">
           <bool>true</bool>
@@ -311,9 +318,15 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>784</width>
-            <height>565</height>
+            <width>770</width>
+            <height>1000</height>
            </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>1000</height>
+           </size>
           </property>
          </widget>
         </widget>

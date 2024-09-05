@@ -21,6 +21,7 @@ class PlaylistEntry(QFrame):
         if event.button() == Qt.LeftButton:
             self.parent.set_page(3)
             self.show_playlist_data()
+            self.parent.current_playlist = self.playlist_data[0]
         return super().mousePressEvent(event)
 
     def show_playlist_data(self) -> None:
