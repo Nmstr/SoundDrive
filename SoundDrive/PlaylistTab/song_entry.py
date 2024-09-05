@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QFrame, QMenu
+from PySide6.QtWidgets import QFrame
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
