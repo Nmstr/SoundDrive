@@ -19,16 +19,29 @@
      <property name="minimumSize">
       <size>
        <width>0</width>
-       <height>60</height>
+       <height>50</height>
       </size>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Shape::StyledPanel</enum>
+      <enum>QFrame::Shape::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Shadow::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout"/>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+     </layout>
     </widget>
    </item>
    <item row="1" column="0">
@@ -53,7 +66,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QFrame" name="frame">
+       <widget class="QFrame" name="side_topper">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -79,6 +92,9 @@
       </item>
       <item>
        <widget class="QScrollArea" name="playlist_scroll">
+        <property name="frameShape">
+         <enum>QFrame::Shape::NoFrame</enum>
+        </property>
         <property name="widgetResizable">
          <bool>true</bool>
         </property>
@@ -87,7 +103,7 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>414</width>
+           <width>416</width>
            <height>1000</height>
           </rect>
          </property>
@@ -196,7 +212,7 @@
       <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="home_page">
       <widget class="QLabel" name="label">
@@ -230,19 +246,15 @@
          <property name="frameShadow">
           <enum>QFrame::Shadow::Raised</enum>
          </property>
-         <widget class="QLineEdit" name="search_bar">
-          <property name="geometry">
-           <rect>
-            <x>180</x>
-            <y>40</y>
-            <width>241</width>
-            <height>26</height>
-           </rect>
-          </property>
-          <property name="placeholderText">
-           <string>Search For Something</string>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLineEdit" name="search_bar">
+            <property name="placeholderText">
+             <string>Search For Something</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item row="1" column="0">
@@ -269,6 +281,9 @@
        </item>
        <item row="1" column="1">
         <widget class="QScrollArea" name="search_scroll">
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -277,7 +292,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>664</width>
+            <width>666</width>
             <height>1000</height>
            </rect>
           </property>
@@ -310,6 +325,9 @@
        </item>
        <item row="3" column="0" colspan="2">
         <widget class="QScrollArea" name="playlist_songs_scroll">
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -318,7 +336,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>770</width>
+            <width>772</width>
             <height>1000</height>
            </rect>
           </property>

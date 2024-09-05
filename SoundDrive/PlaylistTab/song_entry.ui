@@ -14,7 +14,7 @@
    <string>Frame</string>
   </property>
   <property name="frameShape">
-   <enum>QFrame::Shape::StyledPanel</enum>
+   <enum>QFrame::Shape::NoFrame</enum>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

@@ -5,6 +5,7 @@ from PySide6.QtCore import Qt, QFile
 class MenuButton(QFrame):
     def __init__(self, parent = None, button_type: str = None) -> None:
         super().__init__(parent)
+        self.setObjectName("MenuButton")
         self.parent = parent
         if button_type == "home":
             self.label_text = "Home"

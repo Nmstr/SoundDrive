@@ -6,6 +6,7 @@ from PySide6.QtCore import Qt, QFile
 class PlaylistEntry(QFrame):
     def __init__(self, parent = None, playlist_data: str = None) -> None:
         super().__init__(parent)
+        self.setObjectName("PlaylistEntry")
         self.parent = parent
         self.playlist_data = playlist_data
 

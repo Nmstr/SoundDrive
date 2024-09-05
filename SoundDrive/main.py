@@ -15,8 +15,14 @@ MUSIC_DIR = os.path.abspath("../music")
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
+        self.setObjectName("MainWindow")
         self.setWindowTitle("SoundDrive")
         self.current_playlist = None
+
+        # Load the stylesheet
+        with open('style.qss', 'r') as f:
+            app.setStyleSheet(f.read())
+            pass
 
         # Load the UI file
         loader = QUiLoader()
