@@ -34,6 +34,35 @@ def create() -> None:
     finally:
         conn.close()
 
+def add_song(playlist_id: int, song_id: int) -> None:
+    """
+    Add a song to a playlist
+    """
+    conn, cursor = _connect()
+    try:
+        # Fetch the current songs list
+        cursor.execute('''
+            SELECT songs FROM playlists
+            WHERE id = ?
+        ''', (playlist_id,))
+        current_songs = cursor.fetchone()[0]
+
+        # Append the new song_id to the list
+        if current_songs:
+            new_songs = current_songs + f',{song_id}'
+        else:
+            new_songs = str(song_id)
+
+        # Update the songs list in the database
+        cursor.execute('''
+            UPDATE playlists
+            SET songs = ?
+            WHERE id = ?
+        ''', (new_songs, playlist_id))
+        conn.commit()
+    finally:
+        conn.close()
+
 def query(playlist_name: str = None) -> list:
     """
     Query playlists from the db
