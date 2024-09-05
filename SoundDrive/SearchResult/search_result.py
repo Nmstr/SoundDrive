@@ -22,7 +22,7 @@ class SearchResult(QFrame):
             self.parent.music_controller.play(self.song_data[2])
         return super().mousePressEvent(event)
 
-    def contextMenuEvent(self, event):
+    def contextMenuEvent(self, event):  # noqa: N802
         context_menu = QMenu(self)
         queue_action = context_menu.addAction("Queue Song")
 
