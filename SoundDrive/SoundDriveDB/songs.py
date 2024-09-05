@@ -57,3 +57,20 @@ def query() -> list:
         return songs
     finally:
         conn.close()
+
+def query_id(song_id: int) -> list:
+    """
+    Query songs in db after id
+    """
+    conn, cursor = _connect()
+
+    try:
+        cursor.execute('''
+        SELECT * FROM songs
+        WHERE deleted = 0
+        AND id = ?
+        ''', (song_id,))
+        song = cursor.fetchall()
+        return song[0]
+    finally:
+        conn.close()

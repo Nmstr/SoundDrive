@@ -42,5 +42,4 @@ class SearchResult(QFrame):
         self.parent.music_controller.queue_song(self.song_data[2])
 
     def add_song_to_playlist(self, playlist_id):
-        print(f"Adding song to {playlist_id}")
         self.parent.db_access.playlists.add_song(playlist_id, self.song_data[0])

@@ -268,19 +268,38 @@
       </layout>
      </widget>
      <widget class="QWidget" name="playlist_page">
-      <widget class="QLabel" name="playlist_name_label">
-       <property name="geometry">
-        <rect>
-         <x>160</x>
-         <y>130</y>
-         <width>161</width>
-         <height>18</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Playlist name</string>
-       </property>
-      </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="playlist_name_label">
+         <property name="text">
+          <string>Playlist name</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QScrollArea" name="playlist_songs_scroll">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="playlist_songs_scroll_content">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>770</width>
+            <height>1000</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>1000</height>
+           </size>
+          </property>
+         </widget>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </widget>
    </item>

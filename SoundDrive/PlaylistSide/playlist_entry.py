@@ -1,4 +1,5 @@
-from PySide6.QtWidgets import QFrame
+from PlaylistTab.song_entry import SongEntry
+from PySide6.QtWidgets import QFrame, QVBoxLayout
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
@@ -25,3 +26,12 @@ class PlaylistEntry(QFrame):
     def show_playlist_data(self) -> None:
         ui = self.parent.ui
         ui.playlist_name_label.setText(self.playlist_data[1])
+
+        layout = self.parent.clear_field(self.parent.ui.playlist_songs_scroll_content, QVBoxLayout())
+        if self.playlist_data[3] is None:
+            return
+        songs = self.playlist_data[3].split(",")
+        for song in songs:  # Dynamically add custom widgets for each song in the playlist
+            song_data = self.parent.db_access.songs.query_id(song)
+            result = SongEntry(self, song_data)
+            layout.addWidget(result)
