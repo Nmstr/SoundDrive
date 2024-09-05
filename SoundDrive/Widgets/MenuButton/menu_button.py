@@ -21,7 +21,7 @@ class MenuButton(QFrame):
 
         # Load the UI file
         loader = QUiLoader()
-        ui_file = QFile("MenuButton/menu_button.ui")
+        ui_file = QFile("Widgets/MenuButton/menu_button.ui")
         self.ui = loader.load(ui_file, self)
         ui_file.close()
 

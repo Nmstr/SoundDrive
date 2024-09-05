@@ -1,7 +1,7 @@
 from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
-from PlaylistSide.playlist_entry import PlaylistEntry
-from SearchResult.search_result import SearchResult
-from MenuButton.menu_button import MenuButton
+from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
+from Widgets.SearchResult.search_result import SearchResult
+from Widgets.MenuButton.menu_button import MenuButton
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         print(text)
         layout = self.clear_field(self.ui.search_scroll_content, QVBoxLayout())
 
-        # Dynamically add custom widgets for each song
+        # Dynamically add custom Widgets for each song
         all_songs = self.db_access.songs.query()
         for song in all_songs:
             result = SearchResult(self, song)
@@ -70,7 +70,7 @@ class MainWindow(QMainWindow):
     def populate_playlists(self):
         layout = self.clear_field(self.ui.playlist_scroll_content, QVBoxLayout())
 
-        # Dynamically add custom widgets for each song
+        # Dynamically add custom Widgets for each song
         all_playlists = self.db_access.playlists.query()
         for playlist in all_playlists:
             result = PlaylistEntry(self, playlist)

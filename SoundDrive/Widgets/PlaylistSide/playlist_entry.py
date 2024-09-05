@@ -12,7 +12,7 @@ class PlaylistEntry(QFrame):
 
         # Load the UI file
         loader = QUiLoader()
-        ui_file = QFile("PlaylistSide/playlist_entry.ui")
+        ui_file = QFile("Widgets/PlaylistSide/playlist_entry.ui")
         self.ui = loader.load(ui_file, self)
         ui_file.close()
 
@@ -33,7 +33,7 @@ class PlaylistEntry(QFrame):
         if self.playlist_data[3] is None:
             return
         songs = self.playlist_data[3].split(",")
-        for i, song in enumerate(songs):  # Dynamically add custom widgets for each song in the playlist
+        for i, song in enumerate(songs):  # Dynamically add custom Widgets for each song in the playlist
             song_data = self.parent.db_access.songs.query_id(song)
             result = SongEntry(self, song_data, i)
             layout.addWidget(result)
