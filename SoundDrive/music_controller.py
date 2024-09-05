@@ -1,4 +1,5 @@
 import PySoundSphere
+from mutagen import File
 
 class MusicController:
     def __init__(self, db_access) -> None:
@@ -52,3 +53,22 @@ class MusicController:
         playlist_data = self.db_access.playlists.query_id(playlist_id)
         self._current_playlist = playlist_data[3].split(",")
         self._playlist_position = playlist_position
+
+    @property
+    def song_position(self) -> float:
+        """
+        Position in the song in seconds.
+        """
+        return self.player.position
+
+    @song_position.setter
+    def song_position(self, position: float) -> None:
+        self.player.position = position
+
+    @property
+    def song_length(self) -> float:
+        try:
+            audio = File(self._timeline[self._timeline_position - 1])
+            return audio.info.length
+        except IndexError:
+            return 0

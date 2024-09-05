@@ -57,6 +57,11 @@ class MainWindow(QMainWindow):
 
         self.populate_playlists()
 
+        from Widgets.time_slider import TimeSlider
+        layout = self.ui.time_slider_container.layout()
+        self.timeSlider = TimeSlider(self)
+        layout.addWidget(self.timeSlider)
+
     def search(self, text: str) -> None:
         print(text)
         layout = self.clear_field(self.ui.search_scroll_content, QVBoxLayout())
