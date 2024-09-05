@@ -43,3 +43,4 @@ class SearchResult(QFrame):
 
     def add_song_to_playlist(self, playlist_id):
         self.parent.db_access.playlists.add_song(playlist_id, self.song_data[0])
+        self.parent.populate_playlists()
