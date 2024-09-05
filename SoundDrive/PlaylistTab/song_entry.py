@@ -5,6 +5,7 @@ from PySide6.QtCore import Qt, QFile
 class SongEntry(QFrame):
     def __init__(self, parent = None, song_data: str = None, song_index: int = None) -> None:
         super().__init__(parent)
+        self.setObjectName("SongEntry")
         self.parent = parent
         self.song_data = song_data
         self.song_index = song_index

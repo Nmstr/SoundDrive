@@ -20,21 +20,17 @@
    <string>Frame</string>
   </property>
   <property name="frameShape">
-   <enum>QFrame::Shape::StyledPanel</enum>
+   <enum>QFrame::Shape::NoFrame</enum>
   </property>
-  <widget class="QLabel" name="button_label">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>20</y>
-     <width>58</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Home</string>
-   </property>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="button_label">
+     <property name="text">
+      <string>Home</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>
