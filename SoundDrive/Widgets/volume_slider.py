@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QSlider
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt
 
 class VolumeSlider(QSlider):
     def __init__(self, parent=None):
