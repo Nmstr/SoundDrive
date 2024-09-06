@@ -57,22 +57,7 @@ class MainWindow(QMainWindow):
         self.ui.search_bar.textChanged.connect(self.search)
 
         self.populate_playlists()
-
-        layout = self.ui.time_slider_container.layout()
-        self.time_slider = TimeSlider(self)
-        layout.addWidget(self.time_slider)
-        layout = self.ui.volume_slider_container.layout()
-        self.volume_slider = VolumeSlider(self)
-        layout.addWidget(self.volume_slider)
-        layout = self.ui.play_pause_btn_container.layout()
-        self.play_pause_btn = PlayPauseButton(self)
-        layout.addWidget(self.play_pause_btn)
-        layout = self.ui.next_btn_container.layout()
-        self.next_btn = GenericControlButton(self, "Assets/next.svg", lambda: self.music_controller.next())
-        layout.addWidget(self.next_btn)
-        layout = self.ui.last_btn_container.layout()
-        self.last_btn = GenericControlButton(self, "Assets/last.svg", lambda: self.music_controller.last())
-        layout.addWidget(self.last_btn)
+        self.populate_control_bar()
 
     def search(self, text: str) -> None:
         print(text)
@@ -107,6 +92,27 @@ class MainWindow(QMainWindow):
                 layout_item.widget().deleteLater()
 
         return layout
+
+    def populate_control_bar(self) -> None:
+        def add_widget(container, widget):
+            layout = container.layout()
+            layout.addWidget(widget)
+
+        # Create and add widgets
+        self.time_slider = TimeSlider(self)
+        add_widget(self.ui.time_slider_container, self.time_slider)
+
+        self.volume_slider = VolumeSlider(self)
+        add_widget(self.ui.volume_slider_container, self.volume_slider)
+
+        self.play_pause_btn = PlayPauseButton(self)
+        add_widget(self.ui.play_pause_btn_container, self.play_pause_btn)
+
+        self.next_btn = GenericControlButton(self, "Assets/next.svg", lambda: self.music_controller.next())
+        add_widget(self.ui.next_btn_container, self.next_btn)
+
+        self.last_btn = GenericControlButton(self, "Assets/last.svg", lambda: self.music_controller.last())
+        add_widget(self.ui.last_btn_container, self.last_btn)
 
     def add_songs(self) -> None:
         all_songs = os.listdir(MUSIC_DIR)
