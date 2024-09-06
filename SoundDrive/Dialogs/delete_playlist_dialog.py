@@ -4,6 +4,7 @@ class DeletePlaylistDialog(QDialog):
     def __init__(self, db_access, current_playlist):
         super().__init__()
         self.setWindowTitle("Delete Playlist")
+        self.setMaximumSize(400, 100)
         playlist_data = db_access.playlists.query_id(current_playlist)
 
         qbtn = (
