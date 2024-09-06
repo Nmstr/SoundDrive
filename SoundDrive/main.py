@@ -26,7 +26,6 @@ class MainWindow(QMainWindow):
         # Load the stylesheet
         with open('style.qss', 'r') as f:
             app.setStyleSheet(f.read())
-            pass
 
         # Load the UI file
         loader = QUiLoader()
