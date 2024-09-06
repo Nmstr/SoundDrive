@@ -9,7 +9,7 @@ class TimeSlider(QSlider):
 
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_value)
-        self.timer.start(1000)
+        self.timer.start(250)
 
     def mousePressEvent(self, event):  # noqa: N802
         if event.button() == Qt.LeftButton:

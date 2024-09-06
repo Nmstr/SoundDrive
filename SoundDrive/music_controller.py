@@ -66,6 +66,18 @@ class MusicController:
         self.player.position = position
 
     @property
+    def volume(self) -> float:
+        """
+        Volume between 0 and 1.
+        """
+        return self.player.volume
+
+    @volume.setter
+    def volume(self, volume: float) -> None:
+        self.player.volume = volume
+
+
+    @property
     def song_length(self) -> float:
         try:
             audio = File(self._timeline[self._timeline_position - 1])
