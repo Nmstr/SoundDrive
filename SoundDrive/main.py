@@ -2,6 +2,7 @@ from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
 from Widgets.SearchResult.search_result import SearchResult
 from Widgets.MenuButton.menu_button import MenuButton
+from Widgets.play_pause_button import PlayPauseButton
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
 from music_controller import MusicController
@@ -39,7 +40,7 @@ class MainWindow(QMainWindow):
         self.db_access.db.create_db()
 
         # Create player
-        self.music_controller = MusicController(self.db_access)
+        self.music_controller = MusicController(self)
 
         # Create menu buttons
         self.add_menu_button("home")
@@ -47,8 +48,6 @@ class MainWindow(QMainWindow):
         self.add_menu_button("search")
 
         # Connect buttons
-        self.ui.play_btn.clicked.connect(lambda: self.music_controller.continue_playback())
-        self.ui.stop_btn.clicked.connect(lambda: self.music_controller.stop())
         self.ui.last_btn.clicked.connect(lambda: self.music_controller.last())
         self.ui.next_btn.clicked.connect(lambda: self.music_controller.next())
         self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
@@ -65,6 +64,9 @@ class MainWindow(QMainWindow):
         layout = self.ui.volume_slider_container.layout()
         self.volume_slider = VolumeSlider(self)
         layout.addWidget(self.volume_slider)
+        layout = self.ui.play_pause_btn_container.layout()
+        self.play_pause_btn = PlayPauseButton(self)
+        layout.addWidget(self.play_pause_btn)
 
     def search(self, text: str) -> None:
         print(text)
