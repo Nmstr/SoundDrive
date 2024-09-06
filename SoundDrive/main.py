@@ -4,6 +4,7 @@ from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
 from Widgets.SearchResult.search_result import SearchResult
 from Widgets.MenuButton.menu_button import MenuButton
 from Widgets.play_pause_button import PlayPauseButton
+from Widgets.AddSongs.found_song import FoundSong
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
 from music_controller import MusicController
@@ -114,9 +115,13 @@ class MainWindow(QMainWindow):
         add_widget(self.ui.last_btn_container, self.last_btn)
 
     def add_songs(self) -> None:
+        layout = self.clear_field(self.ui.add_songs_scroll_content, QVBoxLayout())
+        self.set_page(5)
         all_songs = os.listdir(MUSIC_DIR)
         for song in all_songs:
-            self.db_access.songs.create(song, os.path.join(MUSIC_DIR, song))
+            song_data = self.db_access.songs.query_path(MUSIC_DIR + "/" + song)
+            found_song = FoundSong(self, song_data)
+            layout.insertWidget(layout.count() - 1, found_song)
 
     def create_playlist(self):
         self.db_access.playlists.create()

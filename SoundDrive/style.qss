@@ -22,6 +22,7 @@ QPushButton:checked {
 }
 
 #PlaylistEntry,
+#FoundSong,
 #SongEntry,
 #SearchResult {
     background-color: #2c3035;
@@ -30,6 +31,7 @@ QPushButton:checked {
 }
 
 #PlaylistEntry:hover,
+#FoundSong:hover,
 #SongEntry:hover,
 #SearchResult:hover{
     background-color: #31363b;
@@ -38,6 +40,7 @@ QPushButton:checked {
 #MenuButton,
 QStackedWidget#page,
 QFrame#bar,
+QWidget#add_songs_scroll_content,
 QWidget#playlist_scroll_content,
 QWidget#search_scroll_content,
 QFrame#search_side,
@@ -49,6 +52,8 @@ QFrame#side_topper {
 }
 
 #MenuButton,
+QWidget#add_songs_scroll_content,
+QScrollArea#add_songs_scroll,
 QWidget#playlist_songs_scroll_content,
 QScrollArea#playlist_songs_scroll,
 QWidget#playlist_scroll_content,

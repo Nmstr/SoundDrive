@@ -74,3 +74,20 @@ def query_id(song_id: int) -> list:
         return song[0]
     finally:
         conn.close()
+
+def query_path(song_path: str) -> list:
+    """
+    Query songs in db after path
+    """
+    conn, cursor = _connect()
+
+    try:
+        cursor.execute('''
+        SELECT * FROM songs
+        WHERE deleted = 0
+        AND filepath = ?
+        ''', (song_path,))
+        song = cursor.fetchall()
+        return song[0]
+    finally:
+        conn.close()
