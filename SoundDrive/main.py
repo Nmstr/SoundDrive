@@ -119,8 +119,8 @@ class MainWindow(QMainWindow):
         self.set_page(5)
         all_songs = os.listdir(MUSIC_DIR)
         for song in all_songs:
-            song_data = self.db_access.songs.query_path(MUSIC_DIR + "/" + song)
-            found_song = FoundSong(self, song_data)
+            song_path = MUSIC_DIR + "/" + song
+            found_song = FoundSong(self, song_path)
             layout.insertWidget(layout.count() - 1, found_song)
 
     def create_playlist(self):
