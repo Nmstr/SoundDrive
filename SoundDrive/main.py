@@ -47,9 +47,10 @@ class MainWindow(QMainWindow):
         self.add_menu_button("home")
         self.add_menu_button("library")
         self.add_menu_button("search")
+        self.add_menu_button("settings")
 
         # Connect buttons
-        #self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
+        self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
 
