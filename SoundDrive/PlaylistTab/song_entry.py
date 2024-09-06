@@ -19,6 +19,10 @@ class SongEntry(QFrame):
         self.ui.name_label.setText(self.song_data[1])
         self.ui.path_label.setText(self.song_data[2])
 
+        # Set size
+        self.setMinimumSize(200, 200)
+        self.setMaximumSize(1000, 200)
+
     def mousePressEvent(self, event):  # noqa: N802
         if event.button() == Qt.LeftButton:
             self.parent.parent.music_controller.play(self.song_data[2])

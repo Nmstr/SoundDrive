@@ -18,6 +18,10 @@ class PlaylistEntry(QFrame):
 
         self.ui.name_label.setText(self.playlist_data[1])
 
+        # Set size
+        self.setMinimumSize(200, 100)
+        self.setMaximumSize(1000, 100)
+
     def mousePressEvent(self, event):  # noqa: N802
         if event.button() == Qt.LeftButton:
             self.parent.set_page(3)
@@ -35,5 +39,5 @@ class PlaylistEntry(QFrame):
         songs = self.playlist_data[3].split(",")
         for i, song in enumerate(songs):  # Dynamically add custom Widgets for each song in the playlist
             song_data = self.parent.db_access.songs.query_id(song)
-            result = SongEntry(self, song_data, i)
-            layout.addWidget(result)
+            song_entry = SongEntry(self, song_data, i)
+            layout.insertWidget(layout.count() - 1, song_entry)

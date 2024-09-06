@@ -67,7 +67,7 @@ class MainWindow(QMainWindow):
         all_songs = self.db_access.songs.query()
         for song in all_songs:
             result = SearchResult(self, song)
-            layout.addWidget(result)
+            layout.insertWidget(layout.count() - 1, result)
 
     def populate_playlists(self):
         layout = self.clear_field(self.ui.playlist_scroll_content, QVBoxLayout())
@@ -75,8 +75,8 @@ class MainWindow(QMainWindow):
         # Dynamically add custom Widgets for each song
         all_playlists = self.db_access.playlists.query()
         for playlist in all_playlists:
-            result = PlaylistEntry(self, playlist)
-            layout.addWidget(result)
+            playlist_entry = PlaylistEntry(self, playlist)
+            layout.insertWidget(layout.count() - 1, playlist_entry)
 
     def clear_field(self, container, target_layout):
         # Check if the container has a layout, if not, set a new layout of type target_layout

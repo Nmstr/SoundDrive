@@ -15,6 +15,10 @@ class SearchResult(QFrame):
         self.ui = loader.load(ui_file, self)
         ui_file.close()
 
+        # Set size
+        self.setMinimumSize(200, 100)
+        self.setMaximumSize(1000, 100)
+
         self.ui.name_label.setText(self.song_data[1])
         self.ui.path_label.setText(self.song_data[2])
 
