@@ -36,7 +36,6 @@ class MusicController:
         self.parent.play_pause_btn.update()
 
     def next(self) -> None:
-        print(self._timeline, self._timeline_position, self._current_playlist, self._playlist_position)
         if self._timeline_position < len(self._timeline):
             self._timeline_position += 1
             self._reload_playback()

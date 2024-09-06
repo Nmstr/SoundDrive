@@ -1,4 +1,5 @@
 from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
+from Widgets.generic_control_button import GenericControlButton
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
 from Widgets.SearchResult.search_result import SearchResult
 from Widgets.MenuButton.menu_button import MenuButton
@@ -48,8 +49,6 @@ class MainWindow(QMainWindow):
         self.add_menu_button("search")
 
         # Connect buttons
-        self.ui.last_btn.clicked.connect(lambda: self.music_controller.last())
-        self.ui.next_btn.clicked.connect(lambda: self.music_controller.next())
         self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
@@ -67,6 +66,12 @@ class MainWindow(QMainWindow):
         layout = self.ui.play_pause_btn_container.layout()
         self.play_pause_btn = PlayPauseButton(self)
         layout.addWidget(self.play_pause_btn)
+        layout = self.ui.next_btn_container.layout()
+        self.next_btn = GenericControlButton(self, "Assets/next.svg", lambda: self.music_controller.next())
+        layout.addWidget(self.next_btn)
+        layout = self.ui.last_btn_container.layout()
+        self.last_btn = GenericControlButton(self, "Assets/last.svg", lambda: self.music_controller.last())
+        layout.addWidget(self.last_btn)
 
     def search(self, text: str) -> None:
         print(text)
