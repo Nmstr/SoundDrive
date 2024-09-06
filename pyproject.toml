@@ -17,7 +17,6 @@ classifiers = [
 ]
 dependencies = [
     "PySide6",
-    "mutagen",
     "tinytag",
     "PySoundSphere[pygame-backend]"
 ]
