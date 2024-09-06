@@ -76,7 +76,6 @@ class MusicController:
     def volume(self, volume: float) -> None:
         self.player.volume = volume
 
-
     @property
     def song_length(self) -> float:
         try:
