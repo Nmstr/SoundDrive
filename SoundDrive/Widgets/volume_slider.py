@@ -2,10 +2,11 @@ from PySide6.QtWidgets import QSlider
 from PySide6.QtCore import Qt
 
 class VolumeSlider(QSlider):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, initial_volume: int = 0.075):
         super().__init__(Qt.Orientation.Horizontal, parent)
         self.parent = parent
         self.setRange(0, 1000)
+        self.setValue(initial_volume * 1000)
         self.valueChanged.connect(self.value_changed)
 
     def mousePressEvent(self, event):  # noqa: N802
