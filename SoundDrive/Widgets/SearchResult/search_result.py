@@ -11,7 +11,7 @@ class SearchResult(QFrame):
 
         # Load the UI file
         loader = QUiLoader()
-        ui_file = QFile("SearchResult/search_result.ui")
+        ui_file = QFile("Widgets/SearchResult/search_result.ui")
         self.ui = loader.load(ui_file, self)
         ui_file.close()
 

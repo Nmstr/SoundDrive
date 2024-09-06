@@ -1,7 +1,11 @@
 from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
-from PlaylistSide.playlist_entry import PlaylistEntry
-from SearchResult.search_result import SearchResult
-from MenuButton.menu_button import MenuButton
+from Widgets.generic_control_button import GenericControlButton
+from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
+from Widgets.SearchResult.search_result import SearchResult
+from Widgets.MenuButton.menu_button import MenuButton
+from Widgets.play_pause_button import PlayPauseButton
+from Widgets.volume_slider import VolumeSlider
+from Widgets.time_slider import TimeSlider
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
@@ -37,18 +41,15 @@ class MainWindow(QMainWindow):
         self.db_access.db.create_db()
 
         # Create player
-        self.music_controller = MusicController(self.db_access)
+        self.music_controller = MusicController(self)
 
         # Create menu buttons
         self.add_menu_button("home")
         self.add_menu_button("library")
         self.add_menu_button("search")
+        self.add_menu_button("settings")
 
         # Connect buttons
-        self.ui.play_btn.clicked.connect(lambda: self.music_controller.continue_playback())
-        self.ui.stop_btn.clicked.connect(lambda: self.music_controller.stop())
-        self.ui.last_btn.clicked.connect(lambda: self.music_controller.last())
-        self.ui.next_btn.clicked.connect(lambda: self.music_controller.next())
         self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
@@ -56,12 +57,13 @@ class MainWindow(QMainWindow):
         self.ui.search_bar.textChanged.connect(self.search)
 
         self.populate_playlists()
+        self.populate_control_bar()
 
     def search(self, text: str) -> None:
         print(text)
         layout = self.clear_field(self.ui.search_scroll_content, QVBoxLayout())
 
-        # Dynamically add custom widgets for each song
+        # Dynamically add custom Widgets for each song
         all_songs = self.db_access.songs.query()
         for song in all_songs:
             result = SearchResult(self, song)
@@ -70,7 +72,7 @@ class MainWindow(QMainWindow):
     def populate_playlists(self):
         layout = self.clear_field(self.ui.playlist_scroll_content, QVBoxLayout())
 
-        # Dynamically add custom widgets for each song
+        # Dynamically add custom Widgets for each song
         all_playlists = self.db_access.playlists.query()
         for playlist in all_playlists:
             result = PlaylistEntry(self, playlist)
@@ -90,6 +92,27 @@ class MainWindow(QMainWindow):
                 layout_item.widget().deleteLater()
 
         return layout
+
+    def populate_control_bar(self) -> None:
+        def add_widget(container, widget):
+            layout = container.layout()
+            layout.addWidget(widget)
+
+        # Create and add widgets
+        self.time_slider = TimeSlider(self)
+        add_widget(self.ui.time_slider_container, self.time_slider)
+
+        self.volume_slider = VolumeSlider(self)
+        add_widget(self.ui.volume_slider_container, self.volume_slider)
+
+        self.play_pause_btn = PlayPauseButton(self)
+        add_widget(self.ui.play_pause_btn_container, self.play_pause_btn)
+
+        self.next_btn = GenericControlButton(self, "Assets/next.svg", lambda: self.music_controller.next())
+        add_widget(self.ui.next_btn_container, self.next_btn)
+
+        self.last_btn = GenericControlButton(self, "Assets/last.svg", lambda: self.music_controller.last())
+        add_widget(self.ui.last_btn_container, self.last_btn)
 
     def add_songs(self) -> None:
         all_songs = os.listdir(MUSIC_DIR)

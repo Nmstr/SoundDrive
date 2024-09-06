@@ -16,12 +16,15 @@ class MenuButton(QFrame):
         elif button_type == "search":
             self.label_text = "Search"
             self.destination = 2
+        elif button_type == "settings":
+            self.label_text = "Settings"
+            self.destination = 4
         else:
             raise ValueError
 
         # Load the UI file
         loader = QUiLoader()
-        ui_file = QFile("MenuButton/menu_button.ui")
+        ui_file = QFile("Widgets/MenuButton/menu_button.ui")
         self.ui = loader.load(ui_file, self)
         ui_file.close()
 
