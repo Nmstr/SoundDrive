@@ -1,4 +1,4 @@
-from PlaylistTab.song_entry import SongEntry
+from Widgets.SongEntry.song_entry import SongEntry
 from PySide6.QtWidgets import QFrame, QVBoxLayout
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
