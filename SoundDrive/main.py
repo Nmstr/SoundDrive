@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
         self.add_menu_button("search")
 
         # Connect buttons
-        self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
+        #self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
 
