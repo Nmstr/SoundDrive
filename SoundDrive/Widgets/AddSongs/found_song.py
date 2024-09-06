@@ -31,8 +31,3 @@ class FoundSong(QFrame):
         self.ui.song_path_edit_label.setText(self.song_path)
         self.ui.song_name_input.setText(song_title)
         self.ui.artists_input.setText(song_artist)
-
-    def mousePressEvent(self, event):  # noqa: N802
-        if event.button() == Qt.LeftButton:
-            pass
-        return super().mousePressEvent(event)
