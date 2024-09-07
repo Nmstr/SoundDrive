@@ -19,7 +19,6 @@ def create_db() -> None:
             name TEXT NOT NULL,
             filepath TEXT NOT NULL,
             artist TEXT,
-            hash TEXT,
             deleted BOOLEAN DEFAULT 0
         )
         ''')
