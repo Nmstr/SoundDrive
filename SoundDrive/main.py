@@ -1,9 +1,12 @@
+from numpy.testing.print_coercion_tables import print_new_cast_table
+
 from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
 from Widgets.generic_control_button import GenericControlButton
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
 from Widgets.SearchResult.search_result import SearchResult
 from Widgets.MenuButton.menu_button import MenuButton
 from Widgets.play_pause_button import PlayPauseButton
+from Widgets.AddSongs.song_actions import SongActions
 from Widgets.AddSongs.found_song import FoundSong
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
@@ -118,12 +121,19 @@ class MainWindow(QMainWindow):
         layout = self.clear_field(self.ui.add_songs_scroll_content, QVBoxLayout())
         self.set_page(5)
         all_songs = os.listdir(MUSIC_DIR)
+        new_found_songs = 0
         for song in all_songs:
             song_path = MUSIC_DIR + "/" + song
             if self.db_access.songs.query_path(song_path):  # Do not show existing songs
                 continue
+            new_found_songs += 1
             found_song = FoundSong(self, song_path)
             layout.insertWidget(layout.count() - 1, found_song)
+
+        if new_found_songs > 0:
+            bottom_layout = self.clear_field(self.ui.add_songs_bottom_container, QVBoxLayout())
+            song_actions = SongActions(self)
+            bottom_layout.addWidget(song_actions)
 
     def create_playlist(self):
         self.db_access.playlists.create()
