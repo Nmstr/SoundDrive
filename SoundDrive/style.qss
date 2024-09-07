@@ -43,9 +43,9 @@ QFrame#bar,
 QWidget#add_songs_scroll_content,
 QWidget#playlist_scroll_content,
 QWidget#search_scroll_content,
+QFrame#add_songs_bottom_container,
 QFrame#search_side,
 QFrame#search_top,
-QFrame#add_songs_bottom_container,
 QFrame#side,
 QFrame#side_topper {
     border: 1px solid #202327;

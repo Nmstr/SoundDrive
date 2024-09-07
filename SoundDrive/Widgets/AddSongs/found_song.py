@@ -1,6 +1,4 @@
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtWidgets import QFrame
-from PySide6.QtCore import QFile
+from PySide6.QtWidgets import QFrame, QLabel, QLineEdit, QGridLayout, QWidget
 from tinytag import TinyTag
 
 class FoundSong(QFrame):
@@ -18,15 +16,26 @@ class FoundSong(QFrame):
             song_title = None
             song_artist = None
 
-        # Load the UI file
-        loader = QUiLoader()
-        ui_file = QFile("Widgets/AddSongs/found_song.ui")
-        self.ui = loader.load(ui_file, self)
-        ui_file.close()
-
-        # Set size
-        self.setMinimumSize(200, 100)
-        self.setMaximumSize(1000, 100)
+        ### --- This doesn't use a .ui file because it wouldn't resize horizontally ---- ###
+        # Todo: Figure out "Why?" and change it
+        self.ui = QWidget(self)
+        self.ui.layout = QGridLayout(self)
+        # Song path
+        self.ui.song_path_info = QLabel("Song Path:", self)
+        self.ui.layout.addWidget(self.ui.song_path_info, 0, 0)
+        self.ui.song_path_edit_label = QLabel(self)
+        self.ui.layout.addWidget(self.ui.song_path_edit_label, 0, 1)
+        # Song name
+        self.ui.song_name_label = QLabel("Song Name:", self)
+        self.ui.layout.addWidget(self.ui.song_name_label, 1, 0)
+        self.ui.song_name_input = QLineEdit(self)
+        self.ui.layout.addWidget(self.ui.song_name_input, 1, 1)
+        # Artists
+        self.ui.artists_label = QLabel("Artists:", self)
+        self.ui.layout.addWidget(self.ui.artists_label, 2, 0)
+        self.ui.artists_input = QLineEdit(self)
+        self.ui.layout.addWidget(self.ui.artists_input, 2, 1)
+        ### --- ###
 
         self.ui.song_path_edit_label.setText(self.song_path)
         self.ui.song_name_input.setText(song_title)
