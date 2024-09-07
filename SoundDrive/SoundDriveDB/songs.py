@@ -71,6 +71,8 @@ def query_id(song_id: int) -> list:
         AND id = ?
         ''', (song_id,))
         song = cursor.fetchall()
+        if not song:
+            return []
         return song[0]
     finally:
         conn.close()
@@ -88,6 +90,8 @@ def query_path(song_path: str) -> list:
         AND filepath = ?
         ''', (song_path,))
         song = cursor.fetchall()
+        if not song:
+            return []
         return song[0]
     finally:
         conn.close()

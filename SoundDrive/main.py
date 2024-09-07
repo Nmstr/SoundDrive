@@ -120,6 +120,8 @@ class MainWindow(QMainWindow):
         all_songs = os.listdir(MUSIC_DIR)
         for song in all_songs:
             song_path = MUSIC_DIR + "/" + song
+            if self.db_access.songs.query_path(song_path):  # Do not show existing songs
+                continue
             found_song = FoundSong(self, song_path)
             layout.insertWidget(layout.count() - 1, found_song)
 
