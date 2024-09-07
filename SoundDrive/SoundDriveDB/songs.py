@@ -18,7 +18,7 @@ def create(song_name: str, file_path: str, artist_names: str = "") -> None:
         # Insert a new song
         cursor.execute('''
         INSERT INTO songs (name, filepath, artist)
-        VALUES (?, ?, ?, ?)
+        VALUES (?, ?, ?)
         ''', (song_name, file_path, artist_names))
 
         conn.commit()

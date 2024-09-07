@@ -24,6 +24,7 @@ class MainWindow(QMainWindow):
         self.setObjectName("MainWindow")
         self.setWindowTitle("SoundDrive")
         self.current_playlist = None
+        self.found_song_widgets = []
 
         # Load the stylesheet
         with open('style.qss', 'r') as f:
@@ -120,13 +121,14 @@ class MainWindow(QMainWindow):
         self.set_page(5)
         all_songs = os.listdir(MUSIC_DIR)
         new_found_songs = 0
+        self.found_song_widgets = []
         for song in all_songs:
             song_path = MUSIC_DIR + "/" + song
             if self.db_access.songs.query_path(song_path):  # Do not show existing songs
                 continue
             new_found_songs += 1
-            found_song = FoundSong(self, song_path)
-            layout.insertWidget(layout.count() - 1, found_song)
+            self.found_song_widgets.append(FoundSong(self, song_path))
+            layout.insertWidget(layout.count() - 1, self.found_song_widgets[-1])
 
         if new_found_songs > 0:
             bottom_layout = self.clear_field(self.ui.add_songs_bottom_container, QVBoxLayout())

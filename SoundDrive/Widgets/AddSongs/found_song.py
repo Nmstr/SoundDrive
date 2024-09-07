@@ -10,11 +10,11 @@ class FoundSong(QFrame):
 
         tag = TinyTag.get(self.song_path)
         try:
-            song_title = tag.title
-            song_artist = tag.artist
+            self.song_title = tag.title
+            self.song_artist = tag.artist
         except AttributeError:
-            song_title = None
-            song_artist = None
+            self.song_title = None
+            self.song_artist = None
 
         ### --- This doesn't use a .ui file because it wouldn't resize horizontally ---- ###
         # Todo: Figure out "Why?" and change it
@@ -38,5 +38,8 @@ class FoundSong(QFrame):
         ### --- ###
 
         self.ui.song_path_edit_label.setText(self.song_path)
-        self.ui.song_name_input.setText(song_title)
-        self.ui.artists_input.setText(song_artist)
+        self.ui.song_name_input.setText(self.song_title)
+        self.ui.artists_input.setText(self.song_artist)
+
+    def retrieve_final_data(self):
+        return [self.song_title, self.song_path, self.song_artist]
