@@ -10,7 +10,7 @@ from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 import sys
@@ -134,6 +134,9 @@ class MainWindow(QMainWindow):
             bottom_layout = self.clear_field(self.ui.add_songs_bottom_container, QVBoxLayout())
             song_actions = SongActions(self)
             bottom_layout.addWidget(song_actions)
+        else:
+            no_new_songs_label = QLabel("No new songs found")
+            layout.insertWidget(layout.count() - 1, no_new_songs_label)
 
     def create_playlist(self):
         self.db_access.playlists.create()
