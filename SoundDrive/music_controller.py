@@ -1,4 +1,4 @@
-from mutagen import File
+from tinytag import TinyTag
 import PySoundSphere
 
 class MusicController:
@@ -85,7 +85,7 @@ class MusicController:
     @property
     def song_length(self) -> float:
         try:
-            audio = File(self._timeline[self._timeline_position - 1])
-            return audio.info.length
+            tag = TinyTag.get(self._timeline[self._timeline_position - 1])
+            return tag.duration
         except IndexError:
             return 0
