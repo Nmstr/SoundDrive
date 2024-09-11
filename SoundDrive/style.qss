@@ -37,6 +37,7 @@ QPushButton:checked {
     background-color: #31363b;
 }
 
+QFrame#song_icon_container,
 #MenuButton,
 QStackedWidget#page,
 QFrame#bar,

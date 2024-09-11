@@ -1,4 +1,4 @@
-from PySide6.QtGui import QPainter, QPixmap
+from PySide6.QtGui import QPainter, QPixmap, QPainterPath
 from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import QWidget
 from tinytag import TinyTag
@@ -23,6 +23,12 @@ class SongIcon(QWidget):
         else:
             img_map = QPixmap()
             img_map.loadFromData(img)
+
+            # Add a rounded corner
+            path = QPainterPath()
+            path.addRoundedRect(self.rect(), 10, 10)
+            painter.setClipPath(path)
+
             painter.drawPixmap(self.rect(), img_map)
 
     def get_img_data(self, file_path: str, *, resolution: tuple = (150, 150)) -> bytes | bool:
