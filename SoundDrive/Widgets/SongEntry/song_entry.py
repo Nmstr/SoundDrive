@@ -1,4 +1,4 @@
-from Widgets.SongEntry.song_icon import SongIcon
+from Widgets.song_icon import SongIcon
 from PySide6.QtWidgets import QFrame
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
@@ -21,7 +21,7 @@ class SongEntry(QFrame):
         self.ui.path_label.setText(self.song_data[2])
 
         # Add song icon
-        song_icon = SongIcon(self, self.song_data)
+        song_icon = SongIcon(self, self.parent.parent.get_img_cover, self.song_data)
         self.ui.song_icon_container.layout().addWidget(song_icon)
 
         # Set size

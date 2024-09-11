@@ -3,16 +3,17 @@ from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import QWidget
 
 class SongIcon(QWidget):
-    def __init__(self, parent=None, song_data = None):
+    def __init__(self, parent=None, get_img_cover_function = None, song_data = None):
         super().__init__(parent)
         self.parent = parent
         self.song_data = song_data
+        self.get_img_cover = get_img_cover_function
         self.setFixedSize(150, 150)
 
     def paintEvent(self, event):  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        img = self.parent.parent.parent.get_img_cover(self.song_data[2])
+        img = self.get_img_cover(self.song_data[2])
         if not img:
             QSvgRenderer("Assets/file-music.svg").render(painter, self.rect())
         else:
