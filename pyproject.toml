@@ -18,6 +18,7 @@ classifiers = [
 dependencies = [
     "PySide6",
     "tinytag",
+    "pillow",
     "PySoundSphere[pygame-backend]"
 ]
 [project.urls]
