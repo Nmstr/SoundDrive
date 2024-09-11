@@ -4,6 +4,7 @@ import PySoundSphere
 class MusicController:
     def __init__(self, parent) -> None:
         self.player = PySoundSphere.AudioPlayer("pygame")
+        self.player.set_callback_function(self.next)
         self.player.volume = 0.075
         self.parent = parent
         self._timeline = []
