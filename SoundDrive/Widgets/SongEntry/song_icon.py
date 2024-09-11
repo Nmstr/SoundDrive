@@ -12,7 +12,7 @@ class SongIcon(QWidget):
     def paintEvent(self, event):  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        img = self.parent.parent.parent.get_img_data(self.song_data[2])
+        img = self.parent.parent.parent.get_img_cover(self.song_data[2])
         if not img:
             QSvgRenderer("Assets/file-music.svg").render(painter, self.rect())
         else:

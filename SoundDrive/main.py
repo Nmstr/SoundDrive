@@ -163,7 +163,7 @@ class MainWindow(QMainWindow):
     def set_page(self, page_number: int) -> None:
         self.ui.page.setCurrentIndex(page_number)
 
-    def get_img_data(self, file_path: str, *, resolution: tuple = (150, 150)) -> bytes | bool:
+    def get_img_cover(self, file_path: str, *, resolution: tuple = (150, 150)) -> bytes | bool:
         cache_dir = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache') + '/SoundDrive/covers/')
         cache_path = cache_dir + os.path.basename(file_path) + str(resolution) + '.cache'
         if not os.path.exists(cache_dir):
