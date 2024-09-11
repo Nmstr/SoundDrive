@@ -1,4 +1,5 @@
 from PySide6.QtGui import QPainter, QPixmap
+from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import QWidget
 from tinytag import TinyTag
 from io import BytesIO
@@ -13,19 +14,18 @@ class SongIcon(QWidget):
         self.song_data = song_data
         self.setFixedSize(150, 150)
 
-        self.play_icon = QPixmap("Assets/play.svg")
-        self.pause_icon = QPixmap("Assets/pause.svg")
-
     def paintEvent(self, event):  # noqa: N802
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
         img = self.get_img_data(self.song_data[2])
-        img_map = QPixmap()
-        img_map.loadFromData(img)
+        if not img:
+            QSvgRenderer("Assets/file-music.svg").render(painter, self.rect())
+        else:
+            img_map = QPixmap()
+            img_map.loadFromData(img)
+            painter.drawPixmap(self.rect(), img_map)
 
-        painter.drawPixmap(self.rect(), img_map)
-
-    def get_img_data(self, file_path: str, *, resolution: tuple = (150, 150)) -> bytes:
+    def get_img_data(self, file_path: str, *, resolution: tuple = (150, 150)) -> bytes | bool:
         cache_dir = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache') + '/SoundDrive/covers/')
         cache_path = cache_dir + os.path.basename(file_path) + str(resolution) + '.cache'
         if not os.path.exists(cache_dir):
@@ -49,7 +49,7 @@ class SongIcon(QWidget):
             image.save(img_byte_arr, format='PNG')
             img_data = img_byte_arr.getvalue()
         except PIL.UnidentifiedImageError:
-            pass
+            return False
 
         # Cache the image data
         with open(cache_path, 'wb') as f:
