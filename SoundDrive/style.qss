@@ -39,10 +39,11 @@ QPushButton:checked {
 
 #MenuButton,
 QStackedWidget#page,
-QFrame#bar,
 QWidget#add_songs_scroll_content,
 QWidget#playlist_scroll_content,
 QWidget#search_scroll_content,
+QFrame#song_icon_container,
+QFrame#bar,
 QFrame#add_songs_bottom_container,
 QFrame#search_side,
 QFrame#search_top,

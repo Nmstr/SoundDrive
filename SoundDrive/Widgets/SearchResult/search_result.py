@@ -1,3 +1,4 @@
+from Widgets.song_icon import SongIcon
 from PySide6.QtWidgets import QFrame, QMenu
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
@@ -15,9 +16,13 @@ class SearchResult(QFrame):
         self.ui = loader.load(ui_file, self)
         ui_file.close()
 
+        # Add song icon
+        song_icon = SongIcon(self, self.parent.get_img_cover, self.song_data)
+        self.ui.song_icon_container.layout().addWidget(song_icon)
+
         # Set size
-        self.setMinimumSize(200, 100)
-        self.setMaximumSize(1000, 100)
+        self.setMinimumSize(200, 200)
+        self.setMaximumSize(1000, 200)
 
         self.ui.name_label.setText(self.song_data[1])
         self.ui.path_label.setText(self.song_data[2])
