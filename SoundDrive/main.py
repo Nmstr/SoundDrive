@@ -68,7 +68,6 @@ class MainWindow(QMainWindow):
 
     def search(self, text: str) -> None:
         print(text)
-        import time
 
         # Query the requested input
         song_ids =  self.db_access.search.query(text)

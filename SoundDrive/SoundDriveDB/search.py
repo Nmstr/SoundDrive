@@ -22,7 +22,7 @@ class SearchEngine:
             os.mkdir("indexdir")
 
         # Create the index
-        ix = create_in("indexdir", schema)
+        create_in("indexdir", schema)
 
     def index_songs(self):
         # Open the index
@@ -45,11 +45,11 @@ class SearchEngine:
             parser.add_plugin(FuzzyTermPlugin())
 
             # Create a modified query text
-            modified_query_text = f"{query_text}~{3}"
+            modified_query_text = f"{query_text}~{2}"
 
             # Search for the query
             query_result = parser.parse(modified_query_text)
-            results = searcher.search(query_result, limit=10)
+            results = searcher.search(query_result, limit=50)
 
             # Print the results
             song_ids = []
