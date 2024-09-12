@@ -19,6 +19,7 @@ dependencies = [
     "PySide6",
     "tinytag",
     "pillow",
+    "whoosh",
     "PySoundSphere[pygame-backend]"
 ]
 [project.urls]
