@@ -3,13 +3,15 @@ from whoosh.qparser import MultifieldParser, FuzzyTermPlugin
 from whoosh.fields import Schema, TEXT, NUMERIC
 from whoosh.index import create_in, open_dir
 from whoosh.writing import AsyncWriter
+import threading
 import os
 
 class SearchEngine:
     def __init__(self):
         self.index_dir_path = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache')) + '/SoundDrive/SearchIndex'
         self.create_index()
-        self.index_songs()
+        index_thread = threading.Thread(target=self.index_songs)
+        index_thread.start()
 
     def create_index(self):
         # Define the schema
