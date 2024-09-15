@@ -7,6 +7,7 @@ import os
 
 class SearchEngine:
     def __init__(self):
+        self.index_dir_path = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache')) + '/SoundDrive/SearchIndex'
         self.create_index()
         self.index_songs()
 
@@ -17,41 +18,35 @@ class SearchEngine:
                         id=NUMERIC(stored=True),
                         score=NUMERIC(stored=True))
 
-        # Create the index directory if it doesn't exist
-        if not os.path.exists("indexdir"):
-            os.mkdir("indexdir")
-
         # Create the index
-        create_in("indexdir", schema)
+        if not os.path.exists(self.index_dir_path):
+            os.mkdir(self.index_dir_path)
+        create_in(self.index_dir_path, schema)
 
     def index_songs(self):
-        # Open the index
-        ix = open_dir("indexdir")
+        index = open_dir(self.index_dir_path)
 
         # Add documents to the index
-        writer = AsyncWriter(ix)
+        writer = AsyncWriter(index)
         all_songs = query_songs_in_db()
         for song in all_songs:
             writer.add_document(title=song[1], artist=song[3], id=song[0], score=100)
         writer.commit()
 
     def query(self, query_text):
-        # Open the index
-        ix = open_dir("indexdir")
-        # Create a searcher
-        with ix.searcher() as searcher:
+        index = open_dir(self.index_dir_path)
+
+        with index.searcher() as searcher:
             # Define the query parser and parse the query
-            parser = MultifieldParser(["title", "artist"], schema=ix.schema)
+            parser = MultifieldParser(["title", "artist"], schema=index.schema)
             parser.add_plugin(FuzzyTermPlugin())
 
-            # Create a modified query text
             modified_query_text = f"{query_text}~{2}"
 
-            # Search for the query
+            # Perform the search
             query_result = parser.parse(modified_query_text)
             results = searcher.search(query_result, limit=50)
 
-            # Print the results
             song_ids = []
             for result in results:
                 song_ids.append(result["id"])
