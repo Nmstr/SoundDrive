@@ -21,7 +21,7 @@ import PIL
 import sys
 import os
 
-MUSIC_DIR = os.path.abspath("../music")
+MUSIC_DIR = os.path.expanduser("~/Music/SoundDrive")
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
