@@ -7,6 +7,7 @@ import threading
 import os
 
 class SearchEngine:
+    #  TODO: Implement a popularity score system to rank more liked songs higher
     def __init__(self):
         self.index_dir_path = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache')) + '/SoundDrive/SearchIndex'
         self.create_index()
