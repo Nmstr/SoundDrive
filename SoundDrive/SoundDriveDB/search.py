@@ -11,8 +11,7 @@ class SearchEngine:
     def __init__(self):
         self.index_dir_path = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache')) + '/SoundDrive/SearchIndex'
         self.create_index()
-        index_thread = threading.Thread(target=self.index_songs)
-        index_thread.start()
+        self.create_index_thread()
 
     def create_index(self):
         # Define the schema
@@ -25,6 +24,10 @@ class SearchEngine:
         if not os.path.exists(self.index_dir_path):
             os.mkdir(self.index_dir_path)
         create_in(self.index_dir_path, schema)
+
+    def create_index_thread(self):
+        index_thread = threading.Thread(target=self.index_songs)
+        index_thread.start()
 
     def index_songs(self):
         index = open_dir(self.index_dir_path)
