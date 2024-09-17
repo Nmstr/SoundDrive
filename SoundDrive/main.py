@@ -68,10 +68,15 @@ class MainWindow(QMainWindow):
 
     def search(self, text: str) -> None:
         print(text)
-        layout = self.clear_field(self.ui.search_scroll_content, QVBoxLayout())
+
+        # Query the requested input
+        song_ids =  self.db_access.search.query(text)
+        all_songs = []
+        for song_id in song_ids:
+            all_songs.append(self.db_access.songs.query_id(song_id))
 
         # Dynamically add custom Widgets for each song
-        all_songs = self.db_access.songs.query()
+        layout = self.clear_field(self.ui.search_scroll_content, QVBoxLayout())
         for song in all_songs:
             result = SearchResult(self, song)
             layout.insertWidget(layout.count() - 1, result)
@@ -92,12 +97,10 @@ class MainWindow(QMainWindow):
             layout = target_layout
             container.setLayout(layout)
 
-        # Clear existing content in the layout
-        for i in reversed(range(layout.count())):
-            layout_item = layout.itemAt(i)
-            if layout_item.widget() is not None:
-                layout_item.widget().deleteLater()
-
+        while layout.count() > 1:
+            child = layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
         return layout
 
     def populate_control_bar(self) -> None:
