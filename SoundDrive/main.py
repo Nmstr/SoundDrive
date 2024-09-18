@@ -6,7 +6,7 @@ from Widgets.MenuButton.menu_button import MenuButton
 from Widgets.play_pause_button import PlayPauseButton
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
-from functions.add_songs import add_songs
+from functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
@@ -45,6 +45,7 @@ class MainWindow(QMainWindow):
         # Access db
         self.db_access = SoundDriveDB()
         self.db_access.db.create_db()
+        self.new_song_manager = NewSongManager(self)
 
         # Create player
         self.music_controller = MusicController(self)
@@ -56,7 +57,7 @@ class MainWindow(QMainWindow):
         self.add_menu_button("settings")
 
         # Connect buttons
-        self.ui.add_songs_btn.clicked.connect(lambda: add_songs(self, MUSIC_DIR))
+        self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs(MUSIC_DIR))
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
 
