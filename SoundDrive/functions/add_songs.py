@@ -43,7 +43,6 @@ class NewSongManager:
                 continue
             new_found_songs += 1
             self.found_song_widgets.append(FoundSong(self.parent, song_path))
-            #self.top_layout.insertWidget(self.top_layout.count() - 1, self.parent.found_song_widgets[-1])
 
         if new_found_songs > 0:
             self.display_next_50()
