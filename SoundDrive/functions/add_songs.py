@@ -55,9 +55,9 @@ class NewSongManager:
             self.found_song_widgets.append(FoundSong(self.parent, song_path))
 
         self.top_layout = self.parent.clear_field(self.parent.ui.add_songs_scroll_content, QVBoxLayout())  # Reset layout
+        bottom_layout = self.parent.clear_field(self.parent.ui.add_songs_bottom_container, QVBoxLayout(), amount_left=0)
         if new_found_songs > 0:
             self.display_next_50()
-            bottom_layout = self.parent.clear_field(self.parent.ui.add_songs_bottom_container, QVBoxLayout(), amount_left=0)
             song_actions = SongActions(self.parent)
             bottom_layout.addWidget(song_actions)
         else:
