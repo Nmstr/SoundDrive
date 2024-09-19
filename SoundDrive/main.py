@@ -90,14 +90,14 @@ class MainWindow(QMainWindow):
             playlist_entry = PlaylistEntry(self, playlist)
             layout.insertWidget(layout.count() - 1, playlist_entry)
 
-    def clear_field(self, container, target_layout):
+    def clear_field(self, container, target_layout, *, amount_left = 1):
         # Check if the container has a layout, if not, set a new layout of type target_layout
         layout = container.layout()
         if layout is None:
             layout = target_layout
             container.setLayout(layout)
 
-        while layout.count() > 1:
+        while layout.count() > amount_left:
             child = layout.takeAt(0)
             if child.widget():
                 child.widget().deleteLater()
