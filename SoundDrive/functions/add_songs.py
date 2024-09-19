@@ -65,7 +65,6 @@ class NewSongManager:
 
     def display_next_50(self):
         for i in range(50):
-            print(len(self.found_song_widgets), self.num_displayed_widgets)
             if self.num_displayed_widgets >= len(self.found_song_widgets):
                 return
             self.top_layout.insertWidget(self.top_layout.count() - 1, self.found_song_widgets[self.num_displayed_widgets])
