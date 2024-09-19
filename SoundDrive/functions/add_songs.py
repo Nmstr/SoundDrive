@@ -78,12 +78,12 @@ class NewSongManager:
         for song in self.found_song_widgets:
             song.hide()
         # Show loading label
-        loading_label = QLabel("Adding...")
-        self.top_layout.insertWidget(self.top_layout.count() - 1, loading_label)
+        adding_label = QLabel("Adding...")
+        self.top_layout.insertWidget(self.top_layout.count() - 1, adding_label)
         QApplication.processEvents()
 
         for i, found_song in enumerate(self.found_song_widgets):
-            loading_label.setText(f"Adding... ({i}/{len(self.found_song_widgets)})")
+            adding_label.setText(f"Adding... ({i}/{len(self.found_song_widgets)})")
             if i % 100 == 0:
                 QApplication.processEvents()
             found_song_data = found_song.retrieve_final_data()
