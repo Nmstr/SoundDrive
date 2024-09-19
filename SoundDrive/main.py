@@ -4,13 +4,12 @@ from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
 from Widgets.SearchResult.search_result import SearchResult
 from Widgets.MenuButton.menu_button import MenuButton
 from Widgets.play_pause_button import PlayPauseButton
-from Widgets.AddSongs.song_actions import SongActions
-from Widgets.AddSongs.found_song import FoundSong
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
+from functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 from tinytag import TinyTag
@@ -21,7 +20,7 @@ import PIL
 import sys
 import os
 
-MUSIC_DIR = os.path.abspath("../music")
+MUSIC_DIR = os.path.expanduser("~/Music/SoundDrive")
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
@@ -46,6 +45,7 @@ class MainWindow(QMainWindow):
         # Access db
         self.db_access = SoundDriveDB()
         self.db_access.db.create_db()
+        self.new_song_manager = NewSongManager(self)
 
         # Create player
         self.music_controller = MusicController(self)
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         self.add_menu_button("settings")
 
         # Connect buttons
-        self.ui.add_songs_btn.clicked.connect(lambda: self.add_songs())
+        self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs(MUSIC_DIR))
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
 
@@ -90,14 +90,14 @@ class MainWindow(QMainWindow):
             playlist_entry = PlaylistEntry(self, playlist)
             layout.insertWidget(layout.count() - 1, playlist_entry)
 
-    def clear_field(self, container, target_layout):
+    def clear_field(self, container, target_layout, *, amount_left = 1):
         # Check if the container has a layout, if not, set a new layout of type target_layout
         layout = container.layout()
         if layout is None:
             layout = target_layout
             container.setLayout(layout)
 
-        while layout.count() > 1:
+        while layout.count() > amount_left:
             child = layout.takeAt(0)
             if child.widget():
                 child.widget().deleteLater()
@@ -123,28 +123,6 @@ class MainWindow(QMainWindow):
 
         self.last_btn = GenericControlButton(self, "Assets/last.svg", lambda: self.music_controller.last())
         add_widget(self.ui.last_btn_container, self.last_btn)
-
-    def add_songs(self) -> None:
-        layout = self.clear_field(self.ui.add_songs_scroll_content, QVBoxLayout())
-        self.set_page(5)
-        all_songs = os.listdir(MUSIC_DIR)
-        new_found_songs = 0
-        self.found_song_widgets = []
-        for song in all_songs:
-            song_path = MUSIC_DIR + "/" + song
-            if self.db_access.songs.query_path(song_path):  # Do not show existing songs
-                continue
-            new_found_songs += 1
-            self.found_song_widgets.append(FoundSong(self, song_path))
-            layout.insertWidget(layout.count() - 1, self.found_song_widgets[-1])
-
-        if new_found_songs > 0:
-            bottom_layout = self.clear_field(self.ui.add_songs_bottom_container, QVBoxLayout())
-            song_actions = SongActions(self)
-            bottom_layout.addWidget(song_actions)
-        else:
-            no_new_songs_label = QLabel("No new songs found")
-            layout.insertWidget(layout.count() - 1, no_new_songs_label)
 
     def create_playlist(self):
         self.db_access.playlists.create()
