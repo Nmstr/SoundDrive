@@ -45,8 +45,8 @@ class NewSongManager:
         new_found_songs = 0
         self.found_song_widgets = []
         for i, song in enumerate(all_songs):
-            if i % 100 == 0:  # Only update once every 100 avoid performance issues
-                loading_label.setText(f"Loading... ({i}/{len(all_songs)})")
+            if i % int(len(all_songs) / 100) == 0:  # Only update once per percent to avoid performance issues
+                loading_label.setText(f"Loading... ({round(i / len(all_songs) * 100)}%)")
                 QApplication.processEvents()
             song_path = music_dir + "/" + song
             if self.parent.db_access.songs.query_path(song_path):  # Do not show existing songs
@@ -81,8 +81,8 @@ class NewSongManager:
         QApplication.processEvents()
 
         for i, found_song in enumerate(self.found_song_widgets):
-            if i % 100 == 0:
-                adding_label.setText(f"Adding... ({i}/{len(self.found_song_widgets)})")
+            if i % int(len(self.found_song_widgets) / 100) == 0:  # Only update once per percent to avoid performance issues
+                adding_label.setText(f"Adding... ({round(i / len(self.found_song_widgets) * 100)}%)")
                 QApplication.processEvents()
             found_song_data = found_song.retrieve_final_data()
             self.parent.db_access.songs.create(found_song_data[0], found_song_data[1], found_song_data[2])
