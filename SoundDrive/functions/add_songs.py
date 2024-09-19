@@ -1,6 +1,6 @@
 from Widgets.AddSongs.song_actions import SongActions
 from Widgets.AddSongs.found_song import FoundSong
-from PySide6.QtWidgets import QVBoxLayout, QLabel
+from PySide6.QtWidgets import QVBoxLayout, QLabel, QApplication
 from PySide6.QtCore import QTimer
 import os
 
@@ -35,15 +35,25 @@ class NewSongManager:
         self.top_layout = self.parent.clear_field(self.parent.ui.add_songs_scroll_content, QVBoxLayout())
         self.parent.set_page(5)
         all_songs = os.listdir(music_dir)
+
+        # Show loading label
+        loading_label = QLabel("Loading...")
+        self.top_layout.insertWidget(self.top_layout.count() - 1, loading_label)
+        QApplication.processEvents()  # Needed to display now
+
         new_found_songs = 0
         self.found_song_widgets = []
-        for song in all_songs:
+        for i, song in enumerate(all_songs):
+            loading_label.setText(f"Loading... ({i}/{len(all_songs)})")
+            if i % 100 == 0:  # Only update once every 100 avoid performance issues
+                QApplication.processEvents()
             song_path = music_dir + "/" + song
             if self.parent.db_access.songs.query_path(song_path):  # Do not show existing songs
                 continue
             new_found_songs += 1
             self.found_song_widgets.append(FoundSong(self.parent, song_path))
 
+        self.top_layout = self.parent.clear_field(self.parent.ui.add_songs_scroll_content, QVBoxLayout())  # Reset layout
         if new_found_songs > 0:
             self.display_next_50()
             bottom_layout = self.parent.clear_field(self.parent.ui.add_songs_bottom_container, QVBoxLayout())
