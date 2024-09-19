@@ -1,3 +1,5 @@
+import time
+
 from Widgets.AddSongs.song_actions import SongActions
 from Widgets.AddSongs.found_song import FoundSong
 from PySide6.QtWidgets import QVBoxLayout, QLabel, QApplication
@@ -72,7 +74,18 @@ class NewSongManager:
             self.num_displayed_widgets += 1
 
     def confirm_add_song(self):
-        for found_song in self.found_song_widgets:
+        # Hide the songs in the layout
+        for song in self.found_song_widgets:
+            song.hide()
+        # Show loading label
+        loading_label = QLabel("Adding...")
+        self.top_layout.insertWidget(self.top_layout.count() - 1, loading_label)
+        QApplication.processEvents()
+
+        for i, found_song in enumerate(self.found_song_widgets):
+            loading_label.setText(f"Adding... ({i}/{len(self.found_song_widgets)})")
+            if i % 100 == 0:
+                QApplication.processEvents()
             found_song_data = found_song.retrieve_final_data()
             self.parent.db_access.songs.create(found_song_data[0], found_song_data[1], found_song_data[2])
         self.parent.set_page(0)
