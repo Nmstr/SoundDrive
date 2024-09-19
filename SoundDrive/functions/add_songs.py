@@ -32,6 +32,7 @@ class NewSongManager:
         self.value_changed()  # If already at end again, add new widgets
 
     def add_songs(self, music_dir) -> None:
+        self.num_displayed_widgets = 0  # Reset counter
         self.top_layout = self.parent.clear_field(self.parent.ui.add_songs_scroll_content, QVBoxLayout())
         self.parent.set_page(5)
         all_songs = os.listdir(music_dir)
