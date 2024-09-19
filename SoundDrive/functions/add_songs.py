@@ -11,6 +11,7 @@ class NewSongManager:
         self.num_displayed_widgets = 0
         self.found_song_widgets = []
         self.top_layout = None
+        self.song_actions = None
         self.vertical_bar = self.parent.ui.add_songs_scroll.verticalScrollBar()
         self.vertical_bar.valueChanged.connect(self.value_changed)
 
@@ -58,8 +59,8 @@ class NewSongManager:
         bottom_layout = self.parent.clear_field(self.parent.ui.add_songs_bottom_container, QVBoxLayout(), amount_left=0)
         if new_found_songs > 0:
             self.display_next_50()
-            song_actions = SongActions(self.parent)
-            bottom_layout.addWidget(song_actions)
+            self.song_actions = SongActions(self.parent)
+            bottom_layout.addWidget(self.song_actions)
         else:
             no_new_songs_label = QLabel("No new songs found")
             self.top_layout.insertWidget(self.top_layout.count() - 1, no_new_songs_label)
@@ -75,6 +76,7 @@ class NewSongManager:
         # Hide the songs in the layout
         for song in self.found_song_widgets:
             song.hide()
+        self.song_actions.hide()
         # Show loading label
         adding_label = QLabel("Adding...")
         self.top_layout.insertWidget(self.top_layout.count() - 1, adding_label)
