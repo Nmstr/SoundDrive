@@ -21,8 +21,6 @@ import PIL
 import sys
 import os
 
-MUSIC_DIR = os.path.expanduser("~/Music/SoundDrive")
-
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
         super().__init__()
@@ -59,7 +57,7 @@ class MainWindow(QMainWindow):
         self.add_menu_button("settings")
 
         # Connect buttons
-        self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs(MUSIC_DIR))
+        self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs())
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
         self.ui.add_music_dir_btn.clicked.connect(lambda: self.add_music_dir())

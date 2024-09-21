@@ -32,11 +32,15 @@ class NewSongManager:
         self.allow_adding = True
         self.value_changed()  # If already at end again, add new widgets
 
-    def add_songs(self, music_dir) -> None:
+    def add_songs(self) -> None:
         self.num_displayed_widgets = 0  # Reset counter
         self.top_layout = self.parent.clear_field(self.parent.ui.add_songs_scroll_content, QVBoxLayout())
         self.parent.set_page(5)
-        all_songs = os.listdir(music_dir)
+        music_dirs = self.parent.db_access.config.get_music_dirs()
+        all_songs = []
+        for music_dir in music_dirs:
+            songs_in_dir = [music_dir + "/" + song for song in os.listdir(music_dir)]
+            all_songs.extend(songs_in_dir)
 
         # Show loading label
         loading_label = QLabel("Loading...")
@@ -45,11 +49,10 @@ class NewSongManager:
 
         new_found_songs = 0
         self.found_song_widgets = []
-        for i, song in enumerate(all_songs):
-            if i % int(len(all_songs) / 100) == 0:  # Only update once per percent to avoid performance issues
+        for i, song_path in enumerate(all_songs):
+            if i % int(len(all_songs) / 100 + 1) == 0:  # Only update once per percent to avoid performance issues | +1 to avoid modulo by 0
                 loading_label.setText(f"Loading... ({round(i / len(all_songs) * 100)}%)")
                 QApplication.processEvents()
-            song_path = music_dir + "/" + song
             if self.parent.db_access.songs.query_path(song_path):  # Do not show existing songs
                 continue
             new_found_songs += 1
@@ -83,7 +86,7 @@ class NewSongManager:
         QApplication.processEvents()
 
         for i, found_song in enumerate(self.found_song_widgets):
-            if i % int(len(self.found_song_widgets) / 100) == 0:  # Only update once per percent to avoid performance issues
+            if i % int(len(self.found_song_widgets) / 100 + 1) == 0:  # Only update once per percent to avoid performance issues | +1 to avoid modulo by 0
                 adding_label.setText(f"Adding... ({round(i / len(self.found_song_widgets) * 100)}%)")
                 QApplication.processEvents()
             found_song_data = found_song.retrieve_final_data()
