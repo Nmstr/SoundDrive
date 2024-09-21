@@ -703,22 +703,40 @@
             <height>604</height>
            </rect>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_10">
-           <item>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="5" column="0" colspan="2">
+            <spacer name="verticalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Policy::Preferred</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="0" column="0" colspan="2">
             <widget class="QLabel" name="settings_label">
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>Settings</string>
              </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="add_songs_btn">
-             <property name="text">
-              <string>Add Songs</string>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignCenter</set>
              </property>
             </widget>
            </item>
-           <item>
+           <item row="3" column="0" colspan="2">
             <widget class="QFrame" name="music_dir_frame">
              <property name="frameShape">
               <enum>QFrame::Shape::StyledPanel</enum>
@@ -729,7 +747,28 @@
              <layout class="QVBoxLayout" name="verticalLayout_11"/>
             </widget>
            </item>
-           <item>
+           <item row="2" column="0" colspan="2">
+            <widget class="QLabel" name="music_dirs_section_label">
+             <property name="text">
+              <string>Music directories</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0" colspan="2">
+            <widget class="QPushButton" name="add_songs_btn">
+             <property name="text">
+              <string>Add Songs</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QPushButton" name="remove_music_dir_btn">
+             <property name="text">
+              <string>Remove Music Dir</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0" colspan="2">
             <spacer name="verticalSpacer_5">
              <property name="orientation">
               <enum>Qt::Orientation::Vertical</enum>
@@ -737,10 +776,40 @@
              <property name="sizeHint" stdset="0">
               <size>
                <width>20</width>
-               <height>501</height>
+               <height>358</height>
               </size>
              </property>
             </spacer>
+           </item>
+           <item row="1" column="0" colspan="2">
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeType">
+              <enum>QSizePolicy::Policy::Preferred</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="4" column="0">
+            <widget class="QPushButton" name="add_music_dir_btn">
+             <property name="text">
+              <string>Add Music Dir</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="2">
+            <widget class="QLabel" name="add_songs_section_label">
+             <property name="text">
+              <string>Add Songs</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

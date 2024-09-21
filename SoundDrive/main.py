@@ -1,3 +1,4 @@
+from Dialogs.add_remove_music_dir_dialog import AddRemoveMusicDirDialog
 from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
 from Widgets.generic_control_button import GenericControlButton
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
@@ -61,6 +62,8 @@ class MainWindow(QMainWindow):
         self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs(MUSIC_DIR))
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
+        self.ui.add_music_dir_btn.clicked.connect(lambda: self.add_music_dir())
+        self.ui.remove_music_dir_btn.clicked.connect(lambda: self.remove_music_dir())
 
         self.ui.search_bar.textChanged.connect(self.search)
 
@@ -127,7 +130,7 @@ class MainWindow(QMainWindow):
         add_widget(self.ui.last_btn_container, self.last_btn)
 
     def populate_settings_music_dir(self):
-        layout = self.ui.music_dir_frame.layout()
+        layout = self.clear_field(self.ui.music_dir_frame, QVBoxLayout(), amount_left=0)
         for this_dir in self.db_access.config.get_music_dirs():
             dir_label = QLabel(self)
             dir_label.setText(this_dir)
@@ -143,6 +146,18 @@ class MainWindow(QMainWindow):
             self.db_access.playlists.delete(self.current_playlist)
 
         self.populate_playlists()
+
+    def add_music_dir(self):
+        dlg = AddRemoveMusicDirDialog(dialog_type="add")
+        if dlg.exec():
+            self.db_access.config.add_music_dir(dlg.edit.text())
+            self.populate_settings_music_dir()
+
+    def remove_music_dir(self):
+        dlg = AddRemoveMusicDirDialog(dialog_type="remove")
+        if dlg.exec():
+            self.db_access.config.remove_music_dir(dlg.edit.text())
+            self.populate_settings_music_dir()
 
     def add_menu_button(self, button_type: str) -> None:
         layout = self.ui.menu.layout()
