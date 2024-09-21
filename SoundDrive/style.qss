@@ -62,6 +62,8 @@ QWidget#playlist_scroll_content,
 QScrollArea#playlist_scroll,
 QWidget#search_scroll_content,
 QScrollArea#search_scroll,
+QWidget#settings_scroll_content,
+QScrollArea#settings_scroll,
 QStackedWidget#page,
 QFrame#bar,
 QFrame#side {

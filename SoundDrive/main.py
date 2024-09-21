@@ -9,7 +9,7 @@ from Widgets.time_slider import TimeSlider
 from functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 from tinytag import TinyTag
@@ -66,6 +66,7 @@ class MainWindow(QMainWindow):
 
         self.populate_playlists()
         self.populate_control_bar()
+        self.populate_settings_music_dir()
 
     def search(self, text: str) -> None:
         print(text)
@@ -124,6 +125,13 @@ class MainWindow(QMainWindow):
 
         self.last_btn = GenericControlButton(self, "Assets/last.svg", lambda: self.music_controller.last())
         add_widget(self.ui.last_btn_container, self.last_btn)
+
+    def populate_settings_music_dir(self):
+        layout = self.ui.music_dir_frame.layout()
+        for this_dir in self.db_access.config.get_music_dirs():
+            dir_label = QLabel(self)
+            dir_label.setText(this_dir)
+            layout.addWidget(dir_label)
 
     def create_playlist(self):
         self.db_access.playlists.create()
