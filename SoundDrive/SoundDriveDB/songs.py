@@ -1,4 +1,4 @@
-from .db import _connect
+from .db import _connect, _hash_file
 
 def create(song_name: str, file_path: str, artist_names: str = "") -> None:
     """
@@ -13,13 +13,14 @@ def create(song_name: str, file_path: str, artist_names: str = "") -> None:
     if not isinstance(artist_names, str):
         raise ValueError("Invalid artist names")
 
+    hash_value = _hash_file(file_path)
     conn, cursor = _connect()
     try:
         # Insert a new song
         cursor.execute('''
-        INSERT INTO songs (name, filepath, artist)
-        VALUES (?, ?, ?)
-        ''', (song_name, file_path, artist_names))
+        INSERT INTO songs (name, filepath, artist, hash)
+        VALUES (?, ?, ?, ?)
+        ''', (song_name, file_path, artist_names, hash_value))
 
         conn.commit()
     finally:
