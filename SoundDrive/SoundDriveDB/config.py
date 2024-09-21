@@ -37,7 +37,7 @@ class Config:
             os.makedirs(music_dir, exist_ok=True)
 
         # Modify the current music dirs
-        values = self.get_music_dirs()
+        values = [music_dir for music_dir in self.get_music_dirs() if music_dir]  # Remove empty strings
         values.append(music_dir)
 
         # Write the new dirs
