@@ -1,4 +1,5 @@
 from .db import _connect, _hash_file
+import threading
 
 def create(song_name: str, file_path: str, artist_names: str = "") -> None:
     """
@@ -13,14 +14,13 @@ def create(song_name: str, file_path: str, artist_names: str = "") -> None:
     if not isinstance(artist_names, str):
         raise ValueError("Invalid artist names")
 
-    hash_value = _hash_file(file_path)
     conn, cursor = _connect()
     try:
         # Insert a new song
         cursor.execute('''
-        INSERT INTO songs (name, filepath, artist, hash)
-        VALUES (?, ?, ?, ?)
-        ''', (song_name, file_path, artist_names, hash_value))
+        INSERT INTO songs (name, filepath, artist)
+        VALUES (?, ?, ?)
+        ''', (song_name, file_path, artist_names))
 
         conn.commit()
     finally:
@@ -96,3 +96,31 @@ def query_path(song_path: str) -> list:
         return song[0]
     finally:
         conn.close()
+
+def _update_song_hash(song_id: int, hash_value: str) -> None:
+    """
+    Updates a songs hash by id
+    """
+    conn, cursor = _connect()
+
+    try:
+        cursor.execute('''
+        UPDATE songs
+        SET hash = ?
+        WHERE id = ?
+        ''', (hash_value, song_id))
+
+        conn.commit()
+    finally:
+        conn.close()
+
+def hash_db():
+    def _do_hashing():
+        all_songs = query()
+        for song in all_songs:
+            if not song[4]:
+                hash_value = _hash_file(song[2])
+                _update_song_hash(song[0], hash_value)
+
+    hash_thread = threading.Thread(target=_do_hashing)
+    hash_thread.start()
