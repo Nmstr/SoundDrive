@@ -1,6 +1,5 @@
 from PySide6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QVBoxLayout, QLineEdit, QSizePolicy
 
-
 class AddRemoveMusicDirDialog(QDialog):
     def __init__(self, *, dialog_type):
         super().__init__()
