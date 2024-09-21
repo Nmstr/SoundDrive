@@ -24,36 +24,30 @@ class Config:
         except configparser.DuplicateSectionError:
             pass
 
+    def get_music_dirs(self):
+        self.config.read(self.config_file)
+        try:
+            value = self.config.get("MUSIC", "music_dirs")
+            return value.split(",")
+        except configparser.NoOptionError:
+            raise f"Did not find 'music_dirs' in section 'MUSIC' of file '{self.config_file}'"
+
     def add_music_dir(self, music_dir: str) -> None:
         if not os.path.exists(music_dir):  # Create the dir if it doesn't exist
             os.makedirs(music_dir, exist_ok=True)
 
-        # Retrieve existing values
-        self.config.read(self.config_file)
-        try:
-            value = self.config.get("MUSIC", "music_dirs")
-        except configparser.NoOptionError:
-            raise f"Did not find 'music_dirs' in section 'MUSIC' of file '{self.config_file}'"
-
-        # Append new dir
-        values = value.split(',')
+        # Modify the current music dirs
+        values = self.get_music_dirs()
         values.append(music_dir)
 
-        # Write the new values
+        # Write the new dirs
         self.config.set("MUSIC", "music_dirs", ",".join(values))
         with open(self.config_file, "w") as f:
             self.config.write(f)
 
     def remove_music_dir(self, music_dir: str) -> None:
-        # Retrieve existing values
-        self.config.read(self.config_file)
-        try:
-            value = self.config.get("MUSIC", "music_dirs")
-        except configparser.NoOptionError:
-            raise f"Did not find 'music_dirs' in section 'MUSIC' of file '{self.config_file}'"
-
-        # Remove the dir
-        values = value.split(',')
+        # Modify the current music dirs
+        values = self.get_music_dirs()
         values.remove(music_dir)
 
         # Write the new values
