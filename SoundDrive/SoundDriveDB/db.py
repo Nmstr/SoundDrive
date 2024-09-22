@@ -1,6 +1,4 @@
 import sqlite3
-import hashlib
-import time
 
 def _connect():
     """
