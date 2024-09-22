@@ -93,4 +93,3 @@ class NewSongManager:
             self.parent.db_access.songs.create(found_song_data[0], found_song_data[1], found_song_data[2])
         self.parent.set_page(0)
         self.parent.db_access.search.create_index_thread()
-        self.parent.db_access.songs.hash_db()

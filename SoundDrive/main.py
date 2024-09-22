@@ -45,7 +45,7 @@ class MainWindow(QMainWindow):
         self.db_access = SoundDriveDB()
         self.db_access.db.create_db()
         self.new_song_manager = NewSongManager(self)
-        self.db_access.songs.hash_db()
+        self.db_access.songs.check_db()
 
         # Create player
         self.music_controller = MusicController(self)

@@ -64,7 +64,7 @@ class MusicController:
         playlist_song_ids = playlist_data[3].split(",")
         for playlist_song_id in playlist_song_ids:
             song_data = self.parent.db_access.songs.query_id(playlist_song_id)
-            if song_data[5] == 0:
+            if song_data[4] == 0:
                 new_playlist_ids.append(song_data[0])
 
         self._current_playlist = new_playlist_ids

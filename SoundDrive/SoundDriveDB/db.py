@@ -2,17 +2,6 @@ import sqlite3
 import hashlib
 import time
 
-def _hash_file(file_path):
-    start = time.time()
-    sha256_hash = hashlib.sha256()
-    with open(file_path, "rb") as f:
-        for byte_block in iter(lambda: f.read(4096), b""):
-            sha256_hash.update(byte_block)
-    end = time.time()
-    print(end - start)
-    print(sha256_hash.hexdigest())
-    return sha256_hash.hexdigest()
-
 def _connect():
     """
     Connects to the database
@@ -32,7 +21,6 @@ def create_db() -> None:
             name TEXT NOT NULL,
             filepath TEXT NOT NULL,
             artist TEXT,
-            hash TEXT,
             deleted BOOLEAN DEFAULT 0
         )
         ''')

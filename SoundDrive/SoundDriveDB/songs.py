@@ -1,4 +1,4 @@
-from .db import _connect, _hash_file
+from .db import _connect
 import threading
 import os
 
@@ -111,39 +111,14 @@ def query_path(song_path: str) -> list:
     finally:
         conn.close()
 
-def _update_song_hash(song_id: int, hash_value: str) -> None:
-    """
-    Updates a songs hash by id
-    """
-    conn, cursor = _connect()
-
-    try:
-        cursor.execute('''
-        UPDATE songs
-        SET hash = ?
-        WHERE id = ?
-        ''', (hash_value, song_id))
-
-        conn.commit()
-    finally:
-        conn.close()
-
-def hash_db():
-    def _do_hashing():
-        all_songs = query()
-        for song in all_songs:
-            if not song[4]:
-                hash_value = _hash_file(song[2])
-                _update_song_hash(song[0], hash_value)
-
-    def check_file_exists():
+def check_db():
+    def check_song_paths():
         all_songs = query_all()
         for song in all_songs:
             if not os.path.isfile(song[2]):
                 mark_as_deleted(song[0], 1)
-            elif song[5] == 1:
+            elif song[4] == 1:
                 mark_as_deleted(song[0], 0)
 
-    hash_thread = threading.Thread(target=_do_hashing)
-    hash_thread.start()
-    check_file_exists()
+    check_paths_thread = threading.Thread(target=check_song_paths)
+    check_paths_thread.start()

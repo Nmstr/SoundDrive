@@ -24,7 +24,7 @@ class SongEntry(QFrame):
         song_icon = SongIcon(self, self.parent.parent.get_img_cover, self.song_data)
         self.ui.song_icon_container.layout().addWidget(song_icon)
 
-        if song_data[5] == 1:
+        if song_data[4] == 1:
             self.setDisabled(True)
 
         # Set size
