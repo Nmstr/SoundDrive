@@ -1,6 +1,10 @@
 from .db import _connect
 
 def _find_new_playlist_name() -> str:
+    """
+    Finds an unused playlist name
+    :return: The new name
+    """
     used_numbers = set()
     all_playlists = query()
     for playlist in all_playlists:
@@ -19,6 +23,7 @@ def _find_new_playlist_name() -> str:
 def create() -> None:
     """
     Create a playlist in the db
+    :return: None
     """
     playlist_name = _find_new_playlist_name()
 
@@ -37,6 +42,8 @@ def create() -> None:
 def delete(playlist_id: int) -> None:
     """
     Delete a playlist from the db
+    :param playlist_id: The id of the playlist to be deleted
+    :return: None
     """
     print(f"Deleting playlist {playlist_id}")
     conn, cursor = _connect()
@@ -53,6 +60,9 @@ def delete(playlist_id: int) -> None:
 def add_song(playlist_id: int, song_id: int) -> None:
     """
     Add a song to a playlist
+    :param playlist_id: The id of the playlist
+    :param song_id: The id of the song
+    :return: None
     """
     conn, cursor = _connect()
     try:
@@ -82,6 +92,7 @@ def add_song(playlist_id: int, song_id: int) -> None:
 def query() -> list:
     """
     Query playlists from the db
+    :return: The playlists
     """
     conn, cursor = _connect()
 
@@ -97,6 +108,8 @@ def query() -> list:
 def query_id(playlist_id: int) -> list:
     """
     Query playlist in db after id
+    :param playlist_id: The id of the playlist
+    :return: The playlist
     """
     conn, cursor = _connect()
 

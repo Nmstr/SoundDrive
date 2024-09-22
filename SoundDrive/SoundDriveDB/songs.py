@@ -5,6 +5,10 @@ import os
 def create(song_name: str, file_path: str, artist_names: str = "") -> None:
     """
     Create song in db
+    :param song_name: The name of the song
+    :param file_path: The path to the song
+    :param artist_names: The artists of the song (optional)
+    :return: None
     """
     if not isinstance(song_name, str) or not song_name:
         raise ValueError("Invalid song name")
@@ -30,6 +34,9 @@ def create(song_name: str, file_path: str, artist_names: str = "") -> None:
 def mark_as_deleted(song_id: int, value: int) -> None:
     """
     Mark song as deleted
+    :param song_id: The id of the song
+    :param value: The value to be set (0 == exists; 1 == deleted)
+    :return: None
     """
     conn, cursor = _connect()
 
@@ -46,7 +53,8 @@ def mark_as_deleted(song_id: int, value: int) -> None:
 
 def query() -> list:
     """
-    Query songs in db
+    Query non-deleted songs in the
+    :return: The songs
     """
     conn, cursor = _connect()
 
@@ -63,6 +71,7 @@ def query() -> list:
 def query_all() -> list:
     """
     Query all songs in db (including deleted)
+    :return: The songs
     """
     conn, cursor = _connect()
 
@@ -77,7 +86,9 @@ def query_all() -> list:
 
 def query_id(song_id: int) -> list:
     """
-    Query songs in db after id
+    Query a song with a specific id from the db
+    :param song_id: The id of the song
+    :return: The song
     """
     conn, cursor = _connect()
 
@@ -95,7 +106,9 @@ def query_id(song_id: int) -> list:
 
 def query_path(song_path: str) -> list:
     """
-    Query songs in db after path
+    Query a song with a specific path from the db
+    :param song_path: The path of the song
+    :return: None
     """
     conn, cursor = _connect()
 
@@ -111,8 +124,17 @@ def query_path(song_path: str) -> list:
     finally:
         conn.close()
 
-def check_db():
-    def check_song_paths():
+def check_db() -> None:
+    """
+    Check the integrity of the db
+    :return: None
+    """
+    def check_song_paths() -> None:
+        """
+        Marks songs as deleted where the filepath doesn't exist
+        Removes mark from songs where the filepath does exist but were marked as deleted
+        :return: None
+        """
         all_songs = query_all()
         for song in all_songs:
             if not os.path.isfile(song[2]):

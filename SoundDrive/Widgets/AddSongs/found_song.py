@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QFrame, QLabel, QLineEdit, QGridLayout, QWidget
 from tinytag import TinyTag
 
 class FoundSong(QFrame):
-    def __init__(self, parent = None, song_path: str = None) -> None:
+    def __init__(self, parent: object = None, song_path: str = None) -> None:
         super().__init__(parent)
         self.setObjectName("FoundSong")
         self.parent = parent
@@ -41,5 +41,9 @@ class FoundSong(QFrame):
         self.ui.song_name_input.setText(self.song_title)
         self.ui.artists_input.setText(self.song_artist)
 
-    def retrieve_final_data(self):
+    def retrieve_final_data(self) -> list[str]:
+        """
+        Retrieves song title, path and artists from widget
+        :return: The title, path and artists
+        """
         return [self.song_title, self.song_path, self.song_artist]

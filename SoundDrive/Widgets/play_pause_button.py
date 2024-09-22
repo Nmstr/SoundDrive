@@ -2,7 +2,7 @@ from PySide6.QtGui import QPainter, QPixmap
 from PySide6.QtWidgets import QWidget
 
 class PlayPauseButton(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent: object = None) -> None:
         super().__init__(parent)
         self.parent = parent
         self.is_playing = False
@@ -11,7 +11,11 @@ class PlayPauseButton(QWidget):
         self.play_icon = QPixmap("Assets/play.svg")
         self.pause_icon = QPixmap("Assets/pause.svg")
 
-    def paintEvent(self, event):  # noqa: N802
+    def paintEvent(self, event) -> None:  # noqa: N802
+        """
+        Paint the icon
+        :return: None
+        """
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 

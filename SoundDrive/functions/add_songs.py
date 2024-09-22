@@ -5,7 +5,7 @@ from PySide6.QtCore import QTimer
 import os
 
 class NewSongManager:
-    def __init__(self, parent):
+    def __init__(self, parent: object) -> None:
         self.parent = parent
         self.allow_adding = True
         self.num_displayed_widgets = 0
@@ -21,18 +21,30 @@ class NewSongManager:
         self.timer.setInterval(500)
         self.timer.timeout.connect(lambda: self.reset_allow_adding())
 
-    def value_changed(self):
+    def value_changed(self) -> None:
+        """
+        Displays new songs and starts a timer to lock displaying more songs
+        :return: None
+        """
         if self.vertical_bar.maximum() - self.vertical_bar.value() < 500:
             if self.allow_adding:
                 self.display_next_50()
                 self.allow_adding = False  # Pause allowance of adding new widgets for 500ms
                 self.timer.start()
 
-    def reset_allow_adding(self):
+    def reset_allow_adding(self) -> None:
+        """
+        Allow displaying new songs again
+        :return: None
+        """
         self.allow_adding = True
         self.value_changed()  # If already at end again, add new widgets
 
     def add_songs(self) -> None:
+        """
+        Get the songs that should be displayed
+        :return: None
+        """
         self.num_displayed_widgets = 0  # Reset counter
         self.top_layout = self.parent.clear_field(self.parent.ui.add_songs_scroll_content, QVBoxLayout())
         self.parent.set_page(5)
@@ -68,14 +80,22 @@ class NewSongManager:
             no_new_songs_label = QLabel("No new songs found")
             self.top_layout.insertWidget(self.top_layout.count() - 1, no_new_songs_label)
 
-    def display_next_50(self):
+    def display_next_50(self) -> None:
+        """
+        Display the next 50 songs
+        :return: None
+        """
         for i in range(50):
             if self.num_displayed_widgets >= len(self.found_song_widgets):
                 return
             self.top_layout.insertWidget(self.top_layout.count() - 1, self.found_song_widgets[self.num_displayed_widgets])
             self.num_displayed_widgets += 1
 
-    def confirm_add_song(self):
+    def confirm_add_song(self) -> None:
+        """
+        Add the songs to the db
+        :return: None
+        """
         # Hide the songs in the layout
         for song in self.found_song_widgets:
             song.hide()

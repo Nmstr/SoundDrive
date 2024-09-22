@@ -13,6 +13,7 @@ class Config:
     def _create_config_file(self) -> None:
         """
         Create the config file
+        :return: None
         """
         self.config.read(self.config_file)
         try:
@@ -24,7 +25,11 @@ class Config:
         except configparser.DuplicateSectionError:
             pass
 
-    def get_music_dirs(self):
+    def get_music_dirs(self) -> list[str]:
+        """
+        Get the music directories
+        :return: List of the dirs
+        """
         self.config.read(self.config_file)
         try:
             value = self.config.get("MUSIC", "music_dirs")
@@ -33,6 +38,11 @@ class Config:
             raise f"Did not find 'music_dirs' in section 'MUSIC' of file '{self.config_file}'"
 
     def add_music_dir(self, music_dir: str) -> None:
+        """
+        Add a music dir
+        :param music_dir: The dir to be added
+        :return: None
+        """
         if not os.path.exists(music_dir):  # Create the dir if it doesn't exist
             os.makedirs(music_dir, exist_ok=True)
 
@@ -46,6 +56,11 @@ class Config:
             self.config.write(f)
 
     def remove_music_dir(self, music_dir: str) -> None:
+        """
+        Remove a music dir
+        :param music_dir: The dir to be removed
+        :return: None
+        """
         # Modify the current music dirs
         values = self.get_music_dirs()
         values.remove(music_dir)

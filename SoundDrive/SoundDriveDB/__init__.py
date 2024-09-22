@@ -5,7 +5,7 @@ from .search import SearchEngine
 from .config import Config
 
 class SoundDriveDB:
-    def __init__(self):
+    def __init__(self) -> None:
         self.playlists = _playlists
         self.songs = _songs
         self.db = _db

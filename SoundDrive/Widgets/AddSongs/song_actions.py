@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QFrame
 from PySide6.QtCore import QFile
 
 class SongActions(QFrame):
-    def __init__(self, parent = None) -> None:
+    def __init__(self, parent: object = None) -> None:
         super().__init__(parent)
         self.setObjectName("SongActions")
         self.parent = parent

@@ -70,6 +70,11 @@ class MainWindow(QMainWindow):
         self.populate_settings_music_dir()
 
     def search(self, text: str) -> None:
+        """
+        Searches the database for songs matching the given query string.
+        :param text: The query string to search within the database.
+        :return: None. This method updates the UI with search results.
+        """
         print(text)
 
         # Query the requested input
@@ -84,7 +89,11 @@ class MainWindow(QMainWindow):
             result = SearchResult(self, song)
             layout.insertWidget(layout.count() - 1, result)
 
-    def populate_playlists(self):
+    def populate_playlists(self) -> None:
+        """
+        Populates the left sidebar with the playlists from the db.
+        :return: None
+        """
         layout = self.clear_field(self.ui.playlist_scroll_content, QVBoxLayout())
 
         # Dynamically add custom Widgets for each song
@@ -93,7 +102,14 @@ class MainWindow(QMainWindow):
             playlist_entry = PlaylistEntry(self, playlist)
             layout.insertWidget(layout.count() - 1, playlist_entry)
 
-    def clear_field(self, container, target_layout, *, amount_left = 1):
+    def clear_field(self, container: str, target_layout, *, amount_left: int = 1):
+        """
+        Clear a container of its contents
+        :param container: The container to clear
+        :param target_layout: The layout that should be added if none exists (e.g. QVboxLayout, QHboxLayout...)
+        :param amount_left: The amount of elements that should be kept
+        :return: None
+        """
         # Check if the container has a layout, if not, set a new layout of type target_layout
         layout = container.layout()
         if layout is None:
@@ -107,6 +123,10 @@ class MainWindow(QMainWindow):
         return layout
 
     def populate_control_bar(self) -> None:
+        """
+        Populates the control bar with various control buttons and sliders.
+        :return: None
+        """
         def add_widget(container, widget):
             layout = container.layout()
             layout.addWidget(widget)
@@ -127,46 +147,83 @@ class MainWindow(QMainWindow):
         self.last_btn = GenericControlButton(self, "Assets/last.svg", lambda: self.music_controller.last())
         add_widget(self.ui.last_btn_container, self.last_btn)
 
-    def populate_settings_music_dir(self):
+    def populate_settings_music_dir(self) -> None:
+        """
+        Populates the settings section with the music directories from the configuration.
+        :return: None
+        """
         layout = self.clear_field(self.ui.music_dir_frame, QVBoxLayout(), amount_left=0)
         for this_dir in self.db_access.config.get_music_dirs():
             dir_label = QLabel(self)
             dir_label.setText(this_dir)
             layout.addWidget(dir_label)
 
-    def create_playlist(self):
+    def create_playlist(self) -> None:
+        """
+        Creates a playlist and updates the UI.
+        :return: None
+        """
         self.db_access.playlists.create()
         self.populate_playlists()
 
-    def delete_playlist(self):
+    def delete_playlist(self) -> None:
+        """
+        Deletes the selected playlist and updates the UI.
+        Opens a dialog for confirmation
+        :return: None
+        """
         dlg = DeletePlaylistDialog(self.db_access, self.current_playlist)
         if dlg.exec():
             self.db_access.playlists.delete(self.current_playlist)
 
         self.populate_playlists()
 
-    def add_music_dir(self):
+    def add_music_dir(self) -> None:
+        """
+        Adds a music dir to the config and updates the UI
+        :return: None
+        """
         dlg = AddRemoveMusicDirDialog(dialog_type="add")
         if dlg.exec():
             self.db_access.config.add_music_dir(dlg.edit.text())
             self.populate_settings_music_dir()
 
-    def remove_music_dir(self):
+    def remove_music_dir(self) -> None:
+        """
+        Removes a music dir from the config and updates the UI
+        :return: None
+        """
         dlg = AddRemoveMusicDirDialog(dialog_type="remove")
         if dlg.exec():
             self.db_access.config.remove_music_dir(dlg.edit.text())
             self.populate_settings_music_dir()
 
     def add_menu_button(self, button_type: str) -> None:
+        """
+        Adds a menu button
+        :param button_type: The type of the button (e.g. search, settings)
+        :return: None
+        """
         layout = self.ui.menu.layout()
         self.frame = MenuButton(self, button_type)
         layout.addWidget(self.frame)
         self.setLayout(layout)
 
     def set_page(self, page_number: int) -> None:
+        """
+        Changes the current page in the main content field
+        :param page_number: The number of the page to switch to
+        :return: None
+        """
         self.ui.page.setCurrentIndex(page_number)
 
     def get_img_cover(self, file_path: str, *, resolution: tuple = (150, 150)) -> bytes | bool:
+        """
+        Gets the cover of a song
+        :param file_path: Path to the song
+        :param resolution: The resolution the cover should have
+        :return: Either the cover or a False
+        """
         cache_dir = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache') + '/SoundDrive/covers/')
         cache_path = cache_dir + os.path.basename(file_path) + str(resolution) + '.cache'
         if not os.path.exists(cache_dir):

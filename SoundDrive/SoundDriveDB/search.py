@@ -8,12 +8,16 @@ import os
 
 class SearchEngine:
     #  TODO: Implement a popularity score system to rank more liked songs higher
-    def __init__(self):
+    def __init__(self) -> None:
         self.index_dir_path = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache')) + '/SoundDrive/SearchIndex'
         self.create_index()
         self.create_index_thread()
 
-    def create_index(self):
+    def create_index(self) -> None:
+        """
+        Create the search index
+        :return: None
+        """
         # Define the schema
         schema = Schema(title=TEXT(stored=True),
                         artist=TEXT(stored=True),
@@ -25,11 +29,19 @@ class SearchEngine:
             os.mkdir(self.index_dir_path)
         create_in(self.index_dir_path, schema)
 
-    def create_index_thread(self):
+    def create_index_thread(self) -> None:
+        """
+        Creates a thread that indexes all songs
+        :return: None
+        """
         index_thread = threading.Thread(target=self.index_songs)
         index_thread.start()
 
-    def index_songs(self):
+    def index_songs(self) -> None:
+        """
+        Index all songs
+        :return: None
+        """
         index = open_dir(self.index_dir_path)
 
         # Add documents to the index
@@ -39,7 +51,12 @@ class SearchEngine:
             writer.add_document(title=song[1], artist=song[3], id=song[0], score=100)
         writer.commit()
 
-    def query(self, query_text):
+    def query(self, query_text: str) -> list[int]:
+        """
+        Query for a text
+        :param query_text: The text to be queried
+        :return: List of ids that match the query
+        """
         index = open_dir(self.index_dir_path)
 
         with index.searcher() as searcher:

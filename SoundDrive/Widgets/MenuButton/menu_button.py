@@ -3,7 +3,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
 class MenuButton(QFrame):
-    def __init__(self, parent = None, button_type: str = None) -> None:
+    def __init__(self, parent: object = None, button_type: str = None) -> None:
         super().__init__(parent)
         self.setObjectName("MenuButton")
         self.parent = parent
@@ -31,6 +31,9 @@ class MenuButton(QFrame):
         self.ui.button_label.setText(self.label_text)
 
     def mousePressEvent(self, event):  # noqa: N802
+        """
+        Set the main content page to the one specified in destination
+        """
         if event.button() == Qt.LeftButton:
             self.parent.set_page(self.destination)
         return super().mousePressEvent(event)

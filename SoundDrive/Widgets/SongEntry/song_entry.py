@@ -4,7 +4,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
 class SongEntry(QFrame):
-    def __init__(self, parent = None, song_data: str = None, song_index: int = None) -> None:
+    def __init__(self, parent: object = None, song_data: str = None, song_index: int = None) -> None:
         super().__init__(parent)
         self.setObjectName("SongEntry")
         self.parent = parent
@@ -32,6 +32,9 @@ class SongEntry(QFrame):
         self.setMaximumSize(1000, 200)
 
     def mousePressEvent(self, event):  # noqa: N802
+        """
+        Start playing the song and set the playlist
+        """
         if event.button() == Qt.LeftButton:
             self.parent.parent.music_controller.play(self.song_data[2])
             self.parent.parent.music_controller.set_playlist(self.parent.playlist_data[0], self.song_index)
