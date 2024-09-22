@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QDialog, QDialogButtonBox, QLabel, QVBoxLayout
 
 class DeletePlaylistDialog(QDialog):
-    def __init__(self, db_access, current_playlist):
+    def __init__(self, db_access: object, current_playlist: int) -> None:
         super().__init__()
         self.setWindowTitle("Delete Playlist")
         self.setMaximumSize(400, 100)

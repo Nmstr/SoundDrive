@@ -4,7 +4,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
 class SearchResult(QFrame):
-    def __init__(self, parent = None, song_data: str = None) -> None:
+    def __init__(self, parent: object = None, song_data: str = None) -> None:
         super().__init__(parent)
         self.setObjectName("SearchResult")
         self.parent = parent
@@ -27,12 +27,19 @@ class SearchResult(QFrame):
         self.ui.name_label.setText(self.song_data[1])
         self.ui.path_label.setText(self.song_data[2])
 
-    def mousePressEvent(self, event):  # noqa: N802
+    def mousePressEvent(self, event) -> None:  # noqa: N802
+        """
+        Start playing the song
+        """
         if event.button() == Qt.LeftButton:
             self.parent.music_controller.play(self.song_data[2])
         return super().mousePressEvent(event)
 
-    def contextMenuEvent(self, event):  # noqa: N802
+    def contextMenuEvent(self, event) -> None:  # noqa: N802
+        """
+        Show context menu
+        :return: None
+        """
         context_menu = QMenu(self)
         queue_action = context_menu.addAction("Queue Song")
 
@@ -48,9 +55,18 @@ class SearchResult(QFrame):
 
         context_menu.exec_(self.mapToGlobal(event.pos()))
 
-    def queue_song(self):
+    def queue_song(self) -> None:
+        """
+        Queue the song
+        :return: None
+        """
         self.parent.music_controller.queue_song(self.song_data[2])
 
-    def add_song_to_playlist(self, playlist_id):
+    def add_song_to_playlist(self, playlist_id: int) -> None:
+        """
+        Adds the song to a playlist
+        :param playlist_id: The id of the playlist the song should be added to
+        :return: None
+        """
         self.parent.db_access.playlists.add_song(playlist_id, self.song_data[0])
         self.parent.populate_playlists()

@@ -1,14 +1,19 @@
 import sqlite3
 
-def _connect():
+def _connect() -> tuple:
     """
     Connects to the database
+    Returns: The connection and cursor in a tuple
     """
     conn = sqlite3.connect('SoundDrive.db')
     cursor = conn.cursor()
     return conn, cursor
 
 def create_db() -> None:
+    """
+    Creates the database and its tables
+    :return: None
+    """
     conn, cursor = _connect()
 
     try:

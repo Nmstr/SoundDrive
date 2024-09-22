@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QLineEdit
 
 class AddRemoveMusicDirDialog(QDialog):
-    def __init__(self, *, dialog_type):
+    def __init__(self, *, dialog_type: str) -> None:
         super().__init__()
         if dialog_type == "add":
             self.setWindowTitle("Add Music Dir")

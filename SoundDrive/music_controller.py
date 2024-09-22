@@ -2,7 +2,7 @@ from tinytag import TinyTag
 import PySoundSphere
 
 class MusicController:
-    def __init__(self, parent) -> None:
+    def __init__(self, parent: object) -> None:
         self.player = PySoundSphere.AudioPlayer("pygame")
         self.player.set_callback_function(self.next)
         self.player.volume = 0.075
@@ -14,11 +14,24 @@ class MusicController:
         self.is_playing = False
 
     def _reload_playback(self) -> None:
+        """
+        Reload the playback by
+
+        - loading a new song
+        - stopping the playback
+        - starting the playback
+        :return: None
+        """
         self.player.load(self._timeline[self._timeline_position - 1])
         self.player.stop()
         self.player.play()
 
     def play(self, song_path: str) -> None:
+        """
+        Add a song to the timeline and play it
+        :param song_path: The path of the song to play
+        :return: None
+        """
         self._timeline = self._timeline[:self._timeline_position]
         self._timeline_position += 1
         self._timeline.append(song_path)
@@ -27,16 +40,28 @@ class MusicController:
         self.parent.play_pause_btn.update()
 
     def continue_playback(self) -> None:
+        """
+        Unpause playback
+        :return: None
+        """
         self.player.play()
         self.is_playing = True
         self.parent.play_pause_btn.update()
 
     def stop(self) -> None:
+        """
+        Stop playback
+        :return: None
+        """
         self.player.pause()
         self.is_playing = False
         self.parent.play_pause_btn.update()
 
     def next(self) -> None:
+        """
+        Play the next song from the timeline
+        :return: None
+        """
         if self._timeline_position < len(self._timeline):
             self._timeline_position += 1
             self._reload_playback()
@@ -48,15 +73,30 @@ class MusicController:
             self.next()
 
     def last(self) -> None:
+        """
+        Play the previous song from the timeline
+        :return: None
+        """
         if self._timeline_position == 1:
             return
         self._timeline_position -= 1
         self._reload_playback()
 
     def queue_song(self, song_path: str) -> None:
+        """
+        Queue song at the end of the timeline
+        :param song_path: The path of the song to queue
+        :return: None
+        """
         self._timeline.append(song_path)
 
     def set_playlist(self, playlist_id: int, playlist_position: int) -> None:
+        """
+        Set the playlist currently playing
+        :param playlist_id: The id of the playlist
+        :param playlist_position: The position inside the playlist
+        :return: None
+        """
         playlist_data = self.parent.db_access.playlists.query_id(playlist_id)
 
         # Remove deleted songs from playlist
@@ -94,6 +134,9 @@ class MusicController:
 
     @property
     def song_length(self) -> float:
+        """
+        The length of the song
+        """
         try:
             tag = TinyTag.get(self._timeline[self._timeline_position - 1])
             return tag.duration

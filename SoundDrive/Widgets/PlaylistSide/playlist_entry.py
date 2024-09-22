@@ -4,7 +4,7 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
 class PlaylistEntry(QFrame):
-    def __init__(self, parent = None, playlist_data: str = None) -> None:
+    def __init__(self, parent: object = None, playlist_data: str = None) -> None:
         super().__init__(parent)
         self.setObjectName("PlaylistEntry")
         self.parent = parent
@@ -23,6 +23,9 @@ class PlaylistEntry(QFrame):
         self.setMaximumSize(1000, 100)
 
     def mousePressEvent(self, event):  # noqa: N802
+        """
+        Set the main content page to the playlist page and fill in data
+        """
         if event.button() == Qt.LeftButton:
             self.parent.set_page(3)
             self.show_playlist_data()
@@ -30,6 +33,10 @@ class PlaylistEntry(QFrame):
         return super().mousePressEvent(event)
 
     def show_playlist_data(self) -> None:
+        """
+        Update the ui with the playlist data
+        :return: None
+        """
         ui = self.parent.ui
         ui.playlist_name_label.setText(self.playlist_data[1])
 
