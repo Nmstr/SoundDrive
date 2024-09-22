@@ -1,4 +1,6 @@
 from .db import _connect
+import threading
+import os
 
 def create(song_name: str, file_path: str, artist_names: str = "") -> None:
     """
@@ -25,7 +27,7 @@ def create(song_name: str, file_path: str, artist_names: str = "") -> None:
     finally:
         conn.close()
 
-def mark_as_deleted() -> None:
+def mark_as_deleted(song_id: int, value: int) -> None:
     """
     Mark song as deleted
     """
@@ -34,9 +36,9 @@ def mark_as_deleted() -> None:
     try:
         cursor.execute('''
         UPDATE songs
-        SET deleted = 1
+        SET deleted = ?
         WHERE id = ?
-        ''', (1,))
+        ''', (value, song_id,))
 
         conn.commit()
     finally:
@@ -58,6 +60,21 @@ def query() -> list:
     finally:
         conn.close()
 
+def query_all() -> list:
+    """
+    Query all songs in db (including deleted)
+    """
+    conn, cursor = _connect()
+
+    try:
+        cursor.execute('''
+        SELECT * FROM songs
+        ''')
+        songs = cursor.fetchall()
+        return songs
+    finally:
+        conn.close()
+
 def query_id(song_id: int) -> list:
     """
     Query songs in db after id
@@ -67,8 +84,7 @@ def query_id(song_id: int) -> list:
     try:
         cursor.execute('''
         SELECT * FROM songs
-        WHERE deleted = 0
-        AND id = ?
+        WHERE id = ?
         ''', (song_id,))
         song = cursor.fetchall()
         if not song:
@@ -86,8 +102,7 @@ def query_path(song_path: str) -> list:
     try:
         cursor.execute('''
         SELECT * FROM songs
-        WHERE deleted = 0
-        AND filepath = ?
+        WHERE filepath = ?
         ''', (song_path,))
         song = cursor.fetchall()
         if not song:
@@ -95,3 +110,15 @@ def query_path(song_path: str) -> list:
         return song[0]
     finally:
         conn.close()
+
+def check_db():
+    def check_song_paths():
+        all_songs = query_all()
+        for song in all_songs:
+            if not os.path.isfile(song[2]):
+                mark_as_deleted(song[0], 1)
+            elif song[4] == 1:
+                mark_as_deleted(song[0], 0)
+
+    check_paths_thread = threading.Thread(target=check_song_paths)
+    check_paths_thread.start()

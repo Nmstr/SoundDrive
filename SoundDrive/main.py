@@ -1,3 +1,4 @@
+from Dialogs.add_remove_music_dir_dialog import AddRemoveMusicDirDialog
 from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
 from Widgets.generic_control_button import GenericControlButton
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
@@ -9,7 +10,7 @@ from Widgets.time_slider import TimeSlider
 from functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 from tinytag import TinyTag
@@ -19,8 +20,6 @@ import pickle
 import PIL
 import sys
 import os
-
-MUSIC_DIR = os.path.expanduser("~/Music/SoundDrive")
 
 class MainWindow(QMainWindow):
     def __init__(self) -> None:
@@ -46,6 +45,7 @@ class MainWindow(QMainWindow):
         self.db_access = SoundDriveDB()
         self.db_access.db.create_db()
         self.new_song_manager = NewSongManager(self)
+        self.db_access.songs.check_db()
 
         # Create player
         self.music_controller = MusicController(self)
@@ -57,14 +57,17 @@ class MainWindow(QMainWindow):
         self.add_menu_button("settings")
 
         # Connect buttons
-        self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs(MUSIC_DIR))
+        self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs())
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
+        self.ui.add_music_dir_btn.clicked.connect(lambda: self.add_music_dir())
+        self.ui.remove_music_dir_btn.clicked.connect(lambda: self.remove_music_dir())
 
         self.ui.search_bar.textChanged.connect(self.search)
 
         self.populate_playlists()
         self.populate_control_bar()
+        self.populate_settings_music_dir()
 
     def search(self, text: str) -> None:
         print(text)
@@ -124,6 +127,13 @@ class MainWindow(QMainWindow):
         self.last_btn = GenericControlButton(self, "Assets/last.svg", lambda: self.music_controller.last())
         add_widget(self.ui.last_btn_container, self.last_btn)
 
+    def populate_settings_music_dir(self):
+        layout = self.clear_field(self.ui.music_dir_frame, QVBoxLayout(), amount_left=0)
+        for this_dir in self.db_access.config.get_music_dirs():
+            dir_label = QLabel(self)
+            dir_label.setText(this_dir)
+            layout.addWidget(dir_label)
+
     def create_playlist(self):
         self.db_access.playlists.create()
         self.populate_playlists()
@@ -134,6 +144,18 @@ class MainWindow(QMainWindow):
             self.db_access.playlists.delete(self.current_playlist)
 
         self.populate_playlists()
+
+    def add_music_dir(self):
+        dlg = AddRemoveMusicDirDialog(dialog_type="add")
+        if dlg.exec():
+            self.db_access.config.add_music_dir(dlg.edit.text())
+            self.populate_settings_music_dir()
+
+    def remove_music_dir(self):
+        dlg = AddRemoveMusicDirDialog(dialog_type="remove")
+        if dlg.exec():
+            self.db_access.config.remove_music_dir(dlg.edit.text())
+            self.populate_settings_music_dir()
 
     def add_menu_button(self, button_type: str) -> None:
         layout = self.ui.menu.layout()
