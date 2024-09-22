@@ -7,6 +7,7 @@ from Widgets.MenuButton.menu_button import MenuButton
 from Widgets.play_pause_button import PlayPauseButton
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
+from Widgets.song_icon import SongIcon
 from functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
@@ -253,6 +254,12 @@ class MainWindow(QMainWindow):
         with open(cache_path, 'wb') as f:
             pickle.dump(img_data, f)
         return img_data
+
+    def set_current_song_data(self, song_path) -> None:
+        layout = self.clear_field(self.ui.current_song_icon_container, QVBoxLayout(), amount_left=0)
+        song_data = self.db_access.songs.query_path(song_path)
+        song_icon = SongIcon(self, self.get_img_cover, song_data, size = (100, 100))
+        layout.addWidget(song_icon)
 
     def resizeEvent(self, event) -> None:  # noqa: N802
         half_window_width = self.size().width() / 2

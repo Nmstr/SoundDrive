@@ -25,6 +25,7 @@ class MusicController:
         self.player.load(self._timeline[self._timeline_position - 1])
         self.player.stop()
         self.player.play()
+        self.parent.set_current_song_data(self._timeline[self._timeline_position - 1])
 
     def play(self, song_path: str) -> None:
         """
