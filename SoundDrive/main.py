@@ -254,7 +254,7 @@ class MainWindow(QMainWindow):
             pickle.dump(img_data, f)
         return img_data
 
-    def resizeEvent(self, event) -> None:
+    def resizeEvent(self, event) -> None:  # noqa: N802
         half_window_width = self.size().width() / 2
         bar_left_width = self.ui.bar_left.size().width()
         half_bar_middle_width = self.ui.bar_middle.size().width() / 2
