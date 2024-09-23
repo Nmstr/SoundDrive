@@ -260,13 +260,22 @@ class MainWindow(QMainWindow):
             pickle.dump(img_data, f)
         return img_data
 
-    def set_current_song_data(self, song_path) -> None:
+    def set_current_song_data(self, song_path: str) -> None:
+        """
+        Sets song icon, name and path in bar
+        :param song_path: The path of the song
+        :return: None
+        """
         layout = self.clear_field(self.ui.current_song_icon_container, QVBoxLayout(), amount_left=0)
         song_data = self.db_access.songs.query_path(song_path)
         song_icon = SongIcon(self, self.get_img_cover, song_data, size = (100, 100))
         layout.addWidget(song_icon)
 
     def resizeEvent(self, event) -> None:  # noqa: N802
+        """
+        Executes on window resize and keeps music controls centered
+        :return: None
+        """
         half_window_width = self.size().width() / 2
         bar_left_width = self.ui.bar_left.size().width()
         half_bar_middle_width = self.ui.bar_middle.size().width() / 2
