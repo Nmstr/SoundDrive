@@ -11,9 +11,9 @@ from Widgets.song_icon import SongIcon
 from functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel, QWidget
-from PySide6.QtCore import Signal, Slot
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
 from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import Signal
 from PySide6.QtCore import QFile
 from tinytag import TinyTag
 from io import BytesIO
