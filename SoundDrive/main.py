@@ -270,6 +270,8 @@ class MainWindow(QMainWindow):
         song_data = self.db_access.songs.query_path(song_path)
         song_icon = SongIcon(self, self.get_img_cover, song_data, size = (100, 100))
         layout.addWidget(song_icon)
+        self.ui.current_song_name_label.setText(song_data[1])
+        self.ui.current_song_artists_label.setText(song_data[3])
 
     def resizeEvent(self, event) -> None:  # noqa: N802
         """

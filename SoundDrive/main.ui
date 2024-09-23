@@ -136,8 +136,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>38</width>
-            <height>18</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -201,8 +201,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>68</width>
-            <height>18</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -386,8 +386,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>68</width>
-            <height>18</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -618,7 +618,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLabel" name="current_song_artist_label">
+          <widget class="QLabel" name="current_song_artists_label">
            <property name="text">
             <string>Current Artist Name Label</string>
            </property>
