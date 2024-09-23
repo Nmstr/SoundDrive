@@ -11,7 +11,8 @@ from Widgets.song_icon import SongIcon
 from functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel, QWidget
+from PySide6.QtCore import Signal, Slot
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import QFile
 from tinytag import TinyTag
@@ -23,6 +24,8 @@ import sys
 import os
 
 class MainWindow(QMainWindow):
+    update_song_data_signal = Signal(str)
+
     def __init__(self) -> None:
         super().__init__()
         self.setObjectName("MainWindow")
@@ -63,6 +66,8 @@ class MainWindow(QMainWindow):
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
         self.ui.add_music_dir_btn.clicked.connect(lambda: self.add_music_dir())
         self.ui.remove_music_dir_btn.clicked.connect(lambda: self.remove_music_dir())
+        # Connect signals
+        self.update_song_data_signal.connect(self.set_current_song_data)
 
         self.ui.search_bar.textChanged.connect(self.search)
 
