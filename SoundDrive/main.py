@@ -288,7 +288,6 @@ class MainWindow(QMainWindow):
         half_bar_middle_width = self.ui.bar_middle.size().width() / 2
         new_bar_left_width = half_window_width - half_bar_middle_width
         self.ui.bar_left.setFixedSize(new_bar_left_width, 100)
-
         return super().resizeEvent(event)
 
 if __name__ == "__main__":
