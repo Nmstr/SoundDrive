@@ -285,12 +285,10 @@ class MainWindow(QMainWindow):
         :return: None
         """
         half_window_width = self.size().width() / 2
-        bar_left_width = self.ui.bar_left.size().width()
         half_bar_middle_width = self.ui.bar_middle.size().width() / 2
-        spacer_width = half_window_width - bar_left_width - half_bar_middle_width
-        if spacer_width < 0:
-            spacer_width = 0
-        self.ui.bar_left_middle_spacer_widget.setFixedSize(spacer_width, 100)
+        new_bar_left_width = half_window_width - half_bar_middle_width
+        self.ui.bar_left.setFixedSize(new_bar_left_width, 100)
+
         return super().resizeEvent(event)
 
 if __name__ == "__main__":
