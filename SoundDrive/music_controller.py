@@ -23,7 +23,6 @@ class MusicController:
         :return: None
         """
         self.player.load(self._timeline[self._timeline_position - 1])
-        self.player.play()  # This ensures the song doesn't just resume if paused
         self.player.stop()
         self.player.play()
         self.parent.update_song_data_signal.emit(self._timeline[self._timeline_position - 1])
