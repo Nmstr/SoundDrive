@@ -7,11 +7,13 @@ from Widgets.MenuButton.menu_button import MenuButton
 from Widgets.play_pause_button import PlayPauseButton
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
+from Widgets.song_icon import SongIcon
 from functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
 from PySide6.QtUiTools import QUiLoader
+from PySide6.QtCore import Signal
 from PySide6.QtCore import QFile
 from tinytag import TinyTag
 from io import BytesIO
@@ -22,6 +24,8 @@ import sys
 import os
 
 class MainWindow(QMainWindow):
+    update_song_data_signal = Signal(str)
+
     def __init__(self) -> None:
         super().__init__()
         self.setObjectName("MainWindow")
@@ -62,12 +66,15 @@ class MainWindow(QMainWindow):
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
         self.ui.add_music_dir_btn.clicked.connect(lambda: self.add_music_dir())
         self.ui.remove_music_dir_btn.clicked.connect(lambda: self.remove_music_dir())
+        # Connect signals
+        self.update_song_data_signal.connect(self.populate_current_song_data)
 
         self.ui.search_bar.textChanged.connect(self.search)
 
         self.populate_playlists()
         self.populate_control_bar()
         self.populate_settings_music_dir()
+        self.populate_current_song_data()
 
     def search(self, text: str) -> None:
         """
@@ -253,6 +260,35 @@ class MainWindow(QMainWindow):
         with open(cache_path, 'wb') as f:
             pickle.dump(img_data, f)
         return img_data
+
+    def populate_current_song_data(self, song_path: str = None) -> None:
+        """
+        Sets song icon, name and path in bar.
+        If no path is given, it clears the contents.
+        :param song_path: The path of the song
+        :return: None
+        """
+        layout = self.clear_field(self.ui.current_song_icon_container, QVBoxLayout(), amount_left=0)
+        if song_path:
+            song_data = self.db_access.songs.query_path(song_path)
+            song_icon = SongIcon(self, self.get_img_cover, song_data, size = (100, 100))
+            layout.addWidget(song_icon)
+            self.ui.current_song_name_label.setText(song_data[1])
+            self.ui.current_song_artists_label.setText(song_data[3])
+        else:
+            self.ui.current_song_name_label.setText("")
+            self.ui.current_song_artists_label.setText("")
+
+    def resizeEvent(self, event) -> None:  # noqa: N802
+        """
+        Executes on window resize and keeps music controls centered
+        :return: None
+        """
+        half_window_width = self.size().width() / 2
+        half_bar_middle_width = self.ui.bar_middle.size().width() / 2
+        new_bar_left_width = half_window_width - half_bar_middle_width
+        self.ui.bar_left.setFixedSize(new_bar_left_width, 100)
+        return super().resizeEvent(event)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
