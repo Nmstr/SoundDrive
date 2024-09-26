@@ -31,3 +31,4 @@ class TimeSlider(QSlider):
         if song_length == 0:
             return
         self.setValue(song_position / song_length * 1000)
+        self.parent.update_song_times(song_position)

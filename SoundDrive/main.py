@@ -19,6 +19,7 @@ from tinytag import TinyTag
 from io import BytesIO
 from PIL import Image
 import pickle
+import time
 import PIL
 import sys
 import os
@@ -75,6 +76,7 @@ class MainWindow(QMainWindow):
         self.populate_control_bar()
         self.populate_settings_music_dir()
         self.populate_current_song_data()
+        self.update_song_times(hide = True)
 
     def search(self, text: str) -> None:
         """
@@ -261,6 +263,24 @@ class MainWindow(QMainWindow):
             pickle.dump(img_data, f)
         return img_data
 
+    def update_song_times(self, position: float = 0, *, hide: bool = False):
+        """
+        Updates the songs position and length (next to the time slider)
+        :param position: The new position to set the current time to - this is called from time slider and thus requesting the time a 2nd time here would be a (tiny) waste
+        :param hide: Whether to not update but just hide the times (used on startup)
+        :return: None
+        """
+        if hide:
+            self.ui.elapsed_time_label.setText("")
+            self.ui.total_time_label.setText("")
+            return
+        if position:
+            elapsed_time = round(position)
+            self.ui.elapsed_time_label.setText(time.strftime("%M:%S", time.gmtime(elapsed_time)))
+        else:
+            total_time = round(self.music_controller.song_length)
+            self.ui.total_time_label.setText(time.strftime("%M:%S", time.gmtime(total_time)))
+
     def populate_current_song_data(self, song_path: str = None) -> None:
         """
         Sets song icon, name and path in bar.
@@ -278,6 +298,7 @@ class MainWindow(QMainWindow):
         else:
             self.ui.current_song_name_label.setText("")
             self.ui.current_song_artists_label.setText("")
+        self.update_song_times()  # Always also change the times (this saves one signal)
 
     def resizeEvent(self, event) -> None:  # noqa: N802
         """
