@@ -1,3 +1,5 @@
+import time
+
 from Dialogs.add_remove_music_dir_dialog import AddRemoveMusicDirDialog
 from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
 from Widgets.generic_control_button import GenericControlButton
@@ -75,6 +77,7 @@ class MainWindow(QMainWindow):
         self.populate_control_bar()
         self.populate_settings_music_dir()
         self.populate_current_song_data()
+        self.update_song_times(hide = True)
 
     def search(self, text: str) -> None:
         """
@@ -261,6 +264,15 @@ class MainWindow(QMainWindow):
             pickle.dump(img_data, f)
         return img_data
 
+    def update_song_times(self, *, hide: bool = False):
+        if hide:
+            self.ui.elapsed_time_label.setText("")
+            self.ui.total_time_label.setText("")
+            return
+        total_time = round(self.music_controller.song_length)
+        self.ui.elapsed_time_label.setText("elpsd")
+        self.ui.total_time_label.setText(time.strftime("%M:%S", time.gmtime(total_time)))
+
     def populate_current_song_data(self, song_path: str = None) -> None:
         """
         Sets song icon, name and path in bar.
@@ -278,6 +290,7 @@ class MainWindow(QMainWindow):
         else:
             self.ui.current_song_name_label.setText("")
             self.ui.current_song_artists_label.setText("")
+        self.update_song_times()  # Always also change the times (this saves one signal)
 
     def resizeEvent(self, event) -> None:  # noqa: N802
         """
