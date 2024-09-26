@@ -1,5 +1,3 @@
-import time
-
 from Dialogs.add_remove_music_dir_dialog import AddRemoveMusicDirDialog
 from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
 from Widgets.generic_control_button import GenericControlButton
@@ -21,6 +19,7 @@ from tinytag import TinyTag
 from io import BytesIO
 from PIL import Image
 import pickle
+import time
 import PIL
 import sys
 import os
