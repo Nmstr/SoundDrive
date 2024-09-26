@@ -263,14 +263,17 @@ class MainWindow(QMainWindow):
             pickle.dump(img_data, f)
         return img_data
 
-    def update_song_times(self, *, hide: bool = False):
+    def update_song_times(self, position: float = 0, *, hide: bool = False):
         if hide:
             self.ui.elapsed_time_label.setText("")
             self.ui.total_time_label.setText("")
             return
-        total_time = round(self.music_controller.song_length)
-        self.ui.elapsed_time_label.setText("elpsd")
-        self.ui.total_time_label.setText(time.strftime("%M:%S", time.gmtime(total_time)))
+        if position:
+            elapsed_time = round(position)
+            self.ui.elapsed_time_label.setText(time.strftime("%M:%S", time.gmtime(elapsed_time)))
+        else:
+            total_time = round(self.music_controller.song_length)
+            self.ui.total_time_label.setText(time.strftime("%M:%S", time.gmtime(total_time)))
 
     def populate_current_song_data(self, song_path: str = None) -> None:
         """
