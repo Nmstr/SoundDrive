@@ -264,6 +264,12 @@ class MainWindow(QMainWindow):
         return img_data
 
     def update_song_times(self, position: float = 0, *, hide: bool = False):
+        """
+        Updates the songs position and length (next to the time slider)
+        :param position: The new position to set the current time to - this is called from time slider and thus requesting the time a 2nd time here would be a (tiny) waste
+        :param hide: Whether to not update but just hide the times (used on startup)
+        :return: None
+        """
         if hide:
             self.ui.elapsed_time_label.setText("")
             self.ui.total_time_label.setText("")
