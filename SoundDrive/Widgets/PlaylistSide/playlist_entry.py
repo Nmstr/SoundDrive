@@ -19,6 +19,11 @@ class PlaylistEntry(QFrame):
         ui_file.close()
 
         self.ui.name_label.setText(self.playlist_data[1])
+        # Display playlist icon (on itself)
+        side_layout = self.parent.clear_field(self.ui.playlist_icon_container, QVBoxLayout(), amount_left=0)
+        size = (self.ui.playlist_icon_container.width(), self.ui.playlist_icon_container.height())
+        song_icon = PlaylistIcon(self, self.playlist_data, size = size)
+        side_layout.addWidget(song_icon)
 
         # Set size
         self.setMinimumSize(200, 100)
@@ -52,7 +57,7 @@ class PlaylistEntry(QFrame):
                 content_layout.insertWidget(content_layout.count() - 1, song_entry)
                 playlist_length += TinyTag.get(song_data[2]).duration  # Also count total length of playlist for later
 
-        # Display playlist icon
+        # Display playlist icon (in content page)
         side_layout = self.parent.clear_field(self.parent.ui.playlist_icon_container, QVBoxLayout(), amount_left=0)
         song_icon = PlaylistIcon(self, self.playlist_data, size = (200, 200))
         side_layout.addWidget(song_icon)
