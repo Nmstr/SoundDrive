@@ -109,6 +109,34 @@ def add_song(playlist_id: int, song_id: int) -> None:
     finally:
         conn.close()
 
+def remove_song(playlist_id: int, song_position: int) -> None:
+    """
+    Add a song to a playlist
+    :param playlist_id: The id of the playlist
+    :param song_id: The position of the song to remove
+    :return: None
+    """
+    conn, cursor = _connect()
+    try:
+        # Fetch the current songs in the playlist and remove one by index
+        cursor.execute('''
+            SELECT songs FROM playlists
+            WHERE id = ?
+        ''', (playlist_id,))
+        current_songs = cursor.fetchone()[0].split(",")
+        current_songs.pop(song_position)
+        new_songs = ",".join(current_songs)
+
+        # Insert the updated list of songs into the db
+        cursor.execute('''
+            UPDATE playlists
+            SET songs = ?
+            WHERE id = ?
+        ''', (new_songs, playlist_id))
+        conn.commit()
+    finally:
+        conn.close()
+
 def query() -> list:
     """
     Query playlists from the db

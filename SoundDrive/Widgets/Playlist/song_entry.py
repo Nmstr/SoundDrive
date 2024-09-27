@@ -1,5 +1,5 @@
 from Widgets.song_icon import SongIcon
-from PySide6.QtWidgets import QFrame
+from PySide6.QtWidgets import QFrame, QMenu
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
 
@@ -39,3 +39,50 @@ class SongEntry(QFrame):
             self.parent.parent.music_controller.play(self.song_data[2])
             self.parent.parent.music_controller.set_playlist(self.parent.playlist_data[0], self.song_index)
         return super().mousePressEvent(event)
+
+    def contextMenuEvent(self, event) -> None:  # noqa: N802
+        """
+        Show context menu
+        :return: None
+        """
+        context_menu = QMenu(self)
+        queue_action = context_menu.addAction("Queue Song")
+        remove_action = context_menu.addAction("Remove From Playlist")
+
+        add_to_playlist_menu = QMenu("Add To Playlist", self)
+        all_playlists = self.parent.parent.db_access.playlists.query()
+        for playlist in all_playlists:  # Dynamically add an action for each playlist
+            playlist_action = add_to_playlist_menu.addAction(playlist[1])
+            playlist_action.triggered.connect(lambda checked, p=playlist[0]: self.add_song_to_playlist(p))
+        context_menu.addMenu(add_to_playlist_menu)
+
+        # Connect actions to slots
+        queue_action.triggered.connect(self.queue_song)
+        remove_action.triggered.connect(self.remove_song)
+
+        context_menu.exec_(self.mapToGlobal(event.pos()))
+
+    def queue_song(self) -> None:
+        """
+        Queue the song
+        :return: None
+        """
+        self.parent.parent.music_controller.queue_song(self.song_data[2])
+
+    def remove_song(self) -> None:
+        """
+        Removes the song from the playlist
+        :return: None
+        """
+        self.parent.parent.db_access.playlists.remove_song(self.parent.playlist_data[0], self.song_index)
+        self.parent.parent.populate_playlists()
+        self.parent.parent.set_page(0)
+
+    def add_song_to_playlist(self, playlist_id: int) -> None:
+        """
+        Adds the song to a playlist
+        :param playlist_id: The id of the playlist the song should be added to
+        :return: None
+        """
+        self.parent.parent.db_access.playlists.add_song(playlist_id, self.song_data[0])
+        self.parent.parent.populate_playlists()
