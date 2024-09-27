@@ -21,7 +21,7 @@ class SongEntry(QFrame):
         self.ui.path_label.setText(self.song_data[2])
 
         # Add song icon
-        song_icon = SongIcon(self, self.parent.parent.get_img_cover, self.song_data)
+        song_icon = SongIcon(self, self.song_data)
         self.ui.song_icon_container.layout().addWidget(song_icon)
 
         if song_data[4] == 1:

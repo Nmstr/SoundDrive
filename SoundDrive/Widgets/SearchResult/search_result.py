@@ -17,7 +17,7 @@ class SearchResult(QFrame):
         ui_file.close()
 
         # Add song icon
-        song_icon = SongIcon(self, self.parent.get_img_cover, self.song_data)
+        song_icon = SongIcon(self, self.song_data)
         self.ui.song_icon_container.layout().addWidget(song_icon)
 
         # Set size

@@ -8,21 +8,15 @@ from Widgets.play_pause_button import PlayPauseButton
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
 from Widgets.song_icon import SongIcon
-from functions.add_songs import NewSongManager
+from Functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Signal
 from PySide6.QtCore import QFile
-from tinytag import TinyTag
-from io import BytesIO
-from PIL import Image
-import pickle
 import time
-import PIL
 import sys
-import os
 
 class MainWindow(QMainWindow):
     update_song_data_signal = Signal(str)
@@ -226,43 +220,6 @@ class MainWindow(QMainWindow):
         """
         self.ui.page.setCurrentIndex(page_number)
 
-    def get_img_cover(self, file_path: str, *, resolution: tuple = (150, 150)) -> bytes | bool:
-        """
-        Gets the cover of a song
-        :param file_path: Path to the song
-        :param resolution: The resolution the cover should have
-        :return: Either the cover or a False
-        """
-        cache_dir = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache') + '/SoundDrive/covers/')
-        cache_path = cache_dir + os.path.basename(file_path) + str(resolution) + '.cache'
-        if not os.path.exists(cache_dir):
-            os.makedirs(cache_dir)
-
-        # Check if the image data is cached and return
-        if os.path.exists(cache_path):
-            with open(cache_path, 'rb') as f:
-                img_data = pickle.load(f)
-            return img_data
-
-        # Load the image
-        tag = TinyTag.get(file_path, image=True)
-        img_data = tag.get_image()
-
-        # Resize the image
-        try:
-            image = Image.open(BytesIO(img_data))
-            image = image.resize(resolution, Image.LANCZOS)
-            img_byte_arr = BytesIO()
-            image.save(img_byte_arr, format='PNG')
-            img_data = img_byte_arr.getvalue()
-        except PIL.UnidentifiedImageError:
-            return False
-
-        # Cache the image data
-        with open(cache_path, 'wb') as f:
-            pickle.dump(img_data, f)
-        return img_data
-
     def update_song_times(self, position: float = 0, *, hide: bool = False):
         """
         Updates the songs position and length (next to the time slider)
@@ -291,7 +248,7 @@ class MainWindow(QMainWindow):
         layout = self.clear_field(self.ui.current_song_icon_container, QVBoxLayout(), amount_left=0)
         if song_path:
             song_data = self.db_access.songs.query_path(song_path)
-            song_icon = SongIcon(self, self.get_img_cover, song_data, size = (100, 100))
+            song_icon = SongIcon(self, song_data, size = (100, 100))
             layout.addWidget(song_icon)
             self.ui.current_song_name_label.setText(song_data[1])
             self.ui.current_song_artists_label.setText(song_data[3])
