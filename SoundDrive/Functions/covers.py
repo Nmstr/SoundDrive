@@ -10,7 +10,7 @@ def get_song_cover(file_path: str, *, resolution: tuple = (150, 150)) -> bytes |
     Gets the cover of a song
     :param file_path: Path to the song
     :param resolution: The resolution the cover should have
-    :return: Either the cover or a False
+    :return: Either the cover or False
     """
     cache_dir = os.getenv('XDG_CACHE_HOME', default=os.path.expanduser('~/.cache') + '/SoundDrive/covers/')
     cache_path = cache_dir + os.path.basename(file_path) + str(resolution) + '.cache'
@@ -48,7 +48,7 @@ def get_playlist_icon(playlist_data: list[str], *, resolution: tuple = (200, 200
     :param playlist_data: The data of the playlist
     :param resolution: The resolution of the cover
     :param db_access: The access to the db
-    :return:
+    :return: Either the cover or False
     """
     displayed_song_ids = playlist_data[3].split(",")[:4]
     # Get cover for each song
