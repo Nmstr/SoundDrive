@@ -15,17 +15,18 @@ class PlaylistIcon(QWidget):
 
     def paintEvent(self, event) -> None:  # noqa: N802
         """
-        Paint the song icon
+        Paint the playlist icon
         :return: None
         """
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        if self.playlist_data[3]:
+        if self.playlist_data[3]:  # If no songs in playlist, use default icon
             img = get_playlist_icon(self.playlist_data,
                                      resolution = (self.wanted_width, self.wanted_height),
                                      db_access = self.parent.parent.db_access)
         else:
             img = None
+
         if not img:
             QSvgRenderer("Assets/playlist.svg").render(painter, self.rect())
         else:
