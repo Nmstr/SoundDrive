@@ -1,5 +1,3 @@
-from math import acosh
-
 from Widgets.Playlist.song_entry import SongEntry
 from Widgets.Playlist.playlist_icon import PlaylistIcon
 from PySide6.QtWidgets import QFrame, QVBoxLayout
