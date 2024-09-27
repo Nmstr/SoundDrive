@@ -184,6 +184,10 @@ class MainWindow(QMainWindow):
         self.populate_playlists()
 
     def rename_playlist(self) -> None:
+        """
+        Rename a playlist
+        :return: None
+        """
         dlg = EditPlaylistDialog(self.db_access, self.current_playlist, dialog_type = "rename")
         if dlg.exec():
             self.db_access.playlists.rename(self.current_playlist, dlg.edit.text())
