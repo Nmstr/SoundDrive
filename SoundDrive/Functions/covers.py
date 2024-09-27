@@ -44,7 +44,7 @@ def get_song_cover(file_path: str, *, resolution: tuple = (150, 150)) -> bytes |
 
 def get_playlist_icon(playlist_data: list[str], *, resolution: tuple = (200, 200), db_access: object) -> bytes:
     """
-    Returns the cover of a playlist
+    Returns the icon of a playlist
     :param playlist_data: The data of the playlist
     :param resolution: The resolution of the cover
     :param db_access: The access to the db
