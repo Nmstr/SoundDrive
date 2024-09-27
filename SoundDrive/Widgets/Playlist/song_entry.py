@@ -13,7 +13,7 @@ class SongEntry(QFrame):
 
         # Load the UI file
         loader = QUiLoader()
-        ui_file = QFile("Widgets/SongEntry/song_entry.ui")
+        ui_file = QFile("Widgets/Playlist/song_entry.ui")
         self.ui = loader.load(ui_file, self)
         ui_file.close()
 

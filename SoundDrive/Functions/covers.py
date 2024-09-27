@@ -41,3 +41,39 @@ def get_song_cover(file_path: str, *, resolution: tuple = (150, 150)) -> bytes |
     with open(cache_path, 'wb') as f:
         pickle.dump(img_data, f)
     return img_data
+
+def get_playlist_cover(playlist_data: list[str], *, resolution: tuple = (200, 200), db_access: object) -> bytes:
+    """
+    Returns the cover of a playlist
+    :param playlist_data: The data of the playlist
+    :param resolution: The resolution of the cover
+    :param db_access: The access to the db
+    :return:
+    """
+    displayed_song_ids = playlist_data[3].split(",")[:4]
+    # Get cover for each song
+    image_data = []
+    for song_id in displayed_song_ids:
+        song_data = db_access.songs.query_id(song_id)
+        image_data.append(get_song_cover(song_data[2], resolution = tuple(int(res / 2) for res in resolution)))
+
+    # Concat images
+    image = Image.new('RGB', (resolution[0], resolution[1]))
+    if len(image_data) >= 1:
+        im1 = Image.open(BytesIO(image_data[0]))
+        image.paste(im1, (0, 0))
+    if len(image_data) >= 2:
+        im2 = Image.open(BytesIO(image_data[1]))
+        image.paste(im2, (int(resolution[0] / 2), 0))
+    if len(image_data) >= 3:
+        im3 = Image.open(BytesIO(image_data[2]))
+        image.paste(im3, (0, int(resolution[1] / 2)))
+    if len(image_data) >= 4:
+        im4 = Image.open(BytesIO(image_data[3]))
+        image.paste(im4, (int(resolution[0] / 2), int(resolution[1] / 2)))
+
+    # Convert img to bytes and return
+    img_byte_arr = BytesIO()
+    image.save(img_byte_arr, format='PNG')
+    img_data = img_byte_arr.getvalue()
+    return img_data

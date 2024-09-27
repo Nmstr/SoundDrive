@@ -1,4 +1,5 @@
-from Widgets.SongEntry.song_entry import SongEntry
+from Widgets.Playlist.song_entry import SongEntry
+from Widgets.Playlist.playlist_icon import PlaylistIcon
 from PySide6.QtWidgets import QFrame, QVBoxLayout
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
@@ -37,14 +38,17 @@ class PlaylistEntry(QFrame):
         Update the ui with the playlist data
         :return: None
         """
-        ui = self.parent.ui
-        ui.playlist_name_label.setText(self.playlist_data[1])
+        self.parent.ui.playlist_name_label.setText(self.playlist_data[1])
 
-        layout = self.parent.clear_field(self.parent.ui.playlist_songs_scroll_content, QVBoxLayout())
+        content_layout = self.parent.clear_field(self.parent.ui.playlist_songs_scroll_content, QVBoxLayout())
         if self.playlist_data[3] is None:
             return
         songs = self.playlist_data[3].split(",")
         for i, song in enumerate(songs):  # Dynamically add custom Widgets for each song in the playlist
             song_data = self.parent.db_access.songs.query_id(song)
             song_entry = SongEntry(self, song_data, i)
-            layout.insertWidget(layout.count() - 1, song_entry)
+            content_layout.insertWidget(content_layout.count() - 1, song_entry)
+
+        side_layout = self.parent.clear_field(self.parent.ui.playlist_icon_container, QVBoxLayout(), amount_left=0)
+        song_icon = PlaylistIcon(self, self.playlist_data, size = (200, 200))
+        side_layout.addWidget(song_icon)
