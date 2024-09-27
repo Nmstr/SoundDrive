@@ -42,7 +42,7 @@ def get_song_cover(file_path: str, *, resolution: tuple = (150, 150)) -> bytes |
         pickle.dump(img_data, f)
     return img_data
 
-def get_playlist_cover(playlist_data: list[str], *, resolution: tuple = (200, 200), db_access: object) -> bytes:
+def get_playlist_icon(playlist_data: list[str], *, resolution: tuple = (200, 200), db_access: object) -> bytes:
     """
     Returns the cover of a playlist
     :param playlist_data: The data of the playlist

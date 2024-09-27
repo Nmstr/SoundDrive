@@ -1,4 +1,4 @@
-from Functions.covers import get_playlist_cover
+from Functions.covers import get_playlist_icon
 from PySide6.QtGui import QPainter, QPixmap, QPainterPath
 from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import QWidget
@@ -20,9 +20,12 @@ class PlaylistIcon(QWidget):
         """
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
-        img = get_playlist_cover(self.playlist_data,
-                                 resolution = (self.wanted_width, self.wanted_height),
-                                 db_access = self.parent.parent.db_access)
+        if self.playlist_data[3]:
+            img = get_playlist_icon(self.playlist_data,
+                                     resolution = (self.wanted_width, self.wanted_height),
+                                     db_access = self.parent.parent.db_access)
+        else:
+            img = None
         if not img:
             QSvgRenderer("Assets/playlist.svg").render(painter, self.rect())
         else:

@@ -40,15 +40,16 @@ class PlaylistEntry(QFrame):
         """
         self.parent.ui.playlist_name_label.setText(self.playlist_data[1])
 
+        # Display songs
         content_layout = self.parent.clear_field(self.parent.ui.playlist_songs_scroll_content, QVBoxLayout())
-        if self.playlist_data[3] is None:
-            return
-        songs = self.playlist_data[3].split(",")
-        for i, song in enumerate(songs):  # Dynamically add custom Widgets for each song in the playlist
-            song_data = self.parent.db_access.songs.query_id(song)
-            song_entry = SongEntry(self, song_data, i)
-            content_layout.insertWidget(content_layout.count() - 1, song_entry)
+        if self.playlist_data[3] is not None:
+            songs = self.playlist_data[3].split(",")
+            for i, song in enumerate(songs):  # Dynamically add custom Widgets for each song in the playlist
+                song_data = self.parent.db_access.songs.query_id(song)
+                song_entry = SongEntry(self, song_data, i)
+                content_layout.insertWidget(content_layout.count() - 1, song_entry)
 
+        # Display playlist icon
         side_layout = self.parent.clear_field(self.parent.ui.playlist_icon_container, QVBoxLayout(), amount_left=0)
         song_icon = PlaylistIcon(self, self.playlist_data, size = (200, 200))
         side_layout.addWidget(song_icon)
