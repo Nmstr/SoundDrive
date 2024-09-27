@@ -1,3 +1,5 @@
+from math import acosh
+
 from Widgets.Playlist.song_entry import SongEntry
 from Widgets.Playlist.playlist_icon import PlaylistIcon
 from PySide6.QtWidgets import QFrame, QVBoxLayout
@@ -31,13 +33,21 @@ class PlaylistEntry(QFrame):
 
     def mousePressEvent(self, event):  # noqa: N802
         """
-        Set the main content page to the playlist page and fill in data
+        Execute the activate function on left click
         """
         if event.button() == Qt.LeftButton:
-            self.parent.set_page(3)
-            self.show_playlist_data()
-            self.parent.current_playlist = self.playlist_data[0]
+            self.activate()
         return super().mousePressEvent(event)
+
+    def activate(self) -> None:
+        """
+        Set the page to the playlist page, display the playlist data and change the current playlist of the parent
+        This was previously inside mousePressEvent; it was moved because it needs to be called from song_entry
+        :return: None
+        """
+        self.parent.set_page(3)
+        self.show_playlist_data()
+        self.parent.current_playlist = self.playlist_data[0]
 
     def show_playlist_data(self) -> None:
         """

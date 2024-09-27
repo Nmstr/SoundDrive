@@ -76,7 +76,7 @@ class SongEntry(QFrame):
         """
         self.parent.parent.db_access.playlists.remove_song(self.parent.playlist_data[0], self.song_index)
         self.parent.parent.populate_playlists()
-        self.parent.parent.set_page(0)
+        self.parent.parent.playlist_dict[self.parent.playlist_data[0]].activate()
 
     def add_song_to_playlist(self, playlist_id: int) -> None:
         """
@@ -86,3 +86,4 @@ class SongEntry(QFrame):
         """
         self.parent.parent.db_access.playlists.add_song(playlist_id, self.song_data[0])
         self.parent.parent.populate_playlists()
+        self.parent.parent.playlist_dict[self.parent.playlist_data[0]].activate()

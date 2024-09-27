@@ -26,6 +26,7 @@ class MainWindow(QMainWindow):
         self.setObjectName("MainWindow")
         self.setWindowTitle("SoundDrive")
         self.current_playlist = None
+        self.playlist_dict = {}
         self.found_song_widgets = []
 
         # Load the stylesheet
@@ -101,10 +102,12 @@ class MainWindow(QMainWindow):
         layout = self.clear_field(self.ui.playlist_scroll_content, QVBoxLayout())
 
         # Dynamically add custom Widgets for each song
+        self.playlist_dict = {}
         all_playlists = self.db_access.playlists.query()
         for playlist in all_playlists:
             playlist_entry = PlaylistEntry(self, playlist)
             layout.insertWidget(layout.count() - 1, playlist_entry)
+            self.playlist_dict[playlist[0]] = playlist_entry
 
     def clear_field(self, container: str, target_layout, *, amount_left: int = 1):
         """
