@@ -1,5 +1,5 @@
 from Dialogs.add_remove_music_dir_dialog import AddRemoveMusicDirDialog
-from Dialogs.delete_playlist_dialog import DeletePlaylistDialog
+from Dialogs.edit_playlist_dialog import EditPlaylistDialog
 from Widgets.generic_control_button import GenericControlButton
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
 from Widgets.SearchResult.search_result import SearchResult
@@ -59,6 +59,7 @@ class MainWindow(QMainWindow):
         self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs())
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
+        self.ui.rename_playlist_btn.clicked.connect(lambda: self.rename_playlist())
         self.ui.add_music_dir_btn.clicked.connect(lambda: self.add_music_dir())
         self.ui.remove_music_dir_btn.clicked.connect(lambda: self.remove_music_dir())
         # Connect signals
@@ -175,9 +176,17 @@ class MainWindow(QMainWindow):
         Opens a dialog for confirmation
         :return: None
         """
-        dlg = DeletePlaylistDialog(self.db_access, self.current_playlist)
+        dlg = EditPlaylistDialog(self.db_access, self.current_playlist, dialog_type = "delete")
         if dlg.exec():
             self.db_access.playlists.delete(self.current_playlist)
+
+        self.set_page(0)
+        self.populate_playlists()
+
+    def rename_playlist(self) -> None:
+        dlg = EditPlaylistDialog(self.db_access, self.current_playlist, dialog_type = "rename")
+        if dlg.exec():
+            self.db_access.playlists.rename(self.current_playlist, dlg.edit.text())
 
         self.populate_playlists()
 

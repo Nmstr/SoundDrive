@@ -57,6 +57,26 @@ def delete(playlist_id: int) -> None:
     finally:
         conn.close()
 
+def rename(playlist_id: int, new_name: str) -> None:
+    """
+    Rename a playlist
+    :param playlist_id: The id of the playlist to be renamed
+    :param new_name: The new name of the playlist
+    :return: None
+    """
+    conn, cursor = _connect()
+    try:
+        # Update the songs list in the database
+        cursor.execute('''
+            UPDATE playlists
+            SET name = ?
+            WHERE id = ?
+        ''', (new_name, playlist_id))
+
+        conn.commit()
+    finally:
+        conn.close()
+
 def add_song(playlist_id: int, song_id: int) -> None:
     """
     Add a song to a playlist
