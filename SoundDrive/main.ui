@@ -174,54 +174,6 @@
      </widget>
      <widget class="QWidget" name="playlist_page">
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="3" column="0" colspan="2">
-        <widget class="QScrollArea" name="playlist_songs_scroll">
-         <property name="frameShape">
-          <enum>QFrame::Shape::NoFrame</enum>
-         </property>
-         <property name="widgetResizable">
-          <bool>true</bool>
-         </property>
-         <widget class="QWidget" name="playlist_songs_scroll_content">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>522</width>
-            <height>580</height>
-           </rect>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>0</width>
-            <height>0</height>
-           </size>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <spacer name="verticalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Orientation::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>551</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="playlist_name_label">
-         <property name="text">
-          <string>Playlist name</string>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="2" rowspan="4">
         <widget class="QFrame" name="playlist_side">
          <property name="frameShape">
@@ -230,8 +182,35 @@
          <property name="frameShadow">
           <enum>QFrame::Shadow::Raised</enum>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="1" column="0">
+           <widget class="QLabel" name="playlist_name_label">
+            <property name="text">
+             <string>Playlist name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <spacer name="playlist_side_spacer">
+            <property name="orientation">
+             <enum>Qt::Orientation::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="5" column="0">
+           <widget class="QPushButton" name="delete_playlist_btn">
+            <property name="text">
+             <string>Delete Playlist</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
            <widget class="QFrame" name="playlist_icon_container">
             <property name="minimumSize">
              <size>
@@ -267,27 +246,62 @@
             </layout>
            </widget>
           </item>
-          <item>
-           <spacer name="playlist_side_spacer">
-            <property name="orientation">
-             <enum>Qt::Orientation::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="delete_playlist_btn">
+          <item row="2" column="0">
+           <widget class="QLabel" name="playlist_song_number_label">
             <property name="text">
-             <string>Delete Playlist</string>
+             <string>n songs</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="playlist_total_length_label">
+            <property name="text">
+             <string>0 hr 0 min</string>
             </property>
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item row="0" column="0" rowspan="4" colspan="2">
+        <widget class="QScrollArea" name="playlist_songs_scroll">
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
+         </property>
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="playlist_songs_scroll_content">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>520</width>
+            <height>604</height>
+           </rect>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Orientation::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>551</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
         </widget>
        </item>
       </layout>

@@ -3,6 +3,7 @@ from Widgets.Playlist.playlist_icon import PlaylistIcon
 from PySide6.QtWidgets import QFrame, QVBoxLayout
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
+from tinytag import TinyTag
 
 class PlaylistEntry(QFrame):
     def __init__(self, parent: object = None, playlist_data: str = None) -> None:
@@ -39,6 +40,7 @@ class PlaylistEntry(QFrame):
         :return: None
         """
         self.parent.ui.playlist_name_label.setText(self.playlist_data[1])
+        playlist_length = 0
 
         # Display songs
         content_layout = self.parent.clear_field(self.parent.ui.playlist_songs_scroll_content, QVBoxLayout())
@@ -48,8 +50,21 @@ class PlaylistEntry(QFrame):
                 song_data = self.parent.db_access.songs.query_id(song)
                 song_entry = SongEntry(self, song_data, i)
                 content_layout.insertWidget(content_layout.count() - 1, song_entry)
+                playlist_length += TinyTag.get(song_data[2]).duration  # Also count total length of playlist for later
 
         # Display playlist icon
         side_layout = self.parent.clear_field(self.parent.ui.playlist_icon_container, QVBoxLayout(), amount_left=0)
         song_icon = PlaylistIcon(self, self.playlist_data, size = (200, 200))
         side_layout.addWidget(song_icon)
+
+        if self.playlist_data[3]:
+            # Display number songs
+            self.parent.ui.playlist_song_number_label.setText(str(len(self.playlist_data[3].split(","))) + " songs")
+            # Display playlist length
+            hours = int(playlist_length // 3600)
+            minutes = int((playlist_length % 3600) // 60)
+            self.parent.ui.playlist_total_length_label.setText(f"{hours} hr {minutes} min")
+        else:
+            # Reset labels
+            self.parent.ui.playlist_song_number_label.setText("0 songs")
+            self.parent.ui.playlist_total_length_label.setText("0 hr 0 min")
