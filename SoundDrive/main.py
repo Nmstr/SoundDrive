@@ -94,21 +94,6 @@ class MainWindow(QMainWindow):
             result = SearchResult(self, song)
             layout.insertWidget(layout.count() - 1, result)
 
-    def populate_playlists(self) -> None:
-        """
-        Populates the left sidebar with the playlists from the db.
-        :return: None
-        """
-        layout = self.clear_field(self.ui.playlist_scroll_content, QVBoxLayout())
-
-        # Dynamically add custom Widgets for each song
-        self.playlist_dict = {}
-        all_playlists = self.db_access.playlists.query()
-        for playlist in all_playlists:
-            playlist_entry = PlaylistEntry(self, playlist)
-            layout.insertWidget(layout.count() - 1, playlist_entry)
-            self.playlist_dict[playlist[0]] = playlist_entry
-
     def clear_field(self, container: str, target_layout, *, amount_left: int = 1):
         """
         Clear a container of its contents
@@ -128,6 +113,21 @@ class MainWindow(QMainWindow):
             if child.widget():
                 child.widget().deleteLater()
         return layout
+
+    def populate_playlists(self) -> None:
+        """
+        Populates the left sidebar with the playlists from the db.
+        :return: None
+        """
+        layout = self.clear_field(self.ui.playlist_scroll_content, QVBoxLayout())
+
+        # Dynamically add custom Widgets for each song
+        self.playlist_dict = {}
+        all_playlists = self.db_access.playlists.query()
+        for playlist in all_playlists:
+            playlist_entry = PlaylistEntry(self, playlist)
+            layout.insertWidget(layout.count() - 1, playlist_entry)
+            self.playlist_dict[playlist[0]] = playlist_entry
 
     def populate_control_bar(self) -> None:
         """
@@ -165,24 +165,24 @@ class MainWindow(QMainWindow):
             dir_label.setText(this_dir)
             layout.addWidget(dir_label)
 
-    def add_menu_button(self, button_type: str) -> None:
+    def populate_current_song_data(self, song_path: str = None) -> None:
         """
-        Adds a menu button
-        :param button_type: The type of the button (e.g. search, settings)
+        Sets song icon, name and path in bar.
+        If no path is given, it clears the contents.
+        :param song_path: The path of the song
         :return: None
         """
-        layout = self.ui.menu.layout()
-        self.frame = MenuButton(self, button_type)
-        layout.addWidget(self.frame)
-        self.setLayout(layout)
-
-    def set_page(self, page_number: int) -> None:
-        """
-        Changes the current page in the main content field
-        :param page_number: The number of the page to switch to
-        :return: None
-        """
-        self.ui.page.setCurrentIndex(page_number)
+        layout = self.clear_field(self.ui.current_song_icon_container, QVBoxLayout(), amount_left=0)
+        if song_path:
+            song_data = self.db_access.songs.query_path(song_path)
+            song_icon = SongIcon(self, song_data, size = (100, 100))
+            layout.addWidget(song_icon)
+            self.ui.current_song_name_label.setText(song_data[1])
+            self.ui.current_song_artists_label.setText(song_data[3])
+        else:
+            self.ui.current_song_name_label.setText("")
+            self.ui.current_song_artists_label.setText("")
+        self.update_song_times()  # Always also change the times (this saves one signal)
 
     def update_song_times(self, position: float = 0, *, hide: bool = False):
         """
@@ -202,24 +202,24 @@ class MainWindow(QMainWindow):
             total_time = round(self.music_controller.song_length)
             self.ui.total_time_label.setText(time.strftime("%M:%S", time.gmtime(total_time)))
 
-    def populate_current_song_data(self, song_path: str = None) -> None:
+    def add_menu_button(self, button_type: str) -> None:
         """
-        Sets song icon, name and path in bar.
-        If no path is given, it clears the contents.
-        :param song_path: The path of the song
+        Adds a menu button
+        :param button_type: The type of the button (e.g. search, settings)
         :return: None
         """
-        layout = self.clear_field(self.ui.current_song_icon_container, QVBoxLayout(), amount_left=0)
-        if song_path:
-            song_data = self.db_access.songs.query_path(song_path)
-            song_icon = SongIcon(self, song_data, size = (100, 100))
-            layout.addWidget(song_icon)
-            self.ui.current_song_name_label.setText(song_data[1])
-            self.ui.current_song_artists_label.setText(song_data[3])
-        else:
-            self.ui.current_song_name_label.setText("")
-            self.ui.current_song_artists_label.setText("")
-        self.update_song_times()  # Always also change the times (this saves one signal)
+        layout = self.ui.menu.layout()
+        self.frame = MenuButton(self, button_type)
+        layout.addWidget(self.frame)
+        self.setLayout(layout)
+
+    def set_page(self, page_number: int) -> None:
+        """
+        Changes the current page in the main content field
+        :param page_number: The number of the page to switch to
+        :return: None
+        """
+        self.ui.page.setCurrentIndex(page_number)
 
     def resizeEvent(self, event) -> None:  # noqa: N802
         """
