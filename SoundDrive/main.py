@@ -196,6 +196,7 @@ class MainWindow(QMainWindow):
             self.db_access.playlists.rename(self.current_playlist, dlg.edit.text())
 
         self.populate_playlists()
+        self.playlist_dict[self.current_playlist].activate()
 
     def add_music_dir(self) -> None:
         """
