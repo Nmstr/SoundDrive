@@ -1,4 +1,3 @@
-from Dialogs.edit_playlist_dialog import EditPlaylistDialog
 from Widgets.generic_control_button import GenericControlButton
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
 from Widgets.SearchResult.search_result import SearchResult
@@ -7,6 +6,7 @@ from Widgets.play_pause_button import PlayPauseButton
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
 from Widgets.song_icon import SongIcon
+from Functions.playlist import create_playlist, delete_playlist, rename_playlist
 from Functions.music_dir import add_music_dir, remove_music_dir
 from Functions.add_songs import NewSongManager
 from music_controller import MusicController
@@ -58,9 +58,9 @@ class MainWindow(QMainWindow):
 
         # Connect buttons
         self.ui.add_songs_btn.clicked.connect(lambda: self.new_song_manager.add_songs())
-        self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
-        self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
-        self.ui.rename_playlist_btn.clicked.connect(lambda: self.rename_playlist())
+        self.ui.create_playlist_btn.clicked.connect(lambda: create_playlist(self))
+        self.ui.delete_playlist_btn.clicked.connect(lambda: delete_playlist(self))
+        self.ui.rename_playlist_btn.clicked.connect(lambda: rename_playlist(self))
         self.ui.add_music_dir_btn.clicked.connect(lambda: add_music_dir(self))
         self.ui.remove_music_dir_btn.clicked.connect(lambda: remove_music_dir(self))
         # Connect signals
@@ -164,39 +164,6 @@ class MainWindow(QMainWindow):
             dir_label = QLabel(self)
             dir_label.setText(this_dir)
             layout.addWidget(dir_label)
-
-    def create_playlist(self) -> None:
-        """
-        Creates a playlist and updates the UI.
-        :return: None
-        """
-        self.db_access.playlists.create()
-        self.populate_playlists()
-
-    def delete_playlist(self) -> None:
-        """
-        Deletes the selected playlist and updates the UI.
-        Opens a dialog for confirmation
-        :return: None
-        """
-        dlg = EditPlaylistDialog(self.db_access, self.current_playlist, dialog_type = "delete")
-        if dlg.exec():
-            self.db_access.playlists.delete(self.current_playlist)
-
-        self.set_page(0)
-        self.populate_playlists()
-
-    def rename_playlist(self) -> None:
-        """
-        Rename a playlist
-        :return: None
-        """
-        dlg = EditPlaylistDialog(self.db_access, self.current_playlist, dialog_type = "rename")
-        if dlg.exec():
-            self.db_access.playlists.rename(self.current_playlist, dlg.edit.text())
-
-        self.populate_playlists()
-        self.playlist_dict[self.current_playlist].activate()
 
     def add_menu_button(self, button_type: str) -> None:
         """
