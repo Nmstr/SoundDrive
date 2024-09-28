@@ -1,4 +1,3 @@
-from Dialogs.add_remove_music_dir_dialog import AddRemoveMusicDirDialog
 from Dialogs.edit_playlist_dialog import EditPlaylistDialog
 from Widgets.generic_control_button import GenericControlButton
 from Widgets.PlaylistSide.playlist_entry import PlaylistEntry
@@ -8,6 +7,7 @@ from Widgets.play_pause_button import PlayPauseButton
 from Widgets.volume_slider import VolumeSlider
 from Widgets.time_slider import TimeSlider
 from Widgets.song_icon import SongIcon
+from Functions.music_dir import add_music_dir, remove_music_dir
 from Functions.add_songs import NewSongManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
@@ -61,8 +61,8 @@ class MainWindow(QMainWindow):
         self.ui.create_playlist_btn.clicked.connect(lambda: self.create_playlist())
         self.ui.delete_playlist_btn.clicked.connect(lambda: self.delete_playlist())
         self.ui.rename_playlist_btn.clicked.connect(lambda: self.rename_playlist())
-        self.ui.add_music_dir_btn.clicked.connect(lambda: self.add_music_dir())
-        self.ui.remove_music_dir_btn.clicked.connect(lambda: self.remove_music_dir())
+        self.ui.add_music_dir_btn.clicked.connect(lambda: add_music_dir(self))
+        self.ui.remove_music_dir_btn.clicked.connect(lambda: remove_music_dir(self))
         # Connect signals
         self.update_song_data_signal.connect(self.populate_current_song_data)
 
@@ -197,26 +197,6 @@ class MainWindow(QMainWindow):
 
         self.populate_playlists()
         self.playlist_dict[self.current_playlist].activate()
-
-    def add_music_dir(self) -> None:
-        """
-        Adds a music dir to the config and updates the UI
-        :return: None
-        """
-        dlg = AddRemoveMusicDirDialog(dialog_type="add")
-        if dlg.exec():
-            self.db_access.config.add_music_dir(dlg.edit.text())
-            self.populate_settings_music_dir()
-
-    def remove_music_dir(self) -> None:
-        """
-        Removes a music dir from the config and updates the UI
-        :return: None
-        """
-        dlg = AddRemoveMusicDirDialog(dialog_type="remove")
-        if dlg.exec():
-            self.db_access.config.remove_music_dir(dlg.edit.text())
-            self.populate_settings_music_dir()
 
     def add_menu_button(self, button_type: str) -> None:
         """
