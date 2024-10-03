@@ -3,7 +3,7 @@ import PySoundSphere
 
 class MusicController:
     def __init__(self, parent: object) -> None:
-        self.player = PySoundSphere.AudioPlayer("sounddevice", sounddevice_blocksize=1024)
+        self.player = PySoundSphere.AudioPlayer("pygame")
         self.player.set_callback_function(self.next)
         self.player.volume = 0.075
         self.parent = parent
