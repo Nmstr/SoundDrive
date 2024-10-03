@@ -20,7 +20,7 @@ dependencies = [
     "tinytag",
     "pillow",
     "whoosh",
-    "PySoundSphere[pygame-backend]"
+    "PySoundSphere[sounddevice-backend]"
 ]
 [project.urls]
 Source = "https://github.com/Nmstr/SoundDevice"
