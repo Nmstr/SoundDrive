@@ -23,9 +23,8 @@ dependencies = [
     "PySoundSphere[sounddevice-backend]"
 ]
 [project.urls]
-Source = "https://github.com/Nmstr/SoundDevice"
-Documentation = "https://nmstr.github.io/SoundDevice/"
-Issues = "https://github.com/Nmstr/SoundDevice/issues"
+Source = "https://github.com/Nmstr/SoundDrive"
+Issues = "https://github.com/Nmstr/SoundDrive/issues"
 
 [tool.ruff]
 lint.select = ["E4", "E7", "E9", "F", "N8"]
