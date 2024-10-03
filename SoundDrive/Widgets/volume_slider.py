@@ -8,6 +8,7 @@ class VolumeSlider(QSlider):
         self.setRange(0, 1000)
         self.setValue(self.parent.db_access.config.initial_volume * 1000)
         self.valueChanged.connect(self.value_changed)
+        self.value_changed()
 
     def mousePressEvent(self, event):  # noqa: N802
         """
