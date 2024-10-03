@@ -232,6 +232,10 @@ class MainWindow(QMainWindow):
         self.ui.bar_left.setFixedSize(new_bar_left_width, 100)
         return super().resizeEvent(event)
 
+    def closeEvent(self, event):  # noqa: N802
+        self.db_access.config.initial_volume = self.volume_slider.value() / 1000
+        return super().closeEvent(event)
+
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
