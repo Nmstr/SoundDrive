@@ -26,6 +26,8 @@ class MusicController:
         self.player.stop()
         self.player.play()
         self.parent.update_song_data_signal.emit(self._timeline[self._timeline_position - 1])
+        song_id = list(self.parent.db_access.songs.query_path(self._timeline[self._timeline_position - 1]))[0]
+        self.parent.db_access.stats.add_to_history(song_id)
 
     def play(self, song_path: str) -> None:
         """
