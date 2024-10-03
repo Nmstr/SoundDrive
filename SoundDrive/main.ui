@@ -56,7 +56,7 @@
       <enum>QFrame::Shape::StyledPanel</enum>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="home_page">
       <widget class="QLabel" name="label">
@@ -136,8 +136,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>38</width>
-            <height>18</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -283,8 +283,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>520</width>
-            <height>604</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -328,8 +328,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>786</width>
-            <height>604</height>
+            <width>237</width>
+            <height>203</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -468,8 +468,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>68</width>
-            <height>18</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -863,6 +863,25 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="volume_label">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>volume</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QFrame" name="bar_right">
