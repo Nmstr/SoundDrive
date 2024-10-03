@@ -20,6 +20,7 @@ class Config:
             self.config.add_section("MUSIC")
             xdg_music_dir = os.getenv('XDG_MUSIC_HOME', default=os.path.expanduser('~/Music/SoundDrive'))
             self.config.set("MUSIC", "music_dirs", xdg_music_dir)
+            self.config.set("MUSIC", "initial_volume", "0.1")
             with open(self.config_file, "w") as f:
                 self.config.write(f)
         except configparser.DuplicateSectionError:
@@ -67,5 +68,23 @@ class Config:
 
         # Write the new values
         self.config.set("MUSIC", "music_dirs", ",".join(values))
+        with open(self.config_file, "w") as f:
+            self.config.write(f)
+
+    @property
+    def initial_volume(self) -> float:
+        """
+        The initial volume when the application starts
+        """
+        self.config.read(self.config_file)
+        try:
+            value = self.config.get("MUSIC", "initial_volume")
+            return float(value)
+        except configparser.NoOptionError:
+            return 0.1
+
+    @initial_volume.setter
+    def initial_volume(self, initial_volume: float) -> None:
+        self.config.set("MUSIC", "initial_volume", str(initial_volume))
         with open(self.config_file, "w") as f:
             self.config.write(f)
