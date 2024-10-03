@@ -24,3 +24,5 @@ class VolumeSlider(QSlider):
         :return: None
         """
         self.parent.music_controller.volume = self.value() / 1000 / 2  # The 2 halves from max volume to prevent ear damage and improves precision when setting reasonable values
+        print(int(self.value() / 10))
+        self.parent.ui.volume_label.setText(f"{round(self.value() / 10)}%")

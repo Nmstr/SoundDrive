@@ -283,8 +283,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>520</width>
-            <height>604</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -863,6 +863,25 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="volume_label">
+        <property name="minimumSize">
+         <size>
+          <width>40</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>40</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>volume</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QFrame" name="bar_right">
