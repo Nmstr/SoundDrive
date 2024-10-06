@@ -73,15 +73,6 @@ class MusicController:
         self._playlist_position -= 1
         self._reload_playback()
 
-    def unpause(self) -> None:
-        """
-        Unpause playback
-        :return: None
-        """
-        self._player.play()
-        self.is_playing = True
-        self.parent.play_pause_btn.update()
-
     def pause(self) -> None:
         """
         Pause playback
@@ -89,6 +80,15 @@ class MusicController:
         """
         self._player.pause()
         self.is_playing = False
+        self.parent.play_pause_btn.update()
+
+    def unpause(self) -> None:
+        """
+        Unpause playback
+        :return: None
+        """
+        self._player.play()
+        self.is_playing = True
         self.parent.play_pause_btn.update()
 
     def queue_song(self, song_id: int) -> None:
