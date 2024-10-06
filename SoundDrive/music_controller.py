@@ -47,7 +47,7 @@ class MusicController:
         :param song_id: The id of the song
         :return: None
         """
-        self._current_playlist = [song_id]
+        self._current_playlist = [str(song_id)]
         self._playlist_position = 0
         self._reload_playback()
 
