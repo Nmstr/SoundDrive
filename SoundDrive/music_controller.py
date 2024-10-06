@@ -5,6 +5,7 @@ class MusicController:
     def __init__(self, parent: object) -> None:
         self.parent = parent
         self._player = PySoundSphere.AudioPlayer("pygame")
+        self._player.set_callback_function(self.next)
         self._player.volume = 0.05
         self._current_playlist = []
         self._playlist_position = 0
