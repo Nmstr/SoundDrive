@@ -36,8 +36,7 @@ class SongEntry(QFrame):
         Start playing the song and set the playlist
         """
         if event.button() == Qt.LeftButton:
-            self.parent.parent.music_controller.play(self.song_data[2])
-            self.parent.parent.music_controller.set_playlist(self.parent.playlist_data[0], self.song_index)
+            self.parent.parent.music_controller.play_playlist(self.parent.playlist_data[0], self.song_index)
         return super().mousePressEvent(event)
 
     def contextMenuEvent(self, event) -> None:  # noqa: N802
@@ -67,7 +66,7 @@ class SongEntry(QFrame):
         Queue the song
         :return: None
         """
-        self.parent.parent.music_controller.queue_song(self.song_data[2])
+        self.parent.parent.music_controller.queue_song(self.song_data[0])
 
     def remove_song(self) -> None:
         """

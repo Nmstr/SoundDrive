@@ -166,15 +166,16 @@ class MainWindow(QMainWindow):
             dir_label.setText(this_dir)
             layout.addWidget(dir_label)
 
-    def populate_current_song_data(self, song_path: str = None) -> None:
+    def populate_current_song_data(self, song_id: str = None) -> None:
         """
         Sets song icon, name and path in bar.
         If no path is given, it clears the contents.
-        :param song_path: The path of the song
+        :param song_id: The id of the song
         :return: None
         """
         layout = self.clear_field(self.ui.current_song_icon_container, QVBoxLayout(), amount_left=0)
-        if song_path:
+        if song_id:
+            song_path = self.db_access.songs.query_id(song_id)[2]
             song_data = self.db_access.songs.query_path(song_path)
             song_icon = SongIcon(self, song_data, size = (100, 100))
             layout.addWidget(song_icon)
