@@ -6,10 +6,11 @@ class Stats:
     def __init__(self) -> None:
         pass
 
-    def add_to_history(self, song_id: int) -> None:
+    def add_to_history(self, song_id: int, played_time: float) -> None:
         """
         Add a song to the history
         :param song_id: The id of the song
+        :param played_time: The time the song was played for
         :return: None
         """
         song_data = songs_query_id(song_id)
@@ -25,7 +26,7 @@ class Stats:
             cursor.execute('''
             INSERT INTO stats_history (song_id, artist_id, duration_played)
             VALUES (?, ?, ?)
-            ''', (song_id, ",".join(artist_ids), 0))
+            ''', (song_id, ",".join(artist_ids), played_time))
 
             conn.commit()
         finally:

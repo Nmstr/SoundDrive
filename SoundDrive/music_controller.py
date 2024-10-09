@@ -10,6 +10,7 @@ class MusicController:
         self._current_playlist = []
         self._playlist_position = 0
         self._queue = []
+        self._queue_history_buffer = None
         self.is_playing = False
 
     def _reload_playback(self, song_id: int = None) -> None:
@@ -37,6 +38,7 @@ class MusicController:
         :param position: The position in the playlist
         :return: None
         """
+        self.add_to_history()
         playlist_data = self.parent.db_access.playlists.query_id(playlist_id)
         self._current_playlist = playlist_data[3].split(",")
         self._playlist_position = position
@@ -48,6 +50,7 @@ class MusicController:
         :param song_id: The id of the song
         :return: None
         """
+        self.add_to_history()
         self._current_playlist = [str(song_id)]
         self._playlist_position = 0
         self._reload_playback()
@@ -57,7 +60,9 @@ class MusicController:
         Play the next song from the playlist
         :return: None
         """
+        self.add_to_history()
         if len(self._queue) > 0:
+            self._queue_history_buffer = self._queue[0]
             self._reload_playback(self._queue.pop(0))
         elif self._playlist_position < len(self._current_playlist) - 1:
             self._playlist_position += 1
@@ -68,6 +73,7 @@ class MusicController:
         Play the previous song from the playlist
         :return: None
         """
+        self.add_to_history()
         if self._playlist_position == 0:
             return
         self._playlist_position -= 1
@@ -132,3 +138,19 @@ class MusicController:
     @volume.setter
     def volume(self, volume: float) -> None:
         self._player.volume = volume
+
+    def add_to_history(self) -> None:
+        """
+        Adds a song to the history
+        :return: None
+        """
+        if self._queue_history_buffer:
+            song_id = self._queue_history_buffer
+            self._queue_history_buffer = None
+        else:
+            try:
+                song_id = self._current_playlist[self._playlist_position]
+            except IndexError:
+                return
+
+        self.parent.db_access.stats.add_to_history(song_id, self._player.played_time)
