@@ -53,8 +53,8 @@ class MainWindow(QMainWindow):
 
         # Create menu buttons
         self.add_menu_button("home")
-        self.add_menu_button("library")
         self.add_menu_button("search")
+        self.add_menu_button("stats")
         self.add_menu_button("settings")
 
         # Connect buttons
