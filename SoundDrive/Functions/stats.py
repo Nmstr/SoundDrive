@@ -1,7 +1,7 @@
 from PySide6.QtCharts import QBarCategoryAxis, QBarSeries, QBarSet, QChart, QChartView, QValueAxis
 from PySide6.QtGui import QPainter, QBrush, QColor
 from PySide6.QtWidgets import QVBoxLayout, QWidget
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QDate
 from collections import Counter
 import heapq
 
@@ -53,6 +53,12 @@ def setup_page(parent) -> None:
     Adds all the data to the stats page
     :return: None
     """
+    # Update dates
+    parent.ui.played_songs_end.setDate(QDate.currentDate())
+    parent.ui.played_artists_end.setDate(QDate.currentDate())
+    parent.ui.occurrence_end.setDate(QDate.currentDate())
+    parent.ui.usage_times_end.setDate(QDate.currentDate())
+
     history_data = parent.db_access.stats.get_history()
     songs = [song[1] for song in history_data]  # Extract song IDs from history data
 
