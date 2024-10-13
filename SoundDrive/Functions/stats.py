@@ -66,5 +66,17 @@ def setup_page(parent) -> None:
         sets.append(bar_set)
 
     played_song_chart = BarChart("Played Songs", sets, max(song_counter.values()))
-    layout = parent.clear_field(parent.ui.test_stat, QVBoxLayout, amount_left = 0)
+    layout = parent.clear_field(parent.ui.played_songs_container, QVBoxLayout, amount_left = 0)
     layout.addWidget(played_song_chart)
+
+    played_artists_chart = BarChart("Played Artists", sets, max(song_counter.values()))
+    layout = parent.clear_field(parent.ui.played_artists_container, QVBoxLayout, amount_left = 0)
+    layout.addWidget(played_artists_chart)
+
+    occurrence_chart = BarChart("Song Occurrences", sets, max(song_counter.values()))
+    layout = parent.clear_field(parent.ui.occurrence_container, QVBoxLayout, amount_left = 0)
+    layout.addWidget(occurrence_chart)
+
+    usage_times_chart = BarChart("Usage Times", sets, max(song_counter.values()))
+    layout = parent.clear_field(parent.ui.usage_times_container, QVBoxLayout, amount_left = 0)
+    layout.addWidget(usage_times_chart)
