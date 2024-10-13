@@ -54,10 +54,11 @@ def setup_page(parent) -> None:
     :return: None
     """
     # Update dates
-    parent.ui.played_songs_end.setDate(QDate.currentDate())
-    parent.ui.played_artists_end.setDate(QDate.currentDate())
-    parent.ui.occurrence_end.setDate(QDate.currentDate())
-    parent.ui.usage_times_end.setDate(QDate.currentDate())
+    current_date = QDate.currentDate()
+    parent.ui.played_songs_end.setDate(current_date)
+    parent.ui.played_artists_end.setDate(current_date)
+    parent.ui.occurrence_end.setDate(current_date)
+    parent.ui.usage_times_end.setDate(current_date)
 
     history_data = parent.db_access.stats.get_history()
     songs = [song[1] for song in history_data]  # Extract song IDs from history data
