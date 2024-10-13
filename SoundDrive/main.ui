@@ -596,7 +596,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-1064</y>
             <width>770</width>
             <height>1666</height>
            </rect>
@@ -875,12 +875,22 @@
                 </property>
                 <item>
                  <property name="text">
-                  <string>time played</string>
+                  <string>songs in playlists</string>
                  </property>
                 </item>
                 <item>
                  <property name="text">
-                  <string>times played</string>
+                  <string>songs in library</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>artists in playlists</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>artists in library</string>
                  </property>
                 </item>
                </widget>
@@ -976,12 +986,7 @@
                 </property>
                 <item>
                  <property name="text">
-                  <string>time played</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>times played</string>
+                  <string>interfaces</string>
                  </property>
                 </item>
                </widget>
