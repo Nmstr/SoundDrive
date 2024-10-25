@@ -1,4 +1,3 @@
-from Functions.stats import setup_page
 from PySide6.QtWidgets import QFrame
 from PySide6.QtUiTools import QUiLoader
 from PySide6.QtCore import Qt, QFile
@@ -38,5 +37,5 @@ class MenuButton(QFrame):
         if event.button() == Qt.LeftButton:
             self.parent.set_page(self.destination)
             if self.destination == 1:
-                setup_page(self.parent)
+                self.parent.stats_page_manager.load_page()
         return super().mousePressEvent(event)

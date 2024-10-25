@@ -596,9 +596,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-1064</y>
-            <width>770</width>
-            <height>1666</height>
+            <y>0</y>
+            <width>784</width>
+            <height>602</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -626,7 +626,7 @@
              <property name="minimumSize">
               <size>
                <width>500</width>
-               <height>400</height>
+               <height>500</height>
               </size>
              </property>
              <property name="frameShape">
@@ -635,74 +635,14 @@
              <property name="frameShadow">
               <enum>QFrame::Shadow::Raised</enum>
              </property>
-             <layout class="QGridLayout" name="gridLayout_11">
-              <item row="0" column="0">
-               <widget class="QLabel" name="by_label_1">
-                <property name="text">
-                 <string>By</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="6">
-               <widget class="QLabel" name="to_label_1">
-                <property name="text">
-                 <string>to</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="7">
-               <widget class="QDateEdit" name="played_songs_end"/>
-              </item>
-              <item row="0" column="3">
-               <widget class="QLabel" name="from_label_1">
-                <property name="text">
-                 <string>from</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="4">
-               <widget class="QDateEdit" name="played_songs_start"/>
-              </item>
-              <item row="0" column="1">
-               <widget class="QComboBox" name="played_songs_combo">
-                <property name="minimumSize">
+             <layout class="QVBoxLayout" name="verticalLayout_13">
+              <item>
+               <widget class="QFrame" name="played_songs_options">
+                <property name="maximumSize">
                  <size>
-                  <width>110</width>
-                  <height>0</height>
+                  <width>16777215</width>
+                  <height>40</height>
                  </size>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>time played</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>times played</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="0" column="8">
-               <spacer name="horizontalSpacer_4">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>334</width>
-                  <height>17</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="1" column="0" colspan="9">
-               <widget class="QFrame" name="played_songs_container">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
                 </property>
                 <property name="frameShape">
                  <enum>QFrame::Shape::StyledPanel</enum>
@@ -710,315 +650,91 @@
                 <property name="frameShadow">
                  <enum>QFrame::Shadow::Raised</enum>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_13"/>
+                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <item>
+                  <widget class="QComboBox" name="comboBox">
+                   <item>
+                    <property name="text">
+                     <string>Total</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>This Month</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>This Week</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>This Day</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Orientation::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
                </widget>
               </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="played_artists">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>500</width>
-               <height>400</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_12">
-              <item row="0" column="0">
-               <widget class="QLabel" name="by_label_2">
-                <property name="text">
-                 <string>By</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="6">
-               <widget class="QLabel" name="to_label_2">
-                <property name="text">
-                 <string>to</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="7">
-               <widget class="QDateEdit" name="played_artists_end"/>
-              </item>
-              <item row="0" column="3">
-               <widget class="QLabel" name="from_label_2">
-                <property name="text">
-                 <string>from</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="4">
-               <widget class="QDateEdit" name="played_artists_start"/>
-              </item>
-              <item row="0" column="1">
-               <widget class="QComboBox" name="played_artists_combo">
-                <property name="minimumSize">
-                 <size>
-                  <width>110</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>time played</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>times played</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="0" column="8">
-               <spacer name="horizontalSpacer_5">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>334</width>
-                  <height>17</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="1" column="0" colspan="9">
-               <widget class="QFrame" name="played_artists_container">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
+              <item>
+               <widget class="QFrame" name="played_songs_charts">
                 <property name="frameShape">
                  <enum>QFrame::Shape::StyledPanel</enum>
                 </property>
                 <property name="frameShadow">
                  <enum>QFrame::Shadow::Raised</enum>
                 </property>
-                <layout class="QVBoxLayout" name="verticalLayout_14"/>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="occurrence">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>500</width>
-               <height>400</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_13">
-              <item row="0" column="0">
-               <widget class="QLabel" name="by_label_3">
-                <property name="text">
-                 <string>By</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="6">
-               <widget class="QLabel" name="to_label_3">
-                <property name="text">
-                 <string>to</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="7">
-               <widget class="QDateEdit" name="occurrence_end"/>
-              </item>
-              <item row="0" column="3">
-               <widget class="QLabel" name="from_label_3">
-                <property name="text">
-                 <string>from</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="4">
-               <widget class="QDateEdit" name="occurrence_start"/>
-              </item>
-              <item row="0" column="1">
-               <widget class="QComboBox" name="occurrence_combo">
-                <property name="minimumSize">
-                 <size>
-                  <width>110</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>songs in playlists</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>songs in library</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>artists in playlists</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>artists in library</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="0" column="8">
-               <spacer name="horizontalSpacer_6">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>334</width>
-                  <height>17</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="1" column="0" colspan="9">
-               <widget class="QFrame" name="occurrence_container">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::Shape::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Shadow::Raised</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_15"/>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QFrame" name="usage_times">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>500</width>
-               <height>400</height>
-              </size>
-             </property>
-             <property name="frameShape">
-              <enum>QFrame::Shape::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Shadow::Raised</enum>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_14">
-              <item row="0" column="0">
-               <widget class="QLabel" name="by_label_4">
-                <property name="text">
-                 <string>By</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="6">
-               <widget class="QLabel" name="to_label_4">
-                <property name="text">
-                 <string>to</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="7">
-               <widget class="QDateEdit" name="usage_times_end"/>
-              </item>
-              <item row="0" column="3">
-               <widget class="QLabel" name="from_label_4">
-                <property name="text">
-                 <string>from</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="4">
-               <widget class="QDateEdit" name="usage_times_start"/>
-              </item>
-              <item row="0" column="1">
-               <widget class="QComboBox" name="usage_times_combo">
-                <property name="minimumSize">
-                 <size>
-                  <width>110</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>interfaces</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="0" column="8">
-               <spacer name="horizontalSpacer_7">
-                <property name="orientation">
-                 <enum>Qt::Orientation::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>334</width>
-                  <height>17</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item row="1" column="0" colspan="9">
-               <widget class="QFrame" name="usage_times_container">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="frameShape">
-                 <enum>QFrame::Shape::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Shadow::Raised</enum>
-                </property>
-                <layout class="QVBoxLayout" name="verticalLayout_16"/>
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                 <item>
+                  <widget class="QFrame" name="played_songs_by_time_container">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::Shape::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Shadow::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_15"/>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="played_songs_by_occurrences_container">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::Shape::StyledPanel</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Shadow::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_14"/>
+                  </widget>
+                 </item>
+                </layout>
                </widget>
               </item>
              </layout>
@@ -1105,8 +821,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>680</width>
-            <height>498</height>
+            <width>38</width>
+            <height>18</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -1297,8 +1013,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>786</width>
-            <height>604</height>
+            <width>237</width>
+            <height>203</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -1437,8 +1153,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>786</width>
-            <height>424</height>
+            <width>68</width>
+            <height>18</height>
            </rect>
           </property>
           <property name="sizePolicy">

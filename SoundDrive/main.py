@@ -9,6 +9,7 @@ from Widgets.song_icon import SongIcon
 from Functions.playlist import create_playlist, delete_playlist, rename_playlist
 from Functions.music_dir import add_music_dir, remove_music_dir
 from Functions.add_songs import NewSongManager
+from Functions.stats import StatsPageManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
@@ -74,6 +75,9 @@ class MainWindow(QMainWindow):
         self.populate_settings_music_dir()
         self.populate_current_song_data()
         self.update_song_times(hide = True)
+
+        # Create stats page
+        self.stats_page_manager = StatsPageManager(self)
 
     def search(self, text: str) -> None:
         """
