@@ -24,7 +24,9 @@ QPushButton:checked {
 #PlaylistEntry,
 #FoundSong,
 #SongEntry,
-#SearchResult {
+#SearchResult,
+QFrame#played_songs_options,
+QFrame#played_songs_charts {
     background-color: #2c3035;
     border: 1px solid #202327;
     border-radius: 10px;
@@ -42,6 +44,7 @@ QStackedWidget#page,
 QWidget#add_songs_scroll_content,
 QWidget#playlist_scroll_content,
 QWidget#search_scroll_content,
+QFrame#played_songs,
 QFrame#song_icon_container,
 QFrame#bar,
 QFrame#playlist_side,
@@ -65,6 +68,8 @@ QWidget#search_scroll_content,
 QScrollArea#search_scroll,
 QWidget#settings_scroll_content,
 QScrollArea#settings_scroll,
+QWidget#stats_scroll_content,
+QScrollArea#stats_scroll,
 QStackedWidget#page,
 QFrame#bar,
 QFrame#side {

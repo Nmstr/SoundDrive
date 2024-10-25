@@ -589,6 +589,9 @@
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <widget class="QScrollArea" name="stats_scroll">
+         <property name="frameShape">
+          <enum>QFrame::Shape::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -597,8 +600,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>784</width>
-            <height>602</height>
+            <width>786</width>
+            <height>604</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -610,8 +613,16 @@
           <layout class="QVBoxLayout" name="verticalLayout_17">
            <item>
             <widget class="QLabel" name="label_2">
+             <property name="font">
+              <font>
+               <pointsize>16</pointsize>
+              </font>
+             </property>
              <property name="text">
               <string>Stats</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignTop</set>
              </property>
             </widget>
            </item>
@@ -694,12 +705,24 @@
               <item>
                <widget class="QFrame" name="played_songs_charts">
                 <property name="frameShape">
-                 <enum>QFrame::Shape::StyledPanel</enum>
+                 <enum>QFrame::Shape::NoFrame</enum>
                 </property>
                 <property name="frameShadow">
                  <enum>QFrame::Shadow::Raised</enum>
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_10">
+                 <property name="leftMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="topMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="rightMargin">
+                  <number>0</number>
+                 </property>
+                 <property name="bottomMargin">
+                  <number>0</number>
+                 </property>
                  <item>
                   <widget class="QFrame" name="played_songs_by_time_container">
                    <property name="sizePolicy">
@@ -709,12 +732,25 @@
                     </sizepolicy>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::Shape::StyledPanel</enum>
+                    <enum>QFrame::Shape::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Shadow::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_15"/>
+                   <layout class="QVBoxLayout" name="verticalLayout_15">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                   </layout>
                   </widget>
                  </item>
                  <item>
@@ -726,12 +762,25 @@
                     </sizepolicy>
                    </property>
                    <property name="frameShape">
-                    <enum>QFrame::Shape::StyledPanel</enum>
+                    <enum>QFrame::Shape::NoFrame</enum>
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Shadow::Raised</enum>
                    </property>
-                   <layout class="QVBoxLayout" name="verticalLayout_14"/>
+                   <layout class="QVBoxLayout" name="verticalLayout_14">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                   </layout>
                   </widget>
                  </item>
                 </layout>
@@ -1013,8 +1062,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>237</width>
-            <height>203</height>
+            <width>786</width>
+            <height>604</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -1039,7 +1088,6 @@
              <property name="font">
               <font>
                <pointsize>16</pointsize>
-               <bold>false</bold>
               </font>
              </property>
              <property name="text">

@@ -42,7 +42,7 @@ class BarChart(QWidget):
         layout = QVBoxLayout(self)
         layout.addWidget(self._chart_view)
 
-        self.chart.setBackgroundBrush(QBrush(QColor("#23272A")))
+        self.chart.setBackgroundBrush(QBrush(QColor("#2C3035")))
 
 class PieChart(QWidget):
     def __init__(self, chart_name: str, series: QPieSeries):
@@ -64,11 +64,12 @@ class PieChart(QWidget):
 
         self._chart_view = QChartView(self.chart)
         self._chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
+        self._chart_view.setBackgroundBrush(QBrush(QColor("#2C3035")))
 
         layout = QVBoxLayout(self)
         layout.addWidget(self._chart_view)
 
-        self.chart.setBackgroundBrush(QBrush(QColor("#23272A")))
+        self.chart.setBackgroundBrush(QBrush(QColor("#2C3035")))
 
     def highlight_slice(self, slice, state):
         if state:
