@@ -3,6 +3,7 @@ from PySide6.QtGui import QPainter, QBrush, QColor, QPen
 from PySide6.QtWidgets import QVBoxLayout, QWidget
 from PySide6.QtCore import Qt
 from collections import Counter
+from datetime import datetime, timedelta
 
 class BarChart(QWidget):
     def __init__(self, chart_name: str, sets: list, height: int):
@@ -83,6 +84,30 @@ class StatsPageManager:
     def __init__(self, parent):
         self.parent = parent
         self.history_data = self.parent.db_access.stats.get_history()
+        self.parent.ui.timeframe_combo.currentTextChanged.connect(self.load_page)
+
+    def trim_history_by_timeframe(self) -> list:
+        def trim_history_before_day(history: list, day: int) -> list:
+            cutoff_date = datetime.now() - timedelta(days=day)
+            trimmed_history = [entry for entry in history if datetime.strptime(entry[3], '%Y-%m-%d %H:%M:%S') > cutoff_date]
+            return trimmed_history
+
+        text = self.parent.ui.timeframe_combo.currentText()
+        match text:
+            case "Total":
+                return self.history_data
+            case "Last 12 Months":
+                return trim_history_before_day(self.history_data, 365)
+            case "Last 6 Months":
+                return trim_history_before_day(self.history_data, 180)
+            case "Last 3 Months":
+                return trim_history_before_day(self.history_data, 90)
+            case "Last 30 Days":
+                return trim_history_before_day(self.history_data, 30)
+            case "Last 7 Days":
+                return trim_history_before_day(self.history_data, 7)
+            case "Today":
+                return trim_history_before_day(self.history_data, 1)
 
     def get_most_played_by_time(self, n: int) -> list:
         """
@@ -92,7 +117,8 @@ class StatsPageManager:
         """
         # Add the times up to get one total time per song
         cleaned_data = {}
-        for data in self.history_data:
+        history = self.trim_history_by_timeframe()
+        for data in history:
             if cleaned_data.get(data[0]):
                 cleaned_data[data[0]] = cleaned_data[data[0]] + data[4]
                 continue
@@ -108,7 +134,8 @@ class StatsPageManager:
         :param n: The amount of songs to retrieve
         :return: The set to display and the highest value
         """
-        songs = [song[1] for song in self.history_data]  # Extract song IDs from history data
+        history = self.trim_history_by_timeframe()
+        songs = [song[1] for song in history]  # Extract song IDs from history data
         counter = Counter(songs)
         return counter.most_common(n)
 

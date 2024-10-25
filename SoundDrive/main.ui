@@ -663,7 +663,7 @@
                 </property>
                 <layout class="QHBoxLayout" name="horizontalLayout_11">
                  <item>
-                  <widget class="QComboBox" name="comboBox">
+                  <widget class="QComboBox" name="timeframe_combo">
                    <item>
                     <property name="text">
                      <string>Total</string>
@@ -671,17 +671,32 @@
                    </item>
                    <item>
                     <property name="text">
-                     <string>This Month</string>
+                     <string>Last 12 Months</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>This Week</string>
+                     <string>Last 6 Months</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>This Day</string>
+                     <string>Last 3 Months</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Last 30 Days</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Last 7 Days</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Today</string>
                     </property>
                    </item>
                   </widget>
