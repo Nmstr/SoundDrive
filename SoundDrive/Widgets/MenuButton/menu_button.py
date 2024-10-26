@@ -10,8 +10,8 @@ class MenuButton(QFrame):
         if button_type == "home":
             self.label_text = "Home"
             self.destination = 0
-        elif button_type == "library":
-            self.label_text = "Library"
+        elif button_type == "stats":
+            self.label_text = "Stats"
             self.destination = 1
         elif button_type == "search":
             self.label_text = "Search"
@@ -36,4 +36,6 @@ class MenuButton(QFrame):
         """
         if event.button() == Qt.LeftButton:
             self.parent.set_page(self.destination)
+            if self.destination == 1:
+                self.parent.stats_page_manager.load_page()
         return super().mousePressEvent(event)

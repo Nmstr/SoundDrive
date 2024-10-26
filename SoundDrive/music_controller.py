@@ -3,143 +3,154 @@ import PySoundSphere
 
 class MusicController:
     def __init__(self, parent: object) -> None:
-        self.player = PySoundSphere.AudioPlayer("pygame")
-        self.player.set_callback_function(self.next)
-        self.player.volume = 0.075
         self.parent = parent
-        self._timeline = []
-        self._timeline_position = 0
-        self._current_playlist = None
+        self._player = PySoundSphere.AudioPlayer("pygame")
+        self._player.set_callback_function(self.next)
+        self._player.volume = 0.05
+        self._current_playlist = []
         self._playlist_position = 0
+        self._queue = []
+        self._queue_history_buffer = None
         self.is_playing = False
 
-    def _reload_playback(self) -> None:
+    def _reload_playback(self, song_id: int = None) -> None:
         """
-        Reload the playback by
-
-        - loading a new song
-        - stopping the playback
-        - starting the playback
+        Reload the playback
+        :param song_id: Overwrite for when not to use the next song from the playlist. Plays the song specified using its id instead. Use with caution.
         :return: None
         """
-        self.player.load(self._timeline[self._timeline_position - 1])
-        self.player.stop()
-        self.player.play()
-        self.parent.update_song_data_signal.emit(self._timeline[self._timeline_position - 1])
-
-    def play(self, song_path: str) -> None:
-        """
-        Add a song to the timeline and play it
-        :param song_path: The path of the song to play
-        :return: None
-        """
-        self._timeline = self._timeline[:self._timeline_position]
-        self._timeline_position += 1
-        self._timeline.append(song_path)
-        self._reload_playback()
+        if song_id:  # Song id was supplied
+            song_path = self.parent.db_access.songs.query_id(song_id)[2]
+            self.parent.update_song_data_signal.emit(str(song_id))
+        else:  # Song id wasn't supplied (next from playlist)
+            song_path = self.parent.db_access.songs.query_id(self._current_playlist[self._playlist_position])[2]
+            self.parent.update_song_data_signal.emit(self._current_playlist[self._playlist_position])
+        self._player.load(song_path)
+        self._player.stop()
+        self._player.play()
         self.is_playing = True
         self.parent.play_pause_btn.update()
 
-    def continue_playback(self) -> None:
+    def play_playlist(self, playlist_id: int, position: int) -> None:
+        """
+        Plays a playlist
+        :param playlist_id: The id of the playlist to be played
+        :param position: The position in the playlist
+        :return: None
+        """
+        self.add_to_history()
+        playlist_data = self.parent.db_access.playlists.query_id(playlist_id)
+        self._current_playlist = playlist_data[3].split(",")
+        self._playlist_position = position
+        self._reload_playback()
+
+    def play_song(self, song_id: int) -> None:
+        """
+        Plays a song by pretending it is a playlist with 1 element
+        :param song_id: The id of the song
+        :return: None
+        """
+        self.add_to_history()
+        self._current_playlist = [str(song_id)]
+        self._playlist_position = 0
+        self._reload_playback()
+
+    def next(self) -> None:
+        """
+        Play the next song from the playlist
+        :return: None
+        """
+        self.add_to_history()
+        if len(self._queue) > 0:
+            self._queue_history_buffer = self._queue[0]
+            self._reload_playback(self._queue.pop(0))
+        elif self._playlist_position < len(self._current_playlist) - 1:
+            self._playlist_position += 1
+            self._reload_playback()
+
+    def last(self) -> None:
+        """
+        Play the previous song from the playlist
+        :return: None
+        """
+        self.add_to_history()
+        if self._playlist_position == 0:
+            return
+        self._playlist_position -= 1
+        self._reload_playback()
+
+    def pause(self) -> None:
+        """
+        Pause playback
+        :return: None
+        """
+        self._player.pause()
+        self.is_playing = False
+        self.parent.play_pause_btn.update()
+
+    def unpause(self) -> None:
         """
         Unpause playback
         :return: None
         """
-        self.player.play()
+        self._player.play()
         self.is_playing = True
         self.parent.play_pause_btn.update()
 
-    def stop(self) -> None:
+    def queue_song(self, song_id: int) -> None:
         """
-        Stop playback
+        Adds a song to the queue
+        :param song_id: The id of the song to be added
         :return: None
         """
-        self.player.pause()
-        self.is_playing = False
-        self.parent.play_pause_btn.update()
-
-    def next(self) -> None:
-        """
-        Play the next song from the timeline
-        :return: None
-        """
-        if self._timeline_position < len(self._timeline):
-            self._timeline_position += 1
-            self._reload_playback()
-        elif self._current_playlist is not None and self._playlist_position < len(self._current_playlist) - 1:
-            self._playlist_position += 1
-            song_id = self._current_playlist[self._playlist_position]
-            song_data = self.parent.db_access.songs.query_id(song_id)
-            self.queue_song(song_data[2])
-            self.next()
-
-    def last(self) -> None:
-        """
-        Play the previous song from the timeline
-        :return: None
-        """
-        if self._timeline_position == 1:
-            return
-        self._timeline_position -= 1
-        self._reload_playback()
-
-    def queue_song(self, song_path: str) -> None:
-        """
-        Queue song at the end of the timeline
-        :param song_path: The path of the song to queue
-        :return: None
-        """
-        self._timeline.append(song_path)
-
-    def set_playlist(self, playlist_id: int, playlist_position: int) -> None:
-        """
-        Set the playlist currently playing
-        :param playlist_id: The id of the playlist
-        :param playlist_position: The position inside the playlist
-        :return: None
-        """
-        playlist_data = self.parent.db_access.playlists.query_id(playlist_id)
-
-        # Remove deleted songs from playlist
-        new_playlist_ids = []
-        playlist_song_ids = playlist_data[3].split(",")
-        for playlist_song_id in playlist_song_ids:
-            song_data = self.parent.db_access.songs.query_id(playlist_song_id)
-            if song_data[4] == 0:
-                new_playlist_ids.append(song_data[0])
-
-        self._current_playlist = new_playlist_ids
-        self._playlist_position = playlist_position
+        self._queue.append(song_id)
 
     @property
     def song_position(self) -> float:
         """
-        Position in the song in seconds.
+        Position in the current playing song in seconds.
         """
-        return self.player.position
+        return self._player.position
 
     @song_position.setter
     def song_position(self, position: float) -> None:
-        self.player.position = position
+        self._player.position = position
+
+    @property
+    def song_length(self) -> float:
+        """
+        The length of the current playing song in seconds
+        """
+        try:
+            song_path = self.parent.db_access.songs.query_id(self._current_playlist[self._playlist_position])[2]
+            tag = TinyTag.get(song_path)
+            return tag.duration
+        except IndexError:
+            return 0
 
     @property
     def volume(self) -> float:
         """
         Volume between 0 and 1.
         """
-        return self.player.volume
+        return self._player.volume
 
     @volume.setter
     def volume(self, volume: float) -> None:
-        self.player.volume = volume
+        self._player.volume = volume
 
-    @property
-    def song_length(self) -> float:
+    def add_to_history(self) -> None:
         """
-        The length of the song
+        Adds a song to the history
+        :return: None
         """
-        try:
-            tag = TinyTag.get(self._timeline[self._timeline_position - 1])
-            return tag.duration
-        except IndexError:
-            return 0
+        if self._queue_history_buffer:
+            song_id = self._queue_history_buffer
+            self._queue_history_buffer = None
+        else:
+            try:
+                song_id = self._current_playlist[self._playlist_position]
+            except IndexError:
+                return
+
+        self.parent.db_access.stats.add_to_history(song_id, self._player.played_time)

@@ -9,6 +9,7 @@ from Widgets.song_icon import SongIcon
 from Functions.playlist import create_playlist, delete_playlist, rename_playlist
 from Functions.music_dir import add_music_dir, remove_music_dir
 from Functions.add_songs import NewSongManager
+from Functions.stats import StatsPageManager
 from music_controller import MusicController
 from SoundDriveDB import SoundDriveDB
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QLabel
@@ -46,14 +47,15 @@ class MainWindow(QMainWindow):
         self.db_access.db.create_db()
         self.new_song_manager = NewSongManager(self)
         self.db_access.songs.check_db()
+        self.db_access.artists.check_db()
 
         # Create player
         self.music_controller = MusicController(self)
 
         # Create menu buttons
         self.add_menu_button("home")
-        self.add_menu_button("library")
         self.add_menu_button("search")
+        self.add_menu_button("stats")
         self.add_menu_button("settings")
 
         # Connect buttons
@@ -73,6 +75,9 @@ class MainWindow(QMainWindow):
         self.populate_settings_music_dir()
         self.populate_current_song_data()
         self.update_song_times(hide = True)
+
+        # Create stats page
+        self.stats_page_manager = StatsPageManager(self)
 
     def search(self, text: str) -> None:
         """
@@ -165,15 +170,16 @@ class MainWindow(QMainWindow):
             dir_label.setText(this_dir)
             layout.addWidget(dir_label)
 
-    def populate_current_song_data(self, song_path: str = None) -> None:
+    def populate_current_song_data(self, song_id: str = None) -> None:
         """
         Sets song icon, name and path in bar.
         If no path is given, it clears the contents.
-        :param song_path: The path of the song
+        :param song_id: The id of the song
         :return: None
         """
         layout = self.clear_field(self.ui.current_song_icon_container, QVBoxLayout(), amount_left=0)
-        if song_path:
+        if song_id:
+            song_path = self.db_access.songs.query_id(song_id)[2]
             song_data = self.db_access.songs.query_path(song_path)
             song_icon = SongIcon(self, song_data, size = (100, 100))
             layout.addWidget(song_icon)

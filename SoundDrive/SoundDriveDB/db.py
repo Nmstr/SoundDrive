@@ -38,6 +38,25 @@ def create_db() -> None:
         )
         ''')
 
+        # Create artists table
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS artists (
+            id INTEGER PRIMARY KEY,
+            name TEXT NOT NULL
+        )
+        ''')
+
+        # Create history table
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS stats_history (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            song_id INTEGER,
+            artist_id INTEGER,
+            played_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            duration_played INTEGER
+        )
+        ''')
+
         conn.commit()
     finally:
         conn.close()

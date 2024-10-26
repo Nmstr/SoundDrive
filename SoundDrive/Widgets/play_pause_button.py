@@ -27,7 +27,7 @@ class PlayPauseButton(QWidget):
 
     def mousePressEvent(self, event):  # noqa: N802
         if self.parent.music_controller.is_playing:
-            self.parent.music_controller.stop()
+            self.parent.music_controller.pause()
         else:
-            self.parent.music_controller.continue_playback()
+            self.parent.music_controller.unpause()
         self.update()
