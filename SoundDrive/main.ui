@@ -599,9 +599,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
-            <width>786</width>
-            <height>604</height>
+            <y>-427</y>
+            <width>772</width>
+            <height>1031</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -627,18 +627,82 @@
             </widget>
            </item>
            <item>
-            <widget class="QFrame" name="played_songs">
+            <widget class="QFrame" name="stats_options">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>40</height>
+              </size>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::Shape::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Shadow::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QComboBox" name="timeframe_combo">
+                <item>
+                 <property name="text">
+                  <string>Total</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Last 12 Months</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Last 6 Months</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Last 3 Months</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Last 30 Days</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Last 7 Days</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Today</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="stats_container">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>500</width>
-               <height>500</height>
-              </size>
              </property>
              <property name="frameShape">
               <enum>QFrame::Shape::StyledPanel</enum>
@@ -648,77 +712,13 @@
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_13">
               <item>
-               <widget class="QFrame" name="played_songs_options">
-                <property name="maximumSize">
+               <widget class="QFrame" name="played_songs_charts">
+                <property name="minimumSize">
                  <size>
-                  <width>16777215</width>
-                  <height>40</height>
+                  <width>0</width>
+                  <height>500</height>
                  </size>
                 </property>
-                <property name="frameShape">
-                 <enum>QFrame::Shape::StyledPanel</enum>
-                </property>
-                <property name="frameShadow">
-                 <enum>QFrame::Shadow::Raised</enum>
-                </property>
-                <layout class="QHBoxLayout" name="horizontalLayout_11">
-                 <item>
-                  <widget class="QComboBox" name="timeframe_combo">
-                   <item>
-                    <property name="text">
-                     <string>Total</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Last 12 Months</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Last 6 Months</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Last 3 Months</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Last 30 Days</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Last 7 Days</string>
-                    </property>
-                   </item>
-                   <item>
-                    <property name="text">
-                     <string>Today</string>
-                    </property>
-                   </item>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_4">
-                   <property name="orientation">
-                    <enum>Qt::Orientation::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </widget>
-              </item>
-              <item>
-               <widget class="QFrame" name="played_songs_charts">
                 <property name="frameShape">
                  <enum>QFrame::Shape::NoFrame</enum>
                 </property>
@@ -745,6 +745,12 @@
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
                    </property>
                    <property name="frameShape">
                     <enum>QFrame::Shape::NoFrame</enum>
@@ -776,6 +782,12 @@
                      <verstretch>0</verstretch>
                     </sizepolicy>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
                    <property name="frameShape">
                     <enum>QFrame::Shape::NoFrame</enum>
                    </property>
@@ -783,6 +795,112 @@
                     <enum>QFrame::Shadow::Raised</enum>
                    </property>
                    <layout class="QVBoxLayout" name="verticalLayout_14">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                   </layout>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QFrame" name="song_stats">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>400</height>
+                 </size>
+                </property>
+                <property name="frameShape">
+                 <enum>QFrame::Shape::StyledPanel</enum>
+                </property>
+                <property name="frameShadow">
+                 <enum>QFrame::Shadow::Raised</enum>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <item>
+                  <widget class="QFrame" name="song_details">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::Shape::NoFrame</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Shadow::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_16">
+                    <property name="leftMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="topMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="rightMargin">
+                     <number>0</number>
+                    </property>
+                    <property name="bottomMargin">
+                     <number>0</number>
+                    </property>
+                    <item>
+                     <widget class="QLabel" name="song_detail_name_label">
+                      <property name="text">
+                       <string>Song Name: /</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="song_detail_artist_label">
+                      <property name="text">
+                       <string>Artist Name: /</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="song_detail_times_played_label">
+                      <property name="text">
+                       <string>Times Played: /</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QLabel" name="song_detail_time_spend_label">
+                      <property name="text">
+                       <string>Time Spend Playing: /</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QFrame" name="song_detail_line_chart">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="frameShape">
+                    <enum>QFrame::Shape::NoFrame</enum>
+                   </property>
+                   <property name="frameShadow">
+                    <enum>QFrame::Shadow::Raised</enum>
+                   </property>
+                   <layout class="QVBoxLayout" name="verticalLayout_18">
                     <property name="leftMargin">
                      <number>0</number>
                     </property>
@@ -885,8 +1003,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>38</width>
-            <height>18</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -1032,8 +1150,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>38</width>
-            <height>18</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="minimumSize">
@@ -1077,8 +1195,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>786</width>
-            <height>604</height>
+            <width>237</width>
+            <height>203</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_5">
@@ -1216,8 +1334,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>68</width>
-            <height>18</height>
+            <width>100</width>
+            <height>30</height>
            </rect>
           </property>
           <property name="sizePolicy">

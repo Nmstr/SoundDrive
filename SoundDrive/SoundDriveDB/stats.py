@@ -18,6 +18,18 @@ class Stats:
         finally:
             conn.close()
 
+    def get_history_for_id(self, song_id: int) -> list:
+        conn, cursor = _connect()
+
+        try:
+            cursor.execute('''
+            SELECT * FROM stats_history WHERE song_id=?
+            ''', (song_id,))
+            history = cursor.fetchall()
+            return history
+        finally:
+            conn.close()
+
     def add_to_history(self, song_id: int, played_time: float) -> None:
         """
         Add a song to the history
