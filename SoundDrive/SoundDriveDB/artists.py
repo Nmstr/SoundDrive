@@ -39,9 +39,9 @@ def query() -> list:
     finally:
         conn.close()
 
-def query_name(artist_name: int) -> list:
+def query_name(artist_name: str) -> list:
     """
-    Query an artist with a specific id from the db
+    Query an artist with a specific name from the db
     :param artist_name: The name of the artist
     :return: The artist
     """
@@ -52,6 +52,26 @@ def query_name(artist_name: int) -> list:
         SELECT * FROM artists
         WHERE name = ?
         ''', (artist_name,))
+        artist = cursor.fetchall()
+        if not artist:
+            return []
+        return artist[0]
+    finally:
+        conn.close()
+
+def query_id(artist_id: int) -> list:
+    """
+    Query an artist with a specific id from the db
+    :param artist_id: The id of the artist
+    :return: The artist
+    """
+    conn, cursor = _connect()
+
+    try:
+        cursor.execute('''
+        SELECT * FROM artists
+        WHERE id = ?
+        ''', (artist_id,))
         artist = cursor.fetchall()
         if not artist:
             return []

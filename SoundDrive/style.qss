@@ -27,6 +27,7 @@ QPushButton:checked {
 #SearchResult,
 QFrame#stats_options,
 QFrame#played_songs_charts,
+QFrame#played_artists_charts,
 QFrame#song_stats {
     background-color: #2c3035;
     border: 1px solid #202327;

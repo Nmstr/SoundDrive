@@ -167,33 +167,63 @@ class StatsPageManager:
         else:
             return trim_history_before_day(history, timeframe)
 
-    def get_most_played_by_time(self, n: int) -> list:
+    def expand_artist_history(self, history: list) -> list:
         """
-        Gets the n longest played songs by time from the history
-        :param n: The amount of songs to retrieve
-        :return: The set to display and the highest value
+        Expand entries in the history with multiple artists into multiple entries
+        :param history:
+        :return:
         """
+        expanded_history = []
+        for entry in history:
+            if type(entry[2]) == int:
+                expanded_history.append(entry)
+            else:
+                artists = entry[2].split(",")
+                for artist in artists:
+                    new_entry = list(entry)
+                    new_entry[2] = artist
+                    expanded_history.append(tuple(new_entry))
+        return expanded_history
+
+    def get_most_played_by_time(self, history: list, n: int, *, artist_mode: bool = False) -> list:
+        """
+        Gets the n longest played songs / artists by time from the history
+        :param history: The history to get the most played songs / artists from
+        :param n: The amount of songs / artists to retrieve
+        :param artist_mode: If True, artists will be returned instead of songs
+        :return: The data to display
+        """
+        if artist_mode:
+            key_position = 2
+        else:
+            key_position = 1
+
         # Add the times up to get one total time per song
         cleaned_data = {}
-        history = self.trim_history_by_timeframe(self.history_data)
         for data in history:
-            if cleaned_data.get(data[1]):
-                cleaned_data[data[1]] = cleaned_data[data[1]] + data[4]
+            if cleaned_data.get(data[key_position]):
+                cleaned_data[data[key_position]] = cleaned_data[data[key_position]] + data[4]
                 continue
-            cleaned_data[data[1]] = data[4]
+            cleaned_data[data[key_position]] = data[4]
         # Sort and slice to get the correct values
         cleaned_data = sorted(cleaned_data.items(), key=lambda item: item[1], reverse=True)
         cleaned_data = cleaned_data[:n]
         return cleaned_data
 
-    def get_most_played_by_occurrences(self, n: int) -> list:
+    def get_most_played_by_occurrences(self, history: list, n: int, *, artist_mode: bool = False) -> list:
         """
-        Gets the n most played songs from the history data
+        Gets the n most played songs / artists from the history
+        :param history: The history to get the most played songs / artists from
         :param n: The amount of songs to retrieve
+        :param artist_mode: If True, artists will be returned instead of songs
         :return: The set to display and the highest value
         """
-        history = self.trim_history_by_timeframe(self.history_data)
-        songs = [song[1] for song in history]  # Extract song IDs from history data
+        if artist_mode:
+            key_position = 2
+        else:
+            key_position = 1
+
+        songs = [song[key_position] for song in history]  # Extract song IDs from history data
         counter = Counter(songs)
         return counter.most_common(n)
 
@@ -247,7 +277,8 @@ class StatsPageManager:
     def load_page(self):
         self.history_data = self.parent.db_access.stats.get_history()
         # Display most played songs by time
-        most_played_by_time_set = self.get_most_played_by_time(10)
+        history = self.trim_history_by_timeframe(self.history_data)
+        most_played_by_time_set = self.get_most_played_by_time(history=history, n=10)
         most_played_by_time_series = QPieSeries()
         series_mapping = []
         for element in most_played_by_time_set:
@@ -260,7 +291,8 @@ class StatsPageManager:
         layout.addWidget(played_songs_by_time_chart)
 
         # Display most played songs by occurrences
-        most_played_by_occurrences_set = self.get_most_played_by_occurrences(10)
+        history = self.trim_history_by_timeframe(self.history_data)
+        most_played_by_occurrences_set = self.get_most_played_by_occurrences(history=history, n=10)
         most_played_by_occurrences_series = QPieSeries()
         series_mapping = []  # Used to later change song details on slice clicked
         for element in most_played_by_occurrences_set:
@@ -274,6 +306,36 @@ class StatsPageManager:
 
         # Display song details
         self.display_song_details(most_played_by_time_set[0][0])
+
+        # Display most played artists by time
+        history = self.trim_history_by_timeframe(self.history_data)
+        expanded_history = self.expand_artist_history(history)
+        artists_by_time_set = self.get_most_played_by_time(history=expanded_history, n=10, artist_mode=True)
+        artists_by_time_series = QPieSeries()
+        series_mapping = []
+        for element in artists_by_time_set:
+            artist_name = self.parent.db_access.artists.query_id(element[0])[1]
+            artists_by_time_series.append(artist_name, element[1])
+            series_mapping.append(element[0])
+        played_artists_by_time_chart = PieChart(self, "Most Played Artists By Time", artists_by_time_series, series_mapping)
+
+        layout = self.parent.clear_field(self.parent.ui.played_artists_by_time_container, QVBoxLayout, amount_left = 0)
+        layout.addWidget(played_artists_by_time_chart)
+
+        # Display most played artists by occurrences
+        history = self.trim_history_by_timeframe(self.history_data)
+        expanded_history = self.expand_artist_history(history)
+        artists_by_occurrences_set = self.get_most_played_by_occurrences(history=expanded_history, n=10, artist_mode=True)
+        artists_by_occurrences_series = QPieSeries()
+        series_mapping = []
+        for element in artists_by_occurrences_set:
+            artist_name = self.parent.db_access.artists.query_id(element[0])[1]
+            artists_by_occurrences_series.append(artist_name, element[1])
+            series_mapping.append(element[0])
+        played_artists_by_time_chart = PieChart(self, "Most Played Artists By Occurrences", artists_by_occurrences_series, series_mapping)
+
+        layout = self.parent.clear_field(self.parent.ui.played_artists_by_occurrences_container, QVBoxLayout, amount_left = 0)
+        layout.addWidget(played_artists_by_time_chart)
 
     def display_song_details(self, song_id: int) -> None:
         """
