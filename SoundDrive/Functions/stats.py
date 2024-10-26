@@ -119,10 +119,10 @@ class StatsPageManager:
         cleaned_data = {}
         history = self.trim_history_by_timeframe()
         for data in history:
-            if cleaned_data.get(data[0]):
-                cleaned_data[data[0]] = cleaned_data[data[0]] + data[4]
+            if cleaned_data.get(data[1]):
+                cleaned_data[data[1]] = cleaned_data[data[1]] + data[4]
                 continue
-            cleaned_data[data[0]] = data[4]
+            cleaned_data[data[1]] = data[4]
         # Sort and slice to get the correct values
         cleaned_data = sorted(cleaned_data.items(), key=lambda item: item[1], reverse=True)
         cleaned_data = cleaned_data[:n]
