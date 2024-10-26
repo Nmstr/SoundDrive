@@ -1,48 +1,9 @@
-from PySide6.QtCharts import QBarCategoryAxis, QBarSeries, QChart, QChartView, QValueAxis, QPieSeries, QLineSeries, QDateTimeAxis
+from PySide6.QtCharts import QChart, QChartView, QValueAxis, QPieSeries, QLineSeries, QDateTimeAxis
 from PySide6.QtGui import QPainter, QBrush, QColor, QPen
 from PySide6.QtWidgets import QVBoxLayout, QWidget
 from PySide6.QtCore import Qt, QDateTime
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta
-
-class BarChart(QWidget):
-    def __init__(self, chart_name: str, sets: list, height: int):
-        """
-        A bar chart
-        :param chart_name: The name of the chart
-        :param sets: The data to display
-        :param height: The height of the chart
-        """
-        super().__init__()
-
-        self.series = QBarSeries()
-        for entry in sets:
-            self.series.append(entry)
-
-        self.chart = QChart()
-        self.chart.addSeries(self.series)
-        self.chart.setTitle(chart_name)
-        self.chart.setAnimationOptions(QChart.SeriesAnimations)
-
-        self.axis_x = QBarCategoryAxis()
-        self.axis_x.append(["Songs"])
-        self.chart.addAxis(self.axis_x, Qt.AlignBottom)
-        self.series.attachAxis(self.axis_x)
-
-        self.axis_y = QValueAxis()
-        self.axis_y.setRange(0, height)
-        self.chart.addAxis(self.axis_y, Qt.AlignLeft)
-        self.series.attachAxis(self.axis_y)
-
-        self.chart.legend().setVisible(True)
-        self.chart.legend().setAlignment(Qt.AlignBottom)
-        self.chart.setBackgroundBrush(QBrush(QColor("#2C3035")))
-
-        self._chart_view = QChartView(self.chart)
-        self._chart_view.setRenderHint(QPainter.RenderHint.Antialiasing)
-
-        layout = QVBoxLayout(self)
-        layout.addWidget(self._chart_view)
 
 class PieChart(QWidget):
     def __init__(self, parent: object,
