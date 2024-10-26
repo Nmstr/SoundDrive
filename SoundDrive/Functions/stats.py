@@ -45,16 +45,19 @@ class BarChart(QWidget):
         layout.addWidget(self._chart_view)
 
 class PieChart(QWidget):
-    def __init__(self, chart_name: str, series: QPieSeries):
+    def __init__(self, parent: object, chart_name: str, series: QPieSeries, series_mapping: list[int] = None):
         """
         A pie chart
         :param chart_name: The name of the chart
         :param series: The data to display
         """
+        self.parent = parent
         self.series = series
+        self.series_mapping = series_mapping
         super().__init__()
 
         self.series.hovered.connect(self.highlight_slice)
+        self.series.clicked.connect(self.slice_clicked)
         self.series.setLabelsVisible()
 
         self.chart = QChart()
@@ -77,6 +80,10 @@ class PieChart(QWidget):
         else:
             slice.setExploded(False)
             slice.setPen(QPen(Qt.white))
+
+    def slice_clicked(self, slice):
+        song_id = self.series_mapping[self.series.slices().index(slice)]
+        self.parent.display_song_details(song_id)
 
 class LineChart(QWidget):
     def __init__(self, chart_name, series: QLineSeries):
@@ -242,10 +249,12 @@ class StatsPageManager:
         # Display most played songs by time
         most_played_by_time_set = self.get_most_played_by_time(10)
         most_played_by_time_series = QPieSeries()
+        series_mapping = []
         for element in most_played_by_time_set:
             song_name = self.parent.db_access.songs.query_id(element[0])[1]
             most_played_by_time_series.append(song_name, element[1])
-        played_songs_by_time_chart = PieChart("Most Played Songs By Time", most_played_by_time_series)
+            series_mapping.append(element[0])
+        played_songs_by_time_chart = PieChart(self, "Most Played Songs By Time", most_played_by_time_series, series_mapping)
 
         layout = self.parent.clear_field(self.parent.ui.played_songs_by_time_container, QVBoxLayout, amount_left = 0)
         layout.addWidget(played_songs_by_time_chart)
@@ -253,17 +262,25 @@ class StatsPageManager:
         # Display most played songs by occurrences
         most_played_by_occurrences_set = self.get_most_played_by_occurrences(10)
         most_played_by_occurrences_series = QPieSeries()
+        series_mapping = []  # Used to later change song details on slice clicked
         for element in most_played_by_occurrences_set:
             song_name = self.parent.db_access.songs.query_id(element[0])[1]
             most_played_by_occurrences_series.append(song_name, element[1])
-        played_songs_by_occurrences_chart = PieChart("Most Played Songs By Occurrences", most_played_by_occurrences_series)
+            series_mapping.append(element[0])
+        played_songs_by_occurrences_chart = PieChart(self, "Most Played Songs By Occurrences", most_played_by_occurrences_series, series_mapping)
 
         layout = self.parent.clear_field(self.parent.ui.played_songs_by_occurrences_container, QVBoxLayout, amount_left = 0)
         layout.addWidget(played_songs_by_occurrences_chart)
 
         # Display song details
-        song_id = most_played_by_time_set[0][0]
+        self.display_song_details(most_played_by_time_set[0][0])
 
+    def display_song_details(self, song_id: int) -> None:
+        """
+        Displays the song details
+        :param song_id: The id of the song to be displayed
+        :return: None
+        """
         song_data = self.parent.db_access.songs.query_id(song_id)
         self.parent.ui.song_detail_name_label.setText("Song Name: " + song_data[1])
         self.parent.ui.song_detail_artist_label.setText("Artist Name: " + song_data[3])
