@@ -181,7 +181,7 @@ class StatsPageManager:
                 artists = entry[2].split(",")
                 for artist in artists:
                     new_entry = list(entry)
-                    new_entry[2] = artist
+                    new_entry[2] = int(artist)
                     expanded_history.append(tuple(new_entry))
         return expanded_history
 
@@ -274,6 +274,32 @@ class StatsPageManager:
 
         return time_spend_playing, len(song_history)
 
+    def get_artist_history(self, artist_id: int) -> list:
+        """
+        Gets the history of an artist
+        :param artist_id: The id of the artist
+        :return: None
+        """
+        history = self.parent.db_access.stats.get_history()
+        history = self.trim_history_by_timeframe(history)
+        history = self.expand_artist_history(history)
+        artist_history = [entry for entry in history if entry[2] == artist_id]
+        return artist_history
+
+    def get_artist_times(self, artist_id: int) -> tuple[int, int]:
+        """
+        Gets the time an artist was played for in seconds and the times an artist was played
+        :param artist_id: The id of the artist
+        :return: A tuple of 2 integers which represent the seconds and times played
+        """
+        artist_history = self.get_artist_history(artist_id)
+
+        time_spend_playing = 0
+        for entry in artist_history:
+            time_spend_playing += entry[4]
+
+        return time_spend_playing, len(artist_history)
+
     def load_page(self):
         self.history_data = self.parent.db_access.stats.get_history()
         # Display most played songs by time
@@ -337,6 +363,9 @@ class StatsPageManager:
         layout = self.parent.clear_field(self.parent.ui.played_artists_by_occurrences_container, QVBoxLayout, amount_left = 0)
         layout.addWidget(played_artists_by_time_chart)
 
+        # Display artist details
+        self.display_artist_details(artists_by_time_set[0][0])
+
     def display_song_details(self, song_id: int) -> None:
         """
         Displays the song details
@@ -359,3 +388,26 @@ class StatsPageManager:
         song_detail_line_chart = LineChart("Time Listened To Song Over Time", song_over_time_series)
         layout = self.parent.clear_field(self.parent.ui.song_detail_line_chart, QVBoxLayout, amount_left = 0)
         layout.addWidget(song_detail_line_chart)
+
+    def display_artist_details(self, artist_id: int) -> None:
+        """
+        Displays the artist details
+        :param artist_id: The id of the artist to be displayed
+        :return: None
+        """
+        artist_name = self.parent.db_access.artists.query_id(artist_id)[1]
+        self.parent.ui.artist_detail_name_label.setText("Artist Name: " + artist_name)
+        self.parent.ui.artist_detail_id_label.setText("Artist Id: " + str(artist_id))
+        time_spend_playing, times_played = self.get_artist_times(artist_id)
+        self.parent.ui.artist_detail_times_played_label.setText("Time Spend Playing: " + str(timedelta(seconds=time_spend_playing)).split(".")[0])
+        self.parent.ui.artist_detail_time_spend_label.setText("Times Played: " + str(times_played))
+
+        artist_history = self.get_artist_history(artist_id)
+        artist_history = self.compress_history_to_daily(artist_history)
+        artist_over_time_series = QLineSeries()
+        for element in artist_history:
+            date_time = QDateTime.fromString(element[0], "yyyy-MM-dd")
+            artist_over_time_series.append(date_time.toMSecsSinceEpoch(), element[1])
+        artist_detail_line_chart = LineChart("Time Listened To Artist Over Time", artist_over_time_series)
+        layout = self.parent.clear_field(self.parent.ui.artist_detail_line_chart, QVBoxLayout, amount_left = 0)
+        layout.addWidget(artist_detail_line_chart)
