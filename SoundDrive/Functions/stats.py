@@ -175,7 +175,7 @@ class StatsPageManager:
         """
         expanded_history = []
         for entry in history:
-            if type(entry[2]) == int:
+            if type(entry[2]) is int:
                 expanded_history.append(entry)
             else:
                 artists = entry[2].split(",")
