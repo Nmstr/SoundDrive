@@ -140,6 +140,7 @@ class StatsPageManager:
         return counter.most_common(n)
 
     def load_page(self):
+        self.history_data = self.parent.db_access.stats.get_history()
         # Display most played songs by time
         sets = self.get_most_played_by_time(10)
         most_played_by_time_series = QPieSeries()
