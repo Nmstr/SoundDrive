@@ -45,15 +45,23 @@ class BarChart(QWidget):
         layout.addWidget(self._chart_view)
 
 class PieChart(QWidget):
-    def __init__(self, parent: object, chart_name: str, series: QPieSeries, series_mapping: list[int] = None):
+    def __init__(self, parent: object,
+                 chart_name: str,
+                 series: QPieSeries,
+                 series_mapping: list[int] = None,
+                 *, artist_mode: bool = False) -> None:
         """
         A pie chart
+        :param parent: The parent widget
         :param chart_name: The name of the chart
         :param series: The data to display
+        :param series_mapping: A mapping of the series to song or artist ids
+        :param artist_mode: If True, switches the artist stats instead of song stats on slice click
         """
         self.parent = parent
         self.series = series
         self.series_mapping = series_mapping
+        self.artist_mode = artist_mode
         super().__init__()
 
         self.series.hovered.connect(self.highlight_slice)
@@ -82,8 +90,11 @@ class PieChart(QWidget):
             slice.setPen(QPen(Qt.white))
 
     def slice_clicked(self, slice):
-        song_id = self.series_mapping[self.series.slices().index(slice)]
-        self.parent.display_song_details(song_id)
+        mapped_id = self.series_mapping[self.series.slices().index(slice)]
+        if self.artist_mode:
+            self.parent.display_artist_details(mapped_id)
+        else:
+            self.parent.display_song_details(mapped_id)
 
 class LineChart(QWidget):
     def __init__(self, chart_name, series: QLineSeries):
@@ -343,7 +354,10 @@ class StatsPageManager:
             artist_name = self.parent.db_access.artists.query_id(element[0])[1]
             artists_by_time_series.append(artist_name, element[1])
             series_mapping.append(element[0])
-        played_artists_by_time_chart = PieChart(self, "Most Played Artists By Time", artists_by_time_series, series_mapping)
+        played_artists_by_time_chart = PieChart(self, chart_name="Most Played Artists By Time",
+                                                series=artists_by_time_series,
+                                                series_mapping=series_mapping,
+                                                artist_mode=True)
 
         layout = self.parent.clear_field(self.parent.ui.played_artists_by_time_container, QVBoxLayout, amount_left = 0)
         layout.addWidget(played_artists_by_time_chart)
@@ -358,7 +372,10 @@ class StatsPageManager:
             artist_name = self.parent.db_access.artists.query_id(element[0])[1]
             artists_by_occurrences_series.append(artist_name, element[1])
             series_mapping.append(element[0])
-        played_artists_by_time_chart = PieChart(self, "Most Played Artists By Occurrences", artists_by_occurrences_series, series_mapping)
+        played_artists_by_time_chart = PieChart(self, chart_name="Most Played Artists By Occurrences",
+                                                series=artists_by_occurrences_series,
+                                                series_mapping=series_mapping,
+                                                artist_mode=True)
 
         layout = self.parent.clear_field(self.parent.ui.played_artists_by_occurrences_container, QVBoxLayout, amount_left = 0)
         layout.addWidget(played_artists_by_time_chart)
